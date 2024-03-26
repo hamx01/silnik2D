@@ -14,6 +14,10 @@ public:
 private:
     static sf::RenderWindow _window;
     static sf::Clock _clock;
+    class Keyboard {};
+    class Mouse {};
+    class Cordinates {};
+    class Figures {};
 };
 
 
