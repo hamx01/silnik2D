@@ -10,7 +10,7 @@
 class Engine {
 public:
     static void start();
-    static void gameLoop();
+    static void engineLoop();
 private:
     static sf::RenderWindow _window;
     static sf::Clock _clock;

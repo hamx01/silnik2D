@@ -16,10 +16,10 @@ void Engine::start() {
     _window.create(sf::VideoMode(1280, 720, 32), "Test Game Engine");
     _window.setFramerateLimit(60);
 
-    gameLoop();
+    engineLoop();
 }
 
-void Engine::gameLoop() {
+void Engine::engineLoop() {
     while (_window.isOpen()) {
         float timeElapsed = _clock.restart().asSeconds();
         _window.clear(sf::Color(255, 255, 255));
