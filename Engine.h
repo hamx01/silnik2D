@@ -11,13 +11,13 @@ class Engine {
 public:
     static void start();
     static void engineLoop();
-private:
-    static sf::RenderWindow _window;
-    static sf::Clock _clock;
     class Keyboard {};
     class Mouse {};
     class Cordinates {};
     class Figures {};
+private:
+    static sf::RenderWindow _window;
+    static sf::Clock _clock;
 };
 
 
