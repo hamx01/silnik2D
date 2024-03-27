@@ -17,7 +17,7 @@ public:
     class Figures {};
 private:
     static sf::RenderWindow _window;
-    static sf::Clock _clock;
+//    static sf::Clock _clock;
 };
 
 

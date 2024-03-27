@@ -4,11 +4,9 @@
 
 #include "Engine.h"
 #include <SFML/Graphics.hpp>
-#include <SFML/Window/Keyboard.hpp>
-#include "iostream"
 
 sf::RenderWindow Engine::_window;
-sf::Clock Engine::_clock;
+//sf::Clock Engine::_clock;
 
 void Engine::start() {
     if (_window.isOpen()) return;
@@ -21,7 +19,7 @@ void Engine::start() {
 
 void Engine::engineLoop() {
     while (_window.isOpen()) {
-        float timeElapsed = _clock.restart().asSeconds();
+//        float timeElapsed = _clock.restart().asSeconds();
         _window.clear(sf::Color(255, 255, 255));
 
         // Handle input
