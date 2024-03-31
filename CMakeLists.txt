@@ -11,7 +11,7 @@ add_executable(silnik2D main.cpp
 if(WIN32)
     file(GLOB BINARY_DEP_DLLS "${SFML_INCLUDE_DIR}/../bin/*.dll")
     file(COPY ${BINARY_DEP_DLLS} DESTINATION ${CMAKE_BINARY_DIR})
-    include_directories(C:/SFML/bin C:/SFML/include C:/SFML/lib) # dodane
+    include_directories(C:/SFML/bin C:/SFML/include C:/SFML/lib/cmake/SFML) # dodane
     set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules") # dodane
     find_package(SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
     if(SFML_FOUND)
