@@ -10,10 +10,14 @@
 class Engine {
 public:
     static void start();
-    static void gameLoop();
+    static void engineLoop();
+    class Keyboard {};
+    class Mouse {};
+    class Cordinates {};
+    class Figures {};
 private:
     static sf::RenderWindow _window;
-    static sf::Clock _clock;
+//    static sf::Clock _clock;
 };
 
 
