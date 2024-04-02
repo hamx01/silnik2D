@@ -12,7 +12,14 @@ class Engine {
 public:
     static void start();
     static void engineLoop();
-    class Keyboard {};
+
+
+    class Keyboard {
+    public:
+        static bool isKeyPressedPlayer1(char key);
+        static bool isKeyPressedPlayer2(char key);
+        static bool isKeyEsc(char key);
+    };
     class Mouse {
     public:
         static sf::Vector2i getPosition() {

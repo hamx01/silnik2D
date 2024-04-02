@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(silnik2D main.cpp
         Engine.cpp
         Engine.h
-        Engine.h)
+        Engine.h
+)
 
 if(WIN32)
     file(GLOB BINARY_DEP_DLLS "${SFML_INCLUDE_DIR}/../bin/*.dll")

@@ -1,7 +1,7 @@
 //
 // Created by Michał Wojtachnio, Artur Szymkiewicz, Łukasz Tomczyk, Andrii Solianyk
 //
-
+#include <iostream>
 #include "Engine.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -27,7 +27,6 @@ void Engine::start() {
 
 void Engine::engineLoop() {
     while (_window.isOpen()) {
-//        float timeElapsed = _clock.restart().asSeconds();
         _window.clear(sf::Color(255, 255, 255));
 
         // Handle input
@@ -45,6 +44,29 @@ void Engine::engineLoop() {
             }
         }
 
+        // Testowanie klasy Keyboard
+        if (Engine::Keyboard::isKeyPressedPlayer1('q')) {
+            std::cout << "Gracz1 'q'" << std::endl;
+        }
+        if (Engine::Keyboard::isKeyPressedPlayer1('a')) {
+            std::cout << "Gracz1 'a'" << std::endl;
+        }
+        if (Engine::Keyboard::isKeyPressedPlayer2('p')) {
+            std::cout << "Gracz2 'p'" << std::endl;
+        }
+        if (Engine::Keyboard::isKeyPressedPlayer2('l')) {
+            std::cout << "Gracz2 'l'" << std::endl;
+        }
+
+        if (Engine::Keyboard::isKeyEsc(sf::Keyboard::Escape)){
+            std::cout << "Wyjscie" << std::endl;
+            _window.close();
+
+        }
+
+
+
+
 
 
         // mouse test begin
@@ -61,3 +83,29 @@ void Engine::engineLoop() {
         _window.display();
     }
 }
+
+///////////////////obsługa klawiatury
+bool Engine::Keyboard::isKeyPressedPlayer1(char key) {
+    if (key == 'q' || key == 'Q')
+        return sf::Keyboard::isKeyPressed(sf::Keyboard::Q);
+    else if (key == 'a' || key == 'A')
+        return sf::Keyboard::isKeyPressed(sf::Keyboard::A);
+    else
+        return false;
+}
+bool Engine::Keyboard::isKeyPressedPlayer2(char key) {
+    if (key == 'p' || key == 'P')
+        return sf::Keyboard::isKeyPressed(sf::Keyboard::P);
+    else if (key == 'l' || key == 'L')
+        return sf::Keyboard::isKeyPressed(sf::Keyboard::L);
+    else
+        return false;
+}
+
+bool Engine::Keyboard::isKeyEsc(char key) {
+    if (key == sf::Keyboard::Escape)
+        return sf::Keyboard::isKeyPressed(sf::Keyboard::Escape);
+    else
+    return false;
+}
+////////////////////////
