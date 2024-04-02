@@ -1,5 +1,5 @@
 //
-// Created by Andrii Solianyk on 25/03/2024.
+// Created by Michał Wojtachnio, Artur Szymkiewicz, Łukasz Tomczyk
 //
 
 #include "Engine.h"
@@ -28,6 +28,15 @@ void Engine::engineLoop() {
             if (event.type == sf::Event::Closed) { _window.close(); }
         }
 
+        // mouse test begin
+        sf::Vector2i mousePosition = Mouse::getPosition(_window);
+        bool isLeftButtonPressed = Mouse::isButtonPressed(sf::Mouse::Left);
+        sf::CircleShape cursor(5.f);
+        cursor.setFillColor(sf::Color::Red);
+        cursor.setPosition(static_cast<sf::Vector2f>(mousePosition));
+        _window.draw(cursor);
+		//mouse test end
+		
         _window.display();
     }
 }
