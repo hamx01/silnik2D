@@ -1,5 +1,5 @@
 //
-// Created by Andrii Solianyk on 25/03/2024.
+// Created by Michał Wojtachnio, Artur Szymkiewicz, Łukasz Tomczyk
 //
 
 #ifndef SILNIK2D_ENGINE_H
@@ -12,7 +12,20 @@ public:
     static void start();
     static void engineLoop();
     class Keyboard {};
-    class Mouse {};
+    class Mouse {
+    public:
+        static sf::Vector2i getPosition() {
+            return sf::Mouse::getPosition();
+        }
+
+        static sf::Vector2i getPosition(const sf::RenderWindow& relativeTo) {
+            return sf::Mouse::getPosition(relativeTo);
+        }
+
+        static bool isButtonPressed(sf::Mouse::Button button) {
+            return sf::Mouse::isButtonPressed(button);
+        }
+    };
     class Cordinates {};
     class Figures {};
 private:
