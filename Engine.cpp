@@ -5,14 +5,13 @@
 #include "Engine.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include "iostream"
 
 sf::RenderWindow Engine::_window;
 //sf::Clock Engine::_clock;
 
 
-Engine::Cordinates point(500.0,300.0);
-Engine::Cordinates point2(550.0,350.0);
+Engine::Coordinates point(500.0,300.0);
+Engine::Coordinates point2(550.0,350.0);
 void Engine::start() {
     if (_window.isOpen()) return;
 
@@ -44,30 +43,23 @@ void Engine::engineLoop() {
             }
         }
 
+        _window.draw(point);
+        _window.draw(point2);
+
         // Testowanie klasy Keyboard
-        if (Engine::Keyboard::isKeyPressedPlayer1('q')) {
-            std::cout << "Gracz1 'q'" << std::endl;
+        if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            std::cout << "'Q'" << std::endl;
         }
-        if (Engine::Keyboard::isKeyPressedPlayer1('a')) {
-            std::cout << "Gracz1 'a'" << std::endl;
+        if (Engine::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            std::cout << "'A'" << std::endl;
         }
-        if (Engine::Keyboard::isKeyPressedPlayer2('p')) {
-            std::cout << "Gracz2 'p'" << std::endl;
+        if (Engine::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+            std::cout << "'C'" << std::endl;
         }
-        if (Engine::Keyboard::isKeyPressedPlayer2('l')) {
-            std::cout << "Gracz2 'l'" << std::endl;
-        }
-
-        if (Engine::Keyboard::isKeyEsc(sf::Keyboard::Escape)){
-            std::cout << "Wyjscie" << std::endl;
+        if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+            std::cout << "'Escape'" << std::endl;
             _window.close();
-
         }
-
-
-
-
-
 
         // mouse test begin
         sf::Vector2i mousePosition = Mouse::getPosition(_window);
@@ -78,34 +70,6 @@ void Engine::engineLoop() {
         _window.draw(cursor);
 		//mouse test end
 
-        _window.draw(point);
-        _window.draw(point2);
         _window.display();
     }
 }
-
-///////////////////obsługa klawiatury
-bool Engine::Keyboard::isKeyPressedPlayer1(char key) {
-    if (key == 'q' || key == 'Q')
-        return sf::Keyboard::isKeyPressed(sf::Keyboard::Q);
-    else if (key == 'a' || key == 'A')
-        return sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-    else
-        return false;
-}
-bool Engine::Keyboard::isKeyPressedPlayer2(char key) {
-    if (key == 'p' || key == 'P')
-        return sf::Keyboard::isKeyPressed(sf::Keyboard::P);
-    else if (key == 'l' || key == 'L')
-        return sf::Keyboard::isKeyPressed(sf::Keyboard::L);
-    else
-        return false;
-}
-
-bool Engine::Keyboard::isKeyEsc(char key) {
-    if (key == sf::Keyboard::Escape)
-        return sf::Keyboard::isKeyPressed(sf::Keyboard::Escape);
-    else
-    return false;
-}
-////////////////////////

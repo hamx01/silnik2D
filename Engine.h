@@ -16,10 +16,11 @@ public:
 
     class Keyboard {
     public:
-        static bool isKeyPressedPlayer1(char key);
-        static bool isKeyPressedPlayer2(char key);
-        static bool isKeyEsc(char key);
+        static bool isKeyPressed(sf::Keyboard::Key key) {
+        return sf::Keyboard::isKeyPressed(key);
+        }
     };
+
     class Mouse {
     public:
         static sf::Vector2i getPosition() {
@@ -34,13 +35,13 @@ public:
             return sf::Mouse::isButtonPressed(button);
         }
     };
-    class Cordinates : public sf::Drawable, public sf::Transformable {
+    class Coordinates : public sf::Drawable, public sf::Transformable {
     private:
         float x;
         float y;
         sf::CircleShape shape;
     public:
-        Cordinates(float x, float y) : x(x), y(y), shape(5.0f) {
+        Coordinates(float x, float y) : x(x), y(y), shape(5.0f) {
             shape.setPosition(x, y);
         }
 
