@@ -20,7 +20,6 @@ public:
         return sf::Keyboard::isKeyPressed(key);
         }
     };
-
     class Mouse {
     public:
         static sf::Vector2i getPosition() {
@@ -65,7 +64,38 @@ public:
         }
 
     };
-    class Figures {};
+    class PrimitiveRenderer {
+    public:
+        PrimitiveRenderer() = default;
+
+        static void drawPoint(const Coordinates &coordinates, sf::Color color = sf::Color::Black) {
+            int x = coordinates.getCoordinates().first;
+            int y = coordinates.getCoordinates().second;
+            sf::Vertex point(sf::Vector2f(x, y), color);
+            Engine::_window.draw(&point, 2, sf::Points);
+        }
+
+        static void drawLine(const Coordinates& pointA, const Coordinates& pointB, sf::Color color) {
+            sf::Vertex line[] = {
+                    sf::Vertex(sf::Vector2f(pointA.getCoordinates().first, pointA.getCoordinates().second), color),
+                    sf::Vertex(sf::Vector2f(pointB.getCoordinates().first, pointB.getCoordinates().second), color)
+            };
+
+            Engine::_window.draw(line, 2, sf::Lines);
+        }
+
+        static void drawTriangle(const Coordinates& pointA, const Coordinates& pointB, const Coordinates& pointC, sf::Color color) {
+            sf::Vertex triangle[] = {
+                    sf::Vertex(sf::Vector2f(pointA.getCoordinates().first, pointA.getCoordinates().second)),
+                    sf::Vertex(sf::Vector2f(pointB.getCoordinates().first, pointB.getCoordinates().second)),
+                    sf::Vertex(sf::Vector2f(pointC.getCoordinates().first, pointC.getCoordinates().second))
+            };
+            for (auto & vertex : triangle) {
+                vertex.color = color;
+            }
+            Engine::_window.draw(triangle, 4, sf::Triangles);
+        }
+    };
 private:
     static sf::RenderWindow _window;
     static sf::Clock _clock;

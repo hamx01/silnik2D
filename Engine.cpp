@@ -10,12 +10,14 @@ sf::RenderWindow Engine::_window;
 //sf::Clock Engine::_clock;
 
 
-Engine::Coordinates point(500.0,300.0);
-Engine::Coordinates point2(550.0,350.0);
+Engine::Coordinates point(310.0,319.0);
+Engine::Coordinates point2(598.0,316.0);
+Engine::Coordinates point3(427.0,177.0);
+
 void Engine::start() {
     if (_window.isOpen()) return;
 
-    _window.create(sf::VideoMode(1280, 720, 32), "Test Game Engine");
+    _window.create(sf::VideoMode(800, 600, 32), "Test Game Engine");
     _window.setFramerateLimit(60);
 
     point2.setColor(sf::Color::Blue);
@@ -26,8 +28,7 @@ void Engine::start() {
 
 void Engine::engineLoop() {
     while (_window.isOpen()) {
-        _window.clear(sf::Color(255, 255, 255));
-
+        _window.clear();
         // Handle input
         sf::Event event{};
         while (_window.pollEvent(event)) {
@@ -43,8 +44,13 @@ void Engine::engineLoop() {
             }
         }
 
-        _window.draw(point);
-        _window.draw(point2);
+        // Test klasy Primitives
+        Engine::PrimitiveRenderer::drawPoint(point);
+        Engine::PrimitiveRenderer::drawPoint(point2);
+        Engine::PrimitiveRenderer::drawLine(point,point2, sf::Color::Red);
+        Engine::PrimitiveRenderer::drawTriangle(point,point2,point3, sf::Color::Red);
+//        _window.draw(point);
+//        _window.draw(point2);
 
         // Testowanie klasy Keyboard
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
