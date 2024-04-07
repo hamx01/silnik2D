@@ -96,6 +96,42 @@ public:
             }
             Engine::_window.draw(triangle, 4, sf::Triangles);
         }
+        static void drawSquare(const Coordinates& pointA, const Coordinates& pointB, const Coordinates& pointC, const Coordinates& pointD, sf::Color color) {
+            sf::Vertex square[] = {
+                    sf::Vertex(sf::Vector2f(pointA.getCoordinates().first, pointA.getCoordinates().second)),
+                    sf::Vertex(sf::Vector2f(pointB.getCoordinates().first, pointB.getCoordinates().second)),
+                    sf::Vertex(sf::Vector2f(pointC.getCoordinates().first, pointC.getCoordinates().second)),
+                    sf::Vertex(sf::Vector2f(pointD.getCoordinates().first, pointD.getCoordinates().second))
+            };
+            for (auto & vertex : square) {
+                vertex.color = color;
+            }
+            Engine::_window.draw(square, 4, sf::Quads);
+        }
+
+        static void drawCircle(const Coordinates& center, float radius, sf::Color color) {
+            sf::CircleShape circle(radius);
+            circle.setPosition(center.getCoordinates().first - radius, center.getCoordinates().second - radius);
+            circle.setFillColor(color);
+
+            Engine::_window.draw(circle);
+        }
+
+        static void drawCircleSFML(Coordinates& punkt, int R, sf::Color color) {
+            float step = 1.0f / R;
+            sf::VertexArray points(sf::Points);
+            int xc = punkt.getCoordinates().first;
+            int yc = punkt.getCoordinates().second;
+
+            for (float a = 0; a < 2 * M_PI; a += step) {
+                int x = static_cast<int>(xc + R * std::cos(a) + 0.5f);
+                int y = static_cast<int>(yc + R * std::sin(a) + 0.5f);
+
+                points.append(sf::Vertex(sf::Vector2f(x, y), color));
+            }
+
+            _window.draw(points);
+        }
     };
 private:
     static sf::RenderWindow _window;
