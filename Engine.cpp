@@ -49,8 +49,6 @@ void Engine::engineLoop() {
         Engine::PrimitiveRenderer::drawPoint(point2);
         Engine::PrimitiveRenderer::drawLine(point,point2, sf::Color::Red);
         Engine::PrimitiveRenderer::drawTriangle(point,point2,point3, sf::Color::Red);
-//        _window.draw(point);
-//        _window.draw(point2);
 
         // Testowanie klasy Keyboard
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Q)) {

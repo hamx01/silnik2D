@@ -20,6 +20,7 @@ public:
         return sf::Keyboard::isKeyPressed(key);
         }
     };
+
     class Mouse {
     public:
         static sf::Vector2i getPosition() {
