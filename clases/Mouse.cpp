@@ -1,5 +1,5 @@
 //
-// Created by Andrii Solianyk on 14/04/2024.
+// Created by Michał Wojtachnio, Artur Szymkiewicz, Łukasz Tomczyk, Andrii Solianyk
 //
 
 #include "../Engine.h"
