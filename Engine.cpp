@@ -20,6 +20,7 @@ Engine::Coordinates pointSquare3(350.0,50);
 Engine::Coordinates pointSquare4(350, 200);
 
 Engine::Coordinates pointCircle(600,400);
+Engine::Coordinates pointCircleSymetric(400,400);
 
 
 void Engine::start() {
@@ -59,7 +60,8 @@ void Engine::engineLoop() {
         Engine::PrimitiveRenderer::drawTriangle(point,point2,point3, sf::Color::Red);
         Engine::PrimitiveRenderer::drawSquare(pointSquare1,pointSquare2,pointSquare3,pointSquare4,sf::Color::Red);
 //        Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
-        Engine::PrimitiveRenderer::drawCircleSFML(pointCircle, 50, sf::Color::Red);
+        Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
+        Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
 
         // Testowanie klasy Keyboard
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Q)) {

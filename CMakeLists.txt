@@ -7,6 +7,10 @@ add_executable(silnik2D main.cpp
         Engine.cpp
         Engine.h
         Engine.h
+        clases/Keyboard.cpp
+        clases/Mouse.cpp
+        clases/Coordinates.cpp
+        clases/PrimitiveRenderer.cpp
 )
 
 if(WIN32)
