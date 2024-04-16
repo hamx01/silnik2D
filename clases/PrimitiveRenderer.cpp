@@ -52,7 +52,7 @@ void Engine::PrimitiveRenderer::drawFilledCircle(const Coordinates& center, floa
     Engine::_window.draw(circle);
 }
 
-void Engine::PrimitiveRenderer::drawCircle(Coordinates& punkt, int R, sf::Color color) {
+void Engine::PrimitiveRenderer::drawCircle(Engine::Coordinates& punkt, float R, sf::Color color) {
     float step = 1.0f / R;
     sf::VertexArray points(sf::Points);
     int xc = punkt.getCoordinates().first;
@@ -68,7 +68,7 @@ void Engine::PrimitiveRenderer::drawCircle(Coordinates& punkt, int R, sf::Color 
     _window.draw(points);
 }
 
-void Engine::PrimitiveRenderer::drawCircleSymetric(Coordinates& punkt, int R, sf::Color color) {
+void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Coordinates& punkt, int R, sf::Color color) {
     int xc = punkt.getCoordinates().first;
     int yc = punkt.getCoordinates().second;
     sf::VertexArray points(sf::Points);

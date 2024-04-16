@@ -11,8 +11,8 @@
 class Engine {
 public:
     static void start();
-    static void engineLoop();
 
+    static void engineLoop();
 
     class Keyboard {
     public:
@@ -21,7 +21,9 @@ public:
     class Mouse {
     public:
         static sf::Vector2i getPosition();
-        static sf::Vector2i getPosition(const sf::RenderWindow& relativeTo);
+
+        static sf::Vector2i getPosition(const sf::RenderWindow &relativeTo);
+
         static bool isButtonPressed(sf::Mouse::Button button);
     };
     class Coordinates : public sf::Drawable, public sf::Transformable {
@@ -33,10 +35,14 @@ public:
         Coordinates(float x, float y) : x(x), y(y), shape(5.0f) {
             shape.setPosition(x, y);
         }
+
         std::pair<float, float> getCoordinates() const;
+
         void set_coordinates(float new_x, float new_y);
+
         void setColor(sf::Color color);
-        void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+        void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
     };
     class PrimitiveRenderer {
@@ -45,15 +51,15 @@ public:
 
         static void drawPoint(const Coordinates &coordinates, sf::Color color = sf::Color::Black);
 
-        static void drawLine(const Coordinates& pointA, const Coordinates& pointB, sf::Color color);
+        static void drawLine(const Coordinates &pointA, const Coordinates &pointB, sf::Color color);
 
-        static void drawTriangle(const Coordinates& pointA, const Coordinates& pointB, const Coordinates& pointC, sf::Color color);
+        static void drawSquare(const Coordinates &pointA, const Coordinates &pointB, const Coordinates &pointC, const Coordinates &pointD, sf::Color color);
 
-        static void drawSquare(const Coordinates& pointA, const Coordinates& pointB, const Coordinates& pointC, const Coordinates& pointD, sf::Color color);
+        static void drawTriangle(const Coordinates &pointA, const Coordinates &pointB, const Coordinates &pointC, sf::Color color);
 
-        static void drawFilledCircle(const Coordinates& center, float radius, sf::Color color);
+        static void drawCircle(Coordinates& punkt, float R, sf::Color color);
 
-        static void drawCircle(Coordinates& punkt, int R, sf::Color color);
+        static void drawFilledCircle(const Coordinates &center, float radius, sf::Color color);
 
         static void drawCircleSymetric(Coordinates& punkt, int R, sf::Color color);
 
