@@ -11,14 +11,99 @@ void Engine::PrimitiveRenderer::drawPoint(const Coordinates &coordinates, sf::Co
     Engine::_window.draw(&point, 2, sf::Points);
 }
 
-void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordinates& pointB, sf::Color color) {
-    sf::Vertex line[] = {
-            sf::Vertex(sf::Vector2f(pointA.getCoordinates().first, pointA.getCoordinates().second), color),
-            sf::Vertex(sf::Vector2f(pointB.getCoordinates().first, pointB.getCoordinates().second), color)
-    };
+//void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordinates& pointB, sf::Color color) {
+//    sf::Vertex line[] = {
+//            sf::Vertex(sf::Vector2f(pointA.getCoordinates().first, pointA.getCoordinates().second), color),
+//            sf::Vertex(sf::Vector2f(pointB.getCoordinates().first, pointB.getCoordinates().second), color)
+//    };
+//
+//    Engine::_window.draw(line, 2, sf::Lines);
+//}
 
-    Engine::_window.draw(line, 2, sf::Lines);
+void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordinates& pointB, sf::Color color) {
+    int dx,dy,kx,ky,e,i;
+
+    int x1 = pointA.getCoordinates().first;
+    int x2 = pointB.getCoordinates().first;
+    int y1 = pointA.getCoordinates().second;
+    int y2 = pointB.getCoordinates().second;
+
+    // Przyrosty w osiach x i y
+    if(x1 <= x2) kx = 1; else kx = -1;
+    if(y1 <= y2) ky = 1; else ky = -1;
+
+    dx = x2 - x1; if(dx < 0) dx = -dx;
+    dy = y2 - y1; if(dy < 0) dy = -dy;
+
+    drawPoint(Coordinates(x1, y1), color);
+
+    if(dx >= dy)
+    {
+        // Wersja podstawowa
+
+        e = dx / 2;   // Wyrażenie błędu
+
+        for(i = 0; i < dx; i++)
+        {
+            x1 += kx;   // Ruch w kierunku szybkim
+            e -= dy;    // Nowe wyrażenie błędu
+            if(e < 0)
+            {
+                y1 += ky; // Ruch w kierunku wolnym
+                e += dx;
+            }
+
+            // Rysujemy kolejny piksel
+            drawPoint(Coordinates(x1, y1), color);
+        }
+    }
+    else
+    {
+        // Wersja z zamienionymi współrzędnymi
+
+        e = dy / 2;   // Wyrażenie błędu
+
+        for(i = 0; i < dy; i++)
+        {
+            y1 += ky;   // Ruch w kierunku szybkim
+            e -= dx;    // Nowe wyrażenie błędu
+            if(e < 0)
+            {
+                x1 += kx; // Ruch w kierunku wolnym
+                e += dy;
+            }
+
+            // Rysujemy kolejny piksel
+            drawPoint(Coordinates(x1, y1), color);
+        }
+    }
+
+
 }
+//void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordinates& pointB, sf::Color color) {
+//    float x0 = pointA.getCoordinates().first;
+//    float y0 = pointA.getCoordinates().second;
+//    float x1 = pointB.getCoordinates().first;
+//    float y1 = pointB.getCoordinates().second;
+//
+//    float dx = x1 - x0;
+//    float dy = y1 - y0;
+//
+//    float m = dy / dx;
+//
+//    float y = y0;
+//
+//    sf::VertexArray line(sf::Points, x1 - x0 + 1);
+//
+//    for(int x = x0; x<=x1; x++){
+//        Coordinates point(x, int(y+0.5));
+////        drawPoint(point, color);
+//        y+=m;
+//        line.append(sf::);
+//    }
+//
+//    _window.draw(line);
+//}
 
 void Engine::PrimitiveRenderer::drawTriangle(const Coordinates& pointA, const Coordinates& pointB, const Coordinates& pointC, sf::Color color) {
     sf::Vertex triangle[] = {

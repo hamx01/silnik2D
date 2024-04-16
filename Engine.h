@@ -32,8 +32,19 @@ public:
         float y;
         sf::CircleShape shape;
     public:
-        Coordinates(float x, float y) : x(x), y(y), shape(5.0f) {
+        Coordinates(float x, float y) {
             shape.setPosition(x, y);
+            this->x = x;
+            this->y = y;
+            this->shape = sf::CircleShape(5.0f);
+        }
+
+        Coordinates(float x, float y, sf::Color color) {
+            shape.setPosition(x, y);
+            shape.setRadius(5.0f);
+            shape.setFillColor(color);
+            this->x = x;
+            this->y = y;
         }
 
         std::pair<float, float> getCoordinates() const;

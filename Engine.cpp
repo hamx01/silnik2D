@@ -14,6 +14,9 @@ Engine::Coordinates point(310.0,319.0);
 Engine::Coordinates point2(598.0,316.0);
 Engine::Coordinates point3(427.0,177.0);
 
+Engine::Coordinates point5(100.0,200.0);
+Engine::Coordinates point6(200.0,200.0);
+
 Engine::Coordinates pointSquare1(200.0,200.0);
 Engine::Coordinates pointSquare2(200.0,50);
 Engine::Coordinates pointSquare3(350.0,50);
@@ -57,7 +60,8 @@ void Engine::engineLoop() {
         Engine::PrimitiveRenderer::drawPoint(point);
         Engine::PrimitiveRenderer::drawPoint(point2);
         Engine::PrimitiveRenderer::drawLine(point,point2, sf::Color::Red);
-        Engine::PrimitiveRenderer::drawTriangle(point,point2,point3, sf::Color::Red);
+        Engine::PrimitiveRenderer::drawLine(point5,point6, sf::Color::Blue);
+//        Engine::PrimitiveRenderer::drawTriangle(point,point2,point3, sf::Color::Red);
         Engine::PrimitiveRenderer::drawSquare(pointSquare1,pointSquare2,pointSquare3,pointSquare4,sf::Color::Red);
 //        Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);

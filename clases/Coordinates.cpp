@@ -4,6 +4,10 @@
 
 #include "../Engine.h"
 
+//std::pair<float, float> Engine::Coordinates::getCoordinates() const {
+//    return std::make_pair(x, y);
+//}
+
 std::pair<float, float> Engine::Coordinates::getCoordinates() const {
     return std::make_pair(x, y);
 }
