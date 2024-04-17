@@ -16,6 +16,7 @@ Engine::Coordinates point3(427.0,177.0);
 
 Engine::Coordinates point5(100.0,200.0);
 Engine::Coordinates point6(200.0,200.0);
+Engine::Coordinates point7(150.0,50);
 
 Engine::Coordinates pointSquare1(200.0,200.0);
 Engine::Coordinates pointSquare2(200.0,50);
@@ -47,11 +48,17 @@ void Engine::engineLoop() {
             if (event.type == sf::Event::Closed) { _window.close(); }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
-                    point.set_coordinates(event.mouseButton.x, event.mouseButton.y);
-                    std::cout << "New coordinates of red point: X-" << point.getCoordinates().first << " Y-" << point.getCoordinates().second << "\n";
+                    point7.set_coordinates(event.mouseButton.x, event.mouseButton.y);
+                    if(Engine::PrimitiveRenderer::isPointInsideTriangle(point,point2,point3,point7)){
+                        std::cout << "Point is inside triangle" << std::endl;
+                    }
+                    else{
+                        std::cout << "Point is not inside triangle" << std::endl;
+                    }
+//                    std::cout << "New coordinates of red point: X-" << point.getCoordinates().first << " Y-" << point.getCoordinates().second << "\n";
                 } else if(event.mouseButton.button == sf::Mouse::Right) {
-                    point2.set_coordinates(event.mouseButton.x, event.mouseButton.y);
-                    std::cout << "New coordinates of blue point: X-" << point2.getCoordinates().first << " Y-" << point2.getCoordinates().second << "\n";
+//                    point2.set_coordinates(event.mouseButton.x, event.mouseButton.y);
+//                    std::cout << "New coordinates of blue point: X-" << point2.getCoordinates().first << " Y-" << point2.getCoordinates().second << "\n";
                 }
             }
         }
@@ -61,11 +68,12 @@ void Engine::engineLoop() {
         Engine::PrimitiveRenderer::drawPoint(point2);
         Engine::PrimitiveRenderer::drawLine(point,point2, sf::Color::Red);
         Engine::PrimitiveRenderer::drawLine(point5,point6, sf::Color::Blue);
-//        Engine::PrimitiveRenderer::drawTriangle(point,point2,point3, sf::Color::Red);
+        Engine::PrimitiveRenderer::drawTriangle(point,point2,point3, sf::Color::Red);
         Engine::PrimitiveRenderer::drawSquare(pointSquare1,pointSquare2,pointSquare3,pointSquare4,sf::Color::Red);
 //        Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
+
 
         // Testowanie klasy Keyboard
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Q)) {

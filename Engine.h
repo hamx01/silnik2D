@@ -74,6 +74,8 @@ public:
 
         static void drawCircleSymetric(Coordinates& punkt, int R, sf::Color color);
 
+        static bool isPointInsideTriangle(const Engine::Coordinates& A, const Engine::Coordinates& B, const Engine::Coordinates& C, const Engine::Coordinates& P);
+
     };
 private:
     static sf::RenderWindow _window;
