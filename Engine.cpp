@@ -10,13 +10,14 @@ sf::RenderWindow Engine::_window;
 //sf::Clock Engine::_clock;
 
 
-Engine::Coordinates point(310.0,319.0);
-Engine::Coordinates point2(598.0,316.0);
-Engine::Coordinates point3(427.0,177.0);
+Engine::Coordinates pointTriangle1(310.0,319.0);
+Engine::Coordinates pointTriangle2(598.0,316.0);
+Engine::Coordinates pointTriangle3(427.0,177.0);
 
 Engine::Coordinates point5(100.0,200.0);
 Engine::Coordinates point6(200.0,200.0);
-Engine::Coordinates point7(150.0,50);
+
+Engine::Coordinates testPoint(150.0,50);
 
 Engine::Coordinates pointSquare1(200.0,200.0);
 Engine::Coordinates pointSquare2(200.0,50);
@@ -26,15 +27,15 @@ Engine::Coordinates pointSquare4(350, 200);
 Engine::Coordinates pointCircle(600,400);
 Engine::Coordinates pointCircleSymetric(400,400);
 
+std::vector<Engine::Coordinates> triangle = {pointTriangle1, pointTriangle2, pointTriangle3};
+std::vector<Engine::Coordinates> square = {pointSquare1, pointSquare2, pointSquare3, pointSquare4};
+
 
 void Engine::start() {
     if (_window.isOpen()) return;
 
     _window.create(sf::VideoMode(800, 600, 32), "Test Game Engine");
     _window.setFramerateLimit(60);
-
-    point2.setColor(sf::Color::Blue);
-    point.setColor(sf::Color::Red);
 
     engineLoop();
 }
@@ -48,12 +49,12 @@ void Engine::engineLoop() {
             if (event.type == sf::Event::Closed) { _window.close(); }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
-                    point7.set_coordinates(event.mouseButton.x, event.mouseButton.y);
-                    if(Engine::PrimitiveRenderer::isPointInsideTriangle(point,point2,point3,point7)){
-                        std::cout << "Point is inside triangle" << std::endl;
+                    testPoint.set_coordinates(event.mouseButton.x, event.mouseButton.y);
+                    if(Engine::PrimitiveRenderer::isPointInsidePolygon(square, testPoint)){
+                        std::cout << "Point is inside figure" << std::endl;
                     }
                     else{
-                        std::cout << "Point is not inside triangle" << std::endl;
+                        std::cout << "Point is not inside figure" << std::endl;
                     }
 //                    std::cout << "New coordinates of red point: X-" << point.getCoordinates().first << " Y-" << point.getCoordinates().second << "\n";
                 } else if(event.mouseButton.button == sf::Mouse::Right) {
@@ -64,16 +65,16 @@ void Engine::engineLoop() {
         }
 
         // Test klasy Primitives
-        Engine::PrimitiveRenderer::drawPoint(point);
-        Engine::PrimitiveRenderer::drawPoint(point2);
-        Engine::PrimitiveRenderer::drawLine(point,point2, sf::Color::Red);
+//        Engine::PrimitiveRenderer::drawPoint(pointTriangle1);
+//        Engine::PrimitiveRenderer::drawPoint(pointTriangle2);
+        Engine::PrimitiveRenderer::drawLine(pointTriangle1,pointTriangle2, sf::Color::Red);
         Engine::PrimitiveRenderer::drawLine(point5,point6, sf::Color::Blue);
-        Engine::PrimitiveRenderer::drawTriangle(point,point2,point3, sf::Color::Red);
+        Engine::PrimitiveRenderer::drawTriangle(pointTriangle1,pointTriangle2,pointTriangle3, sf::Color::Red);
         Engine::PrimitiveRenderer::drawSquare(pointSquare1,pointSquare2,pointSquare3,pointSquare4,sf::Color::Red);
 //      Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
-        Engine::PrimitiveRenderer::fillCircle(pointCircle,50,sf::Color::Red);
+//        Engine::PrimitiveRenderer::fillCircle(pointCircle,50,sf::Color::Red);
 
 
 

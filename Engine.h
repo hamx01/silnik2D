@@ -70,13 +70,13 @@ public:
 
         static void drawCircle(Coordinates& punkt, float R, sf::Color color);
 
-        static void drawFilledCircle(const Coordinates &center, float radius, sf::Color color);
-
         static void drawCircleSymetric(Coordinates& punkt, int R, sf::Color color);
 
         static bool isPointInsideTriangle(const Engine::Coordinates& A, const Engine::Coordinates& B, const Engine::Coordinates& C, const Engine::Coordinates& P);
 
         static void fillCircle(const Coordinates& center, float radius, sf::Color fillColor);
+
+        static bool isPointInsidePolygon(const std::vector<Coordinates>& vertices, const Coordinates& P);
 
     };
 private:

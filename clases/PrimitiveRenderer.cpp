@@ -104,46 +104,16 @@ void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordi
 //}
 
 void Engine::PrimitiveRenderer::drawTriangle(const Coordinates& pointA, const Coordinates& pointB, const Coordinates& pointC, sf::Color color) {
-//    sf::Vertex triangle[] = {
-//            sf::Vertex(sf::Vector2f(pointA.getCoordinates().first, pointA.getCoordinates().second)),
-//            sf::Vertex(sf::Vector2f(pointB.getCoordinates().first, pointB.getCoordinates().second)),
-//            sf::Vertex(sf::Vector2f(pointC.getCoordinates().first, pointC.getCoordinates().second))
-//    };
-//    for (auto & vertex : triangle) {
-//        vertex.color = color;
-//    }
-
     drawLine(pointA, pointB, color);
     drawLine(pointB, pointC, color);
     drawLine(pointC, pointA, color);
-
-//    Engine::_window.draw(triangle, 4, sf::Triangles);
 }
 void Engine::PrimitiveRenderer::drawSquare(const Coordinates& pointA, const Coordinates& pointB, const Coordinates& pointC, const Coordinates& pointD, sf::Color color) {
-//    sf::Vertex square[] = {
-//            sf::Vertex(sf::Vector2f(pointA.getCoordinates().first, pointA.getCoordinates().second)),
-//            sf::Vertex(sf::Vector2f(pointB.getCoordinates().first, pointB.getCoordinates().second)),
-//            sf::Vertex(sf::Vector2f(pointC.getCoordinates().first, pointC.getCoordinates().second)),
-//            sf::Vertex(sf::Vector2f(pointD.getCoordinates().first, pointD.getCoordinates().second))
-//    };
-//    for (auto & vertex : square) {
-//        vertex.color = color;
-//    }
-
     drawLine(pointA, pointB, color);
     drawLine(pointB, pointC, color);
     drawLine(pointC, pointD, color);
     drawLine(pointD, pointA, color);
-//    Engine::_window.draw(square, 4, sf::Quads);
 }
-
-//void Engine::PrimitiveRenderer::drawFilledCircle(const Coordinates& center, float radius, sf::Color color) {
-//    sf::CircleShape circle(radius);
-//    circle.setPosition(center.getCoordinates().first - radius, center.getCoordinates().second - radius);
-//    circle.setFillColor(color);
-//
-//    Engine::_window.draw(circle);
-//}
 
  void Engine::PrimitiveRenderer::drawCircle(Engine::Coordinates& punkt, float R, sf::Color color) {
     float step = 1.0f / R;
@@ -202,28 +172,7 @@ void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Coordinates& punkt, i
     }
 }
 
-//bool Engine::PrimitiveRenderer::isPointInsideTriangle(const Engine::Coordinates &A, const Engine::Coordinates &B, const Engine::Coordinates &C, const Engine::Coordinates &P) {
-//    // Obliczamy wektory normalne dla krawędzi AB, BC i CA
-//    Coordinates AB(B.getCoordinates().first - A.getCoordinates().first, B.getCoordinates().second - A.getCoordinates().second)
-//    , BC(C.getCoordinates().first - B.getCoordinates().first, C.getCoordinates().second - B.getCoordinates().second)
-//    , CA(A.getCoordinates().first - C.getCoordinates().first, A.getCoordinates().second - C.getCoordinates().second);
-//
-//    // Obliczamy wektory od punktu P do wierzchołków trójkąta
-//    Coordinates PA(A.getCoordinates().first - P.getCoordinates().first, A.getCoordinates().second - P.getCoordinates().second)
-//    , PB(B.getCoordinates().first - P.getCoordinates().first, B.getCoordinates().second - P.getCoordinates().second)
-//    , PC(C.getCoordinates().first - P.getCoordinates().first, C.getCoordinates().second - P.getCoordinates().second);
-//
-//    // Obliczamy iloczyny skalarny wektorów normalnych i wektorów od punktu do wierzchołków
-//    double dotAB = AB.getCoordinates().first * PA.getCoordinates().first + AB.getCoordinates().second * PA.getCoordinates().second;
-//    double dotBC = BC.getCoordinates().first * PB.getCoordinates().first + BC.getCoordinates().second * PB.getCoordinates().second;
-//    double dotCA = CA.getCoordinates().first * PC.getCoordinates().first + CA.getCoordinates().second * PC.getCoordinates().second;
-//
-//    // Sprawdzamy, czy iloczyny skalarny mają tę samą parzystość
-//    return (dotAB >= 0 && dotBC >= 0 && dotCA >= 0) || (dotAB <= 0 && dotBC <= 0 && dotCA <= 0);
-//}
-
 bool Engine::PrimitiveRenderer::isPointInsideTriangle(const Engine::Coordinates& A, const Engine::Coordinates& B, const Engine::Coordinates& C, const Engine::Coordinates& P) {
-    // Obliczamy barycentryczne współrzędne punktu P względem trójkąta ABC
     double areaABC = 0.5 * ((B.getCoordinates().first - A.getCoordinates().first) * (C.getCoordinates().second - A.getCoordinates().second) -
                             (C.getCoordinates().first - A.getCoordinates().first) * (B.getCoordinates().second - A.getCoordinates().second));
     double alpha = 0.5 * ((B.getCoordinates().first - P.getCoordinates().first) * (C.getCoordinates().second - P.getCoordinates().second) -
@@ -234,6 +183,22 @@ bool Engine::PrimitiveRenderer::isPointInsideTriangle(const Engine::Coordinates&
 
     // Sprawdzamy, czy barycentryczne współrzędne są w zakresie [0, 1]
     return alpha >= 0.0 && beta >= 0.0 && gamma >= 0.0;
+}
+
+bool Engine::PrimitiveRenderer::isPointInsidePolygon(const std::vector<Coordinates>& vertices, const Coordinates& P) {
+    int n = int(vertices.size());
+    bool inside = false;
+
+    for (int i = 0, j = n - 1; i < n; j = i++) {
+        double xi = vertices[i].getCoordinates().first, yi = vertices[i].getCoordinates().second;
+        double xj = vertices[j].getCoordinates().first, yj = vertices[j].getCoordinates().second;
+
+        if (((yi > P.getCoordinates().second) != (yj > P.getCoordinates().second)) &&
+            (P.getCoordinates().first < (xj - xi) * (P.getCoordinates().second - yi) / (yj - yi) + xi)) {
+            inside = !inside;
+        }
+    }
+    return inside;
 }
 
 
