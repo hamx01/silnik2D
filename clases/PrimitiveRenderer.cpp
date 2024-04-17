@@ -145,7 +145,7 @@ void Engine::PrimitiveRenderer::drawSquare(const Coordinates& pointA, const Coor
 //    Engine::_window.draw(circle);
 //}
 
-void Engine::PrimitiveRenderer::drawCircle(Engine::Coordinates& punkt, float R, sf::Color color) {
+ void Engine::PrimitiveRenderer::drawCircle(Engine::Coordinates& punkt, float R, sf::Color color) {
     float step = 1.0f / R;
     sf::VertexArray points(sf::Points);
     int xc = punkt.getCoordinates().first;
@@ -235,3 +235,21 @@ bool Engine::PrimitiveRenderer::isPointInsideTriangle(const Engine::Coordinates&
     // Sprawdzamy, czy barycentryczne współrzędne są w zakresie [0, 1]
     return alpha >= 0.0 && beta >= 0.0 && gamma >= 0.0;
 }
+
+
+void Engine::PrimitiveRenderer::fillCircle(const Coordinates& center, float radius, sf::Color fillColor) {
+    int xc = center.getCoordinates().first;
+    int yc = center.getCoordinates().second;
+
+    // Iterujemy przez każdy punkt wewnątrz koła i rysujemy go
+    for (int x = xc - radius; x <= xc + radius; ++x) {
+        for (int y = yc - radius; y <= yc + radius; ++y) {
+            // Sprawdzamy czy punkt (x, y) znajduje się wewnątrz koła
+            if (std::pow(x - xc, 2) + std::pow(y - yc, 2) <= std::pow(radius, 2)) {
+                drawPoint(Coordinates(x, y), fillColor);
+            }
+        }
+    }
+}
+
+

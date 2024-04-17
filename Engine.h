@@ -76,6 +76,8 @@ public:
 
         static bool isPointInsideTriangle(const Engine::Coordinates& A, const Engine::Coordinates& B, const Engine::Coordinates& C, const Engine::Coordinates& P);
 
+        static void fillCircle(const Coordinates& center, float radius, sf::Color fillColor);
+
     };
 private:
     static sf::RenderWindow _window;

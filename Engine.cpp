@@ -70,9 +70,11 @@ void Engine::engineLoop() {
         Engine::PrimitiveRenderer::drawLine(point5,point6, sf::Color::Blue);
         Engine::PrimitiveRenderer::drawTriangle(point,point2,point3, sf::Color::Red);
         Engine::PrimitiveRenderer::drawSquare(pointSquare1,pointSquare2,pointSquare3,pointSquare4,sf::Color::Red);
-//        Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
+//      Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
+        Engine::PrimitiveRenderer::fillCircle(pointCircle,50,sf::Color::Red);
+
 
 
         // Testowanie klasy Keyboard
