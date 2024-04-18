@@ -30,7 +30,6 @@ Engine::Point pointCircleSymetric(400, 400);
 std::vector<Engine::Point> triangle = {pointTriangle1, pointTriangle2, pointTriangle3};
 std::vector<Engine::Point> square = {pointSquare1, pointSquare2, pointSquare3, pointSquare4};
 
-
 void Engine::start() {
     if (_window.isOpen()) return;
 
@@ -49,16 +48,20 @@ void Engine::engineLoop() {
             if (event.type == sf::Event::Closed) { _window.close(); }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
-                    testPoint.set_coordinates(event.mouseButton.x, event.mouseButton.y);
+                    testPoint.setCoordinates(float(event.mouseButton.x), float(event.mouseButton.y));
                     if(Engine::PrimitiveRenderer::isPointInsidePolygon(square, testPoint)){
                         std::cout << "Point is inside figure" << std::endl;
                     }
                     else{
                         std::cout << "Point is not inside figure" << std::endl;
                     }
-//                    std::cout << "New coordinates of red point: X-" << point.getCoordinates().first << " Y-" << point.getCoordinates().second << "\n";
                 } else if(event.mouseButton.button == sf::Mouse::Right) {
-//                    point2.set_coordinates(event.mouseButton.x, event.mouseButton.y);
+//                    Engine::PrimitiveRenderer::MousePosition lastPosition;
+//                    lastPosition.x = 150;
+//                    lastPosition.y = 50;
+//                    Engine::PrimitiveRenderer::dragPolygon(square, testPoint, true, lastPosition, event);
+
+//                    point2.setCoordinates(event.mouseButton.x, event.mouseButton.y);
 //                    std::cout << "New coordinates of blue point: X-" << point2.getCoordinates().first << " Y-" << point2.getCoordinates().second << "\n";
                 }
             }
@@ -71,10 +74,14 @@ void Engine::engineLoop() {
         Engine::PrimitiveRenderer::drawLine(point5,point6, sf::Color::Blue);
         Engine::PrimitiveRenderer::drawTriangle(pointTriangle1,pointTriangle2,pointTriangle3, sf::Color::Red);
         Engine::PrimitiveRenderer::drawSquare(pointSquare1,pointSquare2,pointSquare3,pointSquare4,sf::Color::Red);
-//      Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
 //        Engine::PrimitiveRenderer::fillCircle(pointCircle,50,sf::Color::Red);
+//        Engine::PrimitiveRenderer::MousePosition position = Engine::PrimitiveRenderer::getMousePosition(event);
+//        std::cout << "x: " << position.x << "\n";
+//        std::cout << "y: " << position.y << "\n";
+
+
 
 
 
@@ -92,6 +99,25 @@ void Engine::engineLoop() {
             std::cout << "'Escape'" << std::endl;
             _window.close();
         }
+
+        // ruszanie trókątem
+        if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+            std::cout << "'Down'" << std::endl;
+            Engine::PrimitiveRenderer::translateSquare(pointSquare1, pointSquare2, pointSquare3, pointSquare4, 0, 10);
+        }
+        if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            std::cout << "'Up'" << std::endl;
+            Engine::PrimitiveRenderer::translateSquare(pointSquare1, pointSquare2, pointSquare3, pointSquare4, 0, -10);
+        }
+        if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            std::cout << "'Left'" << std::endl;
+            Engine::PrimitiveRenderer::translateSquare(pointSquare1, pointSquare2, pointSquare3, pointSquare4, -10, 0);
+        }
+        if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            std::cout << "'Right'" << std::endl;
+            Engine::PrimitiveRenderer::translateSquare(pointSquare1, pointSquare2, pointSquare3, pointSquare4, 10, 0);
+        }
+
 
         // mouse test begin
         sf::Vector2i mousePosition = Mouse::getPosition(_window);

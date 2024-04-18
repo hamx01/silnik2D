@@ -74,7 +74,7 @@ void Engine::PrimitiveRenderer::drawSquare(const Point& pointA, const Point& poi
     drawLine(pointD, pointA, color);
 }
 
- void Engine::PrimitiveRenderer::drawCircle(Engine::Point& punkt, float R, sf::Color color) {
+void Engine::PrimitiveRenderer::drawCircle(Engine::Point& punkt, float R, sf::Color color) {
     float step = 1.0f / R;
     sf::VertexArray points(sf::Points);
     int xc = punkt.getCoordinates().first;
@@ -174,5 +174,51 @@ void Engine::PrimitiveRenderer::fillCircle(const Point& center, float radius, sf
         }
     }
 }
+
+
+void Engine::PrimitiveRenderer::translateSquare(Point& pointA, Point& pointB, Point& pointC, Point& pointD, float deltaX, float deltaY) {
+    float ax = pointA.getCoordinates().first;
+    float ay = pointA.getCoordinates().second;
+    float bx = pointB.getCoordinates().first;
+    float by = pointB.getCoordinates().second;
+    float cx = pointC.getCoordinates().first;
+    float cy = pointC.getCoordinates().second;
+    float dx = pointD.getCoordinates().first;
+    float dy = pointD.getCoordinates().second;
+
+    pointA.setCoordinates(ax+deltaX, ay+deltaY);
+    pointB.setCoordinates(bx+deltaX, by+deltaY);
+    pointC.setCoordinates(cx+deltaX, cy+deltaY);
+    pointD.setCoordinates(dx+deltaX, dy+deltaY);
+}
+
+//void Engine::PrimitiveRenderer::dragPolygon(std::vector<Point>& vertices, const Point& P, bool isDragging, MousePosition& lastMousePosition, sf::Event event) {
+//    MousePosition currentMousePosition = getMousePosition(event);
+//
+//    // Oblicz wektor przesunięcia
+//    double dx = currentMousePosition.x - lastMousePosition.x;
+//    double dy = currentMousePosition.y - lastMousePosition.y;
+//
+//    if (isPointInsidePolygon(vertices, P) && !isDragging) {
+//        // Rozpocznij przeciąganie
+//        isDragging = true;
+//    } else if (!isPointInsidePolygon(vertices, P) && isDragging) {
+//        // Zakończ przeciąganie
+//        isDragging = false;
+//    }
+//
+//    if (isDragging) {
+//        // Przesuń wszystkie wierzchołki o wektor przesunięcia
+//        for (auto& vertex : vertices) {
+//            double newX = vertex.getCoordinates().first + dx;
+//            double newY = vertex.getCoordinates().second + dy;
+//            vertex.setCoordinates(float(newX), float(newY));
+//        }
+//    }
+//
+//    // Zaktualizuj ostatnią pozycję myszy
+//    lastMousePosition = currentMousePosition;
+//}
+
 
 

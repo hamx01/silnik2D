@@ -12,7 +12,7 @@ std::pair<float, float> Engine::Point::getCoordinates() const {
     return std::make_pair(x, y);
 }
 
-void Engine::Point::set_coordinates(float new_x, float new_y) {
+void Engine::Point::setCoordinates(float new_x, float new_y) {
     this->x = new_x;
     this->y = new_y;
     shape.setPosition(new_x, new_y);
