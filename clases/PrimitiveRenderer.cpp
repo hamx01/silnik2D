@@ -13,20 +13,10 @@ void Engine::PrimitiveRenderer::drawPoint(const Coordinates &coordinates, sf::Co
     Engine::_window.draw(&point, 2, sf::Points);
 }
 
-//void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordinates& pointB, sf::Color color) {
-//    sf::Vertex line[] = {
-//            sf::Vertex(sf::Vector2f(pointA.getCoordinates().first, pointA.getCoordinates().second), color),
-//            sf::Vertex(sf::Vector2f(pointB.getCoordinates().first, pointB.getCoordinates().second), color)
-//    };
-//
-//    Engine::_window.draw(line, 2, sf::Lines);
-//}
-
 //!
 //! @param pointA - punkt początkowy linii
 //! @param pointB - punkt końcowy linii
 //! @param color - kolor linii
-
 void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordinates& pointB, sf::Color color) {
     int dx, dy, kx, ky, e, i;
 
@@ -45,15 +35,12 @@ void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordi
 
     drawPoint(Coordinates(x1, y1), color);
 
-    if (dx >= dy)
-    {
+    if (dx >= dy) {
         e = dx / 2;
-        for(i = 0; i < dx; i++)
-        {
+        for(i = 0; i < dx; i++) {
             x1 += kx;
             e -= dy;
-            if(e < 0)
-            {
+            if(e < 0) {
                 y1 += ky;
                 e += dx;
             }
@@ -63,45 +50,17 @@ void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordi
     else
     {
         e = dy / 2;
-        for(i = 0; i < dy; i++)
-        {
+        for(i = 0; i < dy; i++) {
             y1 += ky;
             e -= dx;
-            if(e < 0)
-            {
+            if(e < 0) {
                 x1 += kx;
                 e += dy;
             }
             drawPoint(Coordinates(x1, y1), color);
         }
     }
-
-
 }
-//void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordinates& pointB, sf::Color color) {
-//    float x0 = pointA.getCoordinates().first;
-//    float y0 = pointA.getCoordinates().second;
-//    float x1 = pointB.getCoordinates().first;
-//    float y1 = pointB.getCoordinates().second;
-//
-//    float dx = x1 - x0;
-//    float dy = y1 - y0;
-//
-//    float m = dy / dx;
-//
-//    float y = y0;
-//
-//    sf::VertexArray line(sf::Points, x1 - x0 + 1);
-//
-//    for(int x = x0; x<=x1; x++){
-//        Coordinates point(x, int(y+0.5));
-////        drawPoint(point, color);
-//        y+=m;
-//        line.append(sf::);
-//    }
-//
-//    _window.draw(line);
-//}
 
 void Engine::PrimitiveRenderer::drawTriangle(const Coordinates& pointA, const Coordinates& pointB, const Coordinates& pointC, sf::Color color) {
     drawLine(pointA, pointB, color);
@@ -181,7 +140,6 @@ bool Engine::PrimitiveRenderer::isPointInsideTriangle(const Engine::Coordinates&
                          (A.getCoordinates().first - P.getCoordinates().first) * (C.getCoordinates().second - P.getCoordinates().second)) / areaABC;
     double gamma = 1.0 - alpha - beta;
 
-    // Sprawdzamy, czy barycentryczne współrzędne są w zakresie [0, 1]
     return alpha >= 0.0 && beta >= 0.0 && gamma >= 0.0;
 }
 
