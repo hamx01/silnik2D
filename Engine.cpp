@@ -10,25 +10,25 @@ sf::RenderWindow Engine::_window;
 //sf::Clock Engine::_clock;
 
 
-Engine::Coordinates pointTriangle1(310.0,319.0);
-Engine::Coordinates pointTriangle2(598.0,316.0);
-Engine::Coordinates pointTriangle3(427.0,177.0);
+Engine::Point pointTriangle1(310.0, 319.0);
+Engine::Point pointTriangle2(598.0, 316.0);
+Engine::Point pointTriangle3(427.0, 177.0);
 
-Engine::Coordinates point5(100.0,200.0);
-Engine::Coordinates point6(200.0,200.0);
+Engine::Point point5(100.0, 200.0);
+Engine::Point point6(200.0, 200.0);
 
-Engine::Coordinates testPoint(150.0,50);
+Engine::Point testPoint(150.0, 50);
 
-Engine::Coordinates pointSquare1(200.0,200.0);
-Engine::Coordinates pointSquare2(200.0,50);
-Engine::Coordinates pointSquare3(350.0,50);
-Engine::Coordinates pointSquare4(350, 200);
+Engine::Point pointSquare1(200.0, 200.0);
+Engine::Point pointSquare2(200.0, 50);
+Engine::Point pointSquare3(350.0, 50);
+Engine::Point pointSquare4(350, 200);
 
-Engine::Coordinates pointCircle(600,400);
-Engine::Coordinates pointCircleSymetric(400,400);
+Engine::Point pointCircle(600, 400);
+Engine::Point pointCircleSymetric(400, 400);
 
-std::vector<Engine::Coordinates> triangle = {pointTriangle1, pointTriangle2, pointTriangle3};
-std::vector<Engine::Coordinates> square = {pointSquare1, pointSquare2, pointSquare3, pointSquare4};
+std::vector<Engine::Point> triangle = {pointTriangle1, pointTriangle2, pointTriangle3};
+std::vector<Engine::Point> square = {pointSquare1, pointSquare2, pointSquare3, pointSquare4};
 
 
 void Engine::start() {

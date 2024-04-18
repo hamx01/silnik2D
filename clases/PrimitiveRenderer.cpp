@@ -6,7 +6,7 @@
 #include <cmath>
 
 //! Metoda rysująca punkt na ekranie
-void Engine::PrimitiveRenderer::drawPoint(const Coordinates &coordinates, sf::Color color) {
+void Engine::PrimitiveRenderer::drawPoint(const Point &coordinates, sf::Color color) {
     float x = coordinates.getCoordinates().first;
     float y = coordinates.getCoordinates().second;
     sf::Vertex point(sf::Vector2f(x, y), color);
@@ -17,7 +17,7 @@ void Engine::PrimitiveRenderer::drawPoint(const Coordinates &coordinates, sf::Co
 //! @param pointA - punkt początkowy linii
 //! @param pointB - punkt końcowy linii
 //! @param color - kolor linii
-void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordinates& pointB, sf::Color color) {
+void Engine::PrimitiveRenderer::drawLine(const Point& pointA, const Point& pointB, sf::Color color) {
     int dx, dy, kx, ky, e, i;
 
     int x1 = pointA.getCoordinates().first;
@@ -33,7 +33,7 @@ void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordi
     dy = y2 - y1;
     if (dy < 0) dy = -dy;
 
-    drawPoint(Coordinates(x1, y1), color);
+    drawPoint(Point(x1, y1), color);
 
     if (dx >= dy) {
         e = dx / 2;
@@ -44,7 +44,7 @@ void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordi
                 y1 += ky;
                 e += dx;
             }
-            drawPoint(Coordinates(x1, y1), color);
+            drawPoint(Point(x1, y1), color);
         }
     }
     else
@@ -57,24 +57,24 @@ void Engine::PrimitiveRenderer::drawLine(const Coordinates& pointA, const Coordi
                 x1 += kx;
                 e += dy;
             }
-            drawPoint(Coordinates(x1, y1), color);
+            drawPoint(Point(x1, y1), color);
         }
     }
 }
 
-void Engine::PrimitiveRenderer::drawTriangle(const Coordinates& pointA, const Coordinates& pointB, const Coordinates& pointC, sf::Color color) {
+void Engine::PrimitiveRenderer::drawTriangle(const Point& pointA, const Point& pointB, const Point& pointC, sf::Color color) {
     drawLine(pointA, pointB, color);
     drawLine(pointB, pointC, color);
     drawLine(pointC, pointA, color);
 }
-void Engine::PrimitiveRenderer::drawSquare(const Coordinates& pointA, const Coordinates& pointB, const Coordinates& pointC, const Coordinates& pointD, sf::Color color) {
+void Engine::PrimitiveRenderer::drawSquare(const Point& pointA, const Point& pointB, const Point& pointC, const Point& pointD, sf::Color color) {
     drawLine(pointA, pointB, color);
     drawLine(pointB, pointC, color);
     drawLine(pointC, pointD, color);
     drawLine(pointD, pointA, color);
 }
 
- void Engine::PrimitiveRenderer::drawCircle(Engine::Coordinates& punkt, float R, sf::Color color) {
+ void Engine::PrimitiveRenderer::drawCircle(Engine::Point& punkt, float R, sf::Color color) {
     float step = 1.0f / R;
     sf::VertexArray points(sf::Points);
     int xc = punkt.getCoordinates().first;
@@ -90,7 +90,7 @@ void Engine::PrimitiveRenderer::drawSquare(const Coordinates& pointA, const Coor
     _window.draw(points);
 }
 
-void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Coordinates& punkt, int R, sf::Color color) {
+void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Point& punkt, int R, sf::Color color) {
     int xc = punkt.getCoordinates().first;
     int yc = punkt.getCoordinates().second;
     sf::VertexArray points(sf::Points);
@@ -131,7 +131,7 @@ void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Coordinates& punkt, i
     }
 }
 
-bool Engine::PrimitiveRenderer::isPointInsideTriangle(const Engine::Coordinates& A, const Engine::Coordinates& B, const Engine::Coordinates& C, const Engine::Coordinates& P) {
+bool Engine::PrimitiveRenderer::isPointInsideTriangle(const Engine::Point& A, const Engine::Point& B, const Engine::Point& C, const Engine::Point& P) {
     double areaABC = 0.5 * ((B.getCoordinates().first - A.getCoordinates().first) * (C.getCoordinates().second - A.getCoordinates().second) -
                             (C.getCoordinates().first - A.getCoordinates().first) * (B.getCoordinates().second - A.getCoordinates().second));
     double alpha = 0.5 * ((B.getCoordinates().first - P.getCoordinates().first) * (C.getCoordinates().second - P.getCoordinates().second) -
@@ -143,7 +143,7 @@ bool Engine::PrimitiveRenderer::isPointInsideTriangle(const Engine::Coordinates&
     return alpha >= 0.0 && beta >= 0.0 && gamma >= 0.0;
 }
 
-bool Engine::PrimitiveRenderer::isPointInsidePolygon(const std::vector<Coordinates>& vertices, const Coordinates& P) {
+bool Engine::PrimitiveRenderer::isPointInsidePolygon(const std::vector<Point>& vertices, const Point& P) {
     int n = int(vertices.size());
     bool inside = false;
 
@@ -160,7 +160,7 @@ bool Engine::PrimitiveRenderer::isPointInsidePolygon(const std::vector<Coordinat
 }
 
 
-void Engine::PrimitiveRenderer::fillCircle(const Coordinates& center, float radius, sf::Color fillColor) {
+void Engine::PrimitiveRenderer::fillCircle(const Point& center, float radius, sf::Color fillColor) {
     int xc = center.getCoordinates().first;
     int yc = center.getCoordinates().second;
 
@@ -169,7 +169,7 @@ void Engine::PrimitiveRenderer::fillCircle(const Coordinates& center, float radi
         for (int y = yc - radius; y <= yc + radius; ++y) {
             // Sprawdzamy czy punkt (x, y) znajduje się wewnątrz koła
             if (std::pow(x - xc, 2) + std::pow(y - yc, 2) <= std::pow(radius, 2)) {
-                drawPoint(Coordinates(x, y), fillColor);
+                drawPoint(Point(x, y), fillColor);
             }
         }
     }
