@@ -9,7 +9,7 @@ add_executable(silnik2D main.cpp
         Engine.h
         clases/Keyboard.cpp
         clases/Mouse.cpp
-        clases/Coordinates.cpp
+        clases/Point.cpp
         clases/PrimitiveRenderer.cpp
 )
 

@@ -26,20 +26,20 @@ public:
 
         static bool isButtonPressed(sf::Mouse::Button button);
     };
-    class Coordinates : public sf::Drawable, public sf::Transformable {
+    class Point : public sf::Drawable, public sf::Transformable {
     private:
         float x;
         float y;
         sf::CircleShape shape;
     public:
-        Coordinates(float x, float y) {
+        Point(float x, float y) {
             shape.setPosition(x, y);
             this->x = x;
             this->y = y;
             this->shape = sf::CircleShape(5.0f);
         }
 
-        Coordinates(float x, float y, sf::Color color) {
+        Point(float x, float y, sf::Color color) {
             shape.setPosition(x, y);
             shape.setRadius(5.0f);
             shape.setFillColor(color);
@@ -60,23 +60,23 @@ public:
     public:
         PrimitiveRenderer() = default;
 
-        static void drawPoint(const Coordinates &coordinates, sf::Color color = sf::Color::Black);
+        static void drawPoint(const Point &coordinates, sf::Color color = sf::Color::Black);
 
-        static void drawLine(const Coordinates &pointA, const Coordinates &pointB, sf::Color color);
+        static void drawLine(const Point &pointA, const Point &pointB, sf::Color color);
 
-        static void drawSquare(const Coordinates &pointA, const Coordinates &pointB, const Coordinates &pointC, const Coordinates &pointD, sf::Color color);
+        static void drawSquare(const Point &pointA, const Point &pointB, const Point &pointC, const Point &pointD, sf::Color color);
 
-        static void drawTriangle(const Coordinates &pointA, const Coordinates &pointB, const Coordinates &pointC, sf::Color color);
+        static void drawTriangle(const Point &pointA, const Point &pointB, const Point &pointC, sf::Color color);
 
-        static void drawCircle(Coordinates& punkt, float R, sf::Color color);
+        static void drawCircle(Point& punkt, float R, sf::Color color);
 
-        static void drawCircleSymetric(Coordinates& punkt, int R, sf::Color color);
+        static void drawCircleSymetric(Point& punkt, int R, sf::Color color);
 
-        static bool isPointInsideTriangle(const Engine::Coordinates& A, const Engine::Coordinates& B, const Engine::Coordinates& C, const Engine::Coordinates& P);
+        static bool isPointInsideTriangle(const Engine::Point& A, const Engine::Point& B, const Engine::Point& C, const Engine::Point& P);
 
-        static void fillCircle(const Coordinates& center, float radius, sf::Color fillColor);
+        static void fillCircle(const Point& center, float radius, sf::Color fillColor);
 
-        static bool isPointInsidePolygon(const std::vector<Coordinates>& vertices, const Coordinates& P);
+        static bool isPointInsidePolygon(const std::vector<Point>& vertices, const Point& P);
 
     };
 private:
