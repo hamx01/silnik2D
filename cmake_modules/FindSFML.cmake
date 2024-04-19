@@ -60,7 +60,7 @@ if(SFML_STATIC_LIBRARIES)
     add_definitions(-DSFML_STATIC)
 endif()
 
-# define the list of search paths for headers and libraries
+# define the list of search paths for headers and  libraries
 set(FIND_SFML_PATHS
         ${SFML_ROOT}
         $ENV{SFML_ROOT}

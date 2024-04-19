@@ -61,8 +61,8 @@ void Engine::engineLoop() {
 //                    lastPosition.y = 50;
 //                    Engine::PrimitiveRenderer::dragPolygon(square, testPoint, true, lastPosition, event);
 
-//                    point2.setCoordinates(event.mouseButton.x, event.mouseButton.y);
-//                    std::cout << "New coordinates of blue point: X-" << point2.getCoordinates().first << " Y-" << point2.getCoordinates().second << "\n";
+                    testPoint.setCoordinates(event.mouseButton.x, event.mouseButton.y);
+                    std::cout << "New coordinates of blue point: X-" << testPoint.getCoordinates().first << " Y-" << testPoint.getCoordinates().second << "\n";
                 }
             }
         }

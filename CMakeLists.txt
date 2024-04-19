@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 project(silnik2D)
 
 set(CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc -static")
 
 add_executable(silnik2D main.cpp
         Engine.cpp

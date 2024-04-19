@@ -176,7 +176,24 @@ void Engine::PrimitiveRenderer::fillCircle(const Point& center, float radius, sf
 }
 
 
+//void Engine::PrimitiveRenderer::translateSquare(Point& pointA, Point& pointB, Point& pointC, Point& pointD, float deltaX, float deltaY) {
+//    float ax = pointA.getCoordinates().first;
+//    float ay = pointA.getCoordinates().second;
+//    float bx = pointB.getCoordinates().first;
+//    float by = pointB.getCoordinates().second;
+//    float cx = pointC.getCoordinates().first;
+//    float cy = pointC.getCoordinates().second;
+//    float dx = pointD.getCoordinates().first;
+//    float dy = pointD.getCoordinates().second;
+//
+//    pointA.setCoordinates(ax+deltaX, ay+deltaY);
+//    pointB.setCoordinates(bx+deltaX, by+deltaY);
+//    pointC.setCoordinates(cx+deltaX, cy+deltaY);
+//    pointD.setCoordinates(dx+deltaX, dy+deltaY);
+//}
+
 void Engine::PrimitiveRenderer::translateSquare(Point& pointA, Point& pointB, Point& pointC, Point& pointD, float deltaX, float deltaY) {
+    // Pobierz aktualne współrzędne punktów kwadratu
     float ax = pointA.getCoordinates().first;
     float ay = pointA.getCoordinates().second;
     float bx = pointB.getCoordinates().first;
@@ -186,11 +203,53 @@ void Engine::PrimitiveRenderer::translateSquare(Point& pointA, Point& pointB, Po
     float dx = pointD.getCoordinates().first;
     float dy = pointD.getCoordinates().second;
 
-    pointA.setCoordinates(ax+deltaX, ay+deltaY);
-    pointB.setCoordinates(bx+deltaX, by+deltaY);
-    pointC.setCoordinates(cx+deltaX, cy+deltaY);
-    pointD.setCoordinates(dx+deltaX, dy+deltaY);
+    // Oblicz nowe współrzędne po przesunięciu
+    float newAx = ax + deltaX;
+    float newAy = ay + deltaY;
+    float newBx = bx + deltaX;
+    float newBy = by + deltaY;
+    float newCx = cx + deltaX;
+    float newCy = cy + deltaY;
+    float newDx = dx + deltaX;
+    float newDy = dy + deltaY;
+
+    // Sprawdź czy nowe współrzędne wypadają poza granice okna
+    bool withinBounds = true;
+    if (newAx < 0 || newAx > 800 || newBx < 0 || newBx > 800 ||
+        newCx < 0 || newCx > 800 || newDx < 0 || newDx > 800 ||
+        newAy < 0 || newAy > 600 || newBy < 0 || newBy > 600 ||
+        newCy < 0 || newCy > 600 || newDy < 0 || newDy > 600) {
+        withinBounds = false;
+    }
+
+    // Jeśli przesunięcie nie wykracza poza granice, zaktualizuj współrzędne punktów
+    if (withinBounds) {
+        pointA.setCoordinates(newAx, newAy);
+        pointB.setCoordinates(newBx, newBy);
+        pointC.setCoordinates(newCx, newCy);
+        pointD.setCoordinates(newDx, newDy);
+    }
+        // Jeśli wykracza poza granice, możesz tutaj obsłużyć tę sytuację (np. zignorować przesunięcie)
+    else {
+        // Tutaj możesz umieścić odpowiedni kod obsługujący przekroczenie granic
+        // np. możesz zignorować to przesunięcie lub zmniejszyć przesunięcie tak,
+        // aby punkty były na granicy okna.
+        // Na przykład:
+//         float maxDeltaX = std::min(deltaX, 800 - std::max(ax, std::max(bx, std::max(cx, dx))));
+//         float maxDeltaY = std::min(deltaY, 600 - std::max(ay, std::max(by, std::max(cy, dy))));
+//         pointA.setCoordinates(ax + maxDeltaX, ay + maxDeltaY);
+//         pointB.setCoordinates(bx + maxDeltaX, by + maxDeltaY);
+//         pointC.setCoordinates(cx + maxDeltaX, cy + maxDeltaY);
+//         pointD.setCoordinates(dx + maxDeltaX, dy + maxDeltaY);
+    }
+
+    std::cout << "Punkt A - x: " << pointA.getCoordinates().first << "|| y: " << pointA.getCoordinates().second << std::endl;
+    std::cout << "Punkt B - x: " << pointB.getCoordinates().first << "|| y: " << pointB.getCoordinates().second << std::endl;
+    std::cout << "Punkt C - x: " << pointC.getCoordinates().first << "|| y: " << pointC.getCoordinates().second << std::endl;
+    std::cout << "Punkt D - x: " << pointD.getCoordinates().first << "|| y: " << pointD.getCoordinates().second << std::endl;
 }
+
+
 
 //void Engine::PrimitiveRenderer::dragPolygon(std::vector<Point>& vertices, const Point& P, bool isDragging, MousePosition& lastMousePosition, sf::Event event) {
 //    MousePosition currentMousePosition = getMousePosition(event);
