@@ -63,9 +63,9 @@ void Engine::engineLoop() {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     testPoint.setCoordinates(float(event.mouseButton.x), float(event.mouseButton.y));
-                    if(Engine::PrimitiveRenderer::isPointInsidePolygon(square, testPoint)){
+                    if(Engine::PrimitiveRenderer::isPointInsidePolygon(square, testPoint)) {
                         std::cout << "Point is inside figure" << std::endl;
-                        for (sf::Sprite &sprite : sprites) {
+                        for (sf::Sprite &sprite: sprites) {
                             if (sprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                                 // Sprawdź, czy kliknięcie nastąpiło na bitmapie
                                 if (bitmapSprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
@@ -73,10 +73,11 @@ void Engine::engineLoop() {
                                     // Oblicz przesunięcie myszy względem pozycji bitmapy
                                     float offsetX = event.mouseButton.x - sprite.getPosition().x;
                                     float offsetY = event.mouseButton.y - sprite.getPosition().y;
+                                }
                             }
                         }
                     }
-                    }else{
+                    else{
                         std::cout << "Point is not inside figure" << std::endl;
                     }
                 } else if(event.mouseButton.button == sf::Mouse::Right) {
