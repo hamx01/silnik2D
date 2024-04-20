@@ -83,10 +83,19 @@ public:
 
         static void fillCircle(const Point& center, float radius, sf::Color fillColor);
 
+        static void dragPolygon(std::vector<Point>& vertices, const Point& P, bool isDragging, MousePosition& lastMousePosition, sf::Event event);
+
         static bool isPointInsidePolygon(const std::vector<Point>& vertices, const Point& P);
 
         static void translateSquare(Point& pointA, Point& pointB, Point& pointC, Point& pointD, float deltaX, float deltaY);
 
+        static void dragPolygonDown(std::vector<Point>& vertices) {
+            for (Point &vertex: vertices) {
+                float newX = vertex.getCoordinates().first + 10;
+                float newY = vertex.getCoordinates().second;
+                vertex.setCoordinates(newX, newY);
+            }
+        }
 
         static MousePosition getMousePosition(sf::Event event) {
             MousePosition position{};
