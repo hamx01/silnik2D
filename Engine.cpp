@@ -100,7 +100,9 @@ void Engine::engineLoop() {
             }
             else if (event.type == sf::Event::MouseMoved) {
                 // Przeciąganie sprite'a
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
+                    bitmapSprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))) {
+
                     sf::Vector2f mousePosition = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
                     bitmapSprite.setPosition(mousePosition - sf::Vector2f(bitmapSprite.getGlobalBounds().width / 2, bitmapSprite.getGlobalBounds().height / 2));
                 }
