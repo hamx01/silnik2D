@@ -87,7 +87,9 @@ public:
 
         static bool isPointInsidePolygon(const std::vector<Point>& vertices, const Point& P);
 
-        static void translateSquare(Point& pointA, Point& pointB, Point& pointC, Point& pointD, float deltaX, float deltaY);
+        static void translateSquare(std::vector<Point>& vertices, float deltaX, float deltaY);
+
+        static void fillSquare(const std::vector<Point>& vertices, sf::Color fillColor, Point& testPoint);
 
         static void dragPolygonDown(std::vector<Point>& vertices) {
             for (Point &vertex: vertices) {

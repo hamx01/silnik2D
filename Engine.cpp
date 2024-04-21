@@ -42,7 +42,7 @@ void Engine::start() {
 
     // Wczytaj plik bitmapowy
     sf::Texture bitmapTexture;
-    if (!bitmapTexture.loadFromFile("bitmap.bmp")) {
+    if (!bitmapTexture.loadFromFile("C:\\projekt3\\bitmap.bmp")) {
         // Obsługa błędu, jeśli wczytanie obrazu nie powiedzie się
         std::cerr << "Failed to load bitmap image!" << std::endl;
         return;
@@ -111,36 +111,36 @@ void Engine::engineLoop() {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
 
-                            // Pobierz globalne granice bitmapy
-                            sf::FloatRect bounds = bitmapSprite.getGlobalBounds();
+                        // Pobierz globalne granice bitmapy
+                        sf::FloatRect bounds = bitmapSprite.getGlobalBounds();
 
-                            // Oblicz przesunięcie myszy względem poprzedniego położenia myszy
-                            sf::Vector2f mousePos = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
-                            sf::Vector2f delta = mousePos - prevMousePos;
+                        // Oblicz przesunięcie myszy względem poprzedniego położenia myszy
+                        sf::Vector2f mousePos = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
+                        sf::Vector2f delta = mousePos - prevMousePos;
 
-                            // Zmień rozmiar bitmapy w zależności od kierunku ruchu myszy
-                            if (delta.x < 0) {
-                                bitmapSprite.setScale(bitmapSprite.getScale().x * 0.99f, bitmapSprite.getScale().y);
-                            } else if (delta.x > 0) {
-                                bitmapSprite.setScale(bitmapSprite.getScale().x * 1.01f, bitmapSprite.getScale().y);
-                            }
-                            if (delta.y < 0) {
-                                bitmapSprite.setScale(bitmapSprite.getScale().x, bitmapSprite.getScale().y * 0.99f);
-                            } else if (delta.y > 0) {
-                                bitmapSprite.setScale(bitmapSprite.getScale().x, bitmapSprite.getScale().y * 1.01f);
-                            }
-
-                            // Zapisz aktualne położenie myszy jako poprzednie położenie
-                            prevMousePos = mousePos;
+                        // Zmień rozmiar bitmapy w zależności od kierunku ruchu myszy
+                        if (delta.x < 0) {
+                            bitmapSprite.setScale(bitmapSprite.getScale().x * 0.99f, bitmapSprite.getScale().y);
+                        } else if (delta.x > 0) {
+                            bitmapSprite.setScale(bitmapSprite.getScale().x * 1.01f, bitmapSprite.getScale().y);
                         }
+                        if (delta.y < 0) {
+                            bitmapSprite.setScale(bitmapSprite.getScale().x, bitmapSprite.getScale().y * 0.99f);
+                        } else if (delta.y > 0) {
+                            bitmapSprite.setScale(bitmapSprite.getScale().x, bitmapSprite.getScale().y * 1.01f);
+                        }
+
+                        // Zapisz aktualne położenie myszy jako poprzednie położenie
+                        prevMousePos = mousePos;
+                    }
                     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L) &&
                             bitmapSprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))) {
 
 
-                            sf::Vector2f mousePosition = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
-                            bitmapSprite.setPosition(mousePosition - sf::Vector2f(bitmapSprite.getGlobalBounds().width / 2, bitmapSprite.getGlobalBounds().height / 2));
+                        sf::Vector2f mousePosition = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
+                        bitmapSprite.setPosition(mousePosition - sf::Vector2f(bitmapSprite.getGlobalBounds().width / 2, bitmapSprite.getGlobalBounds().height / 2));
                     }
-                    }
+                }
             }
 
 
@@ -152,7 +152,7 @@ void Engine::engineLoop() {
         Engine::PrimitiveRenderer::drawLine(pointTriangle1,pointTriangle2, sf::Color::Red);
         Engine::PrimitiveRenderer::drawLine(point5,point6, sf::Color::Blue);
         Engine::PrimitiveRenderer::drawTriangle(pointTriangle1,pointTriangle2,pointTriangle3, sf::Color::Red);
-        Engine::PrimitiveRenderer::drawSquare(pointSquare1,pointSquare2,pointSquare3,pointSquare4,sf::Color::Red);
+        Engine::PrimitiveRenderer::drawSquare(square,sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
 //        Engine::PrimitiveRenderer::fillCircle(pointCircle,50,sf::Color::Red);
@@ -179,7 +179,7 @@ void Engine::engineLoop() {
             _window.close();
         }
 
-        // ruszanie trókątem
+        // ruszanie kwadratem
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             std::cout << "'Down'" << std::endl;
             Engine::PrimitiveRenderer::translateSquare(pointSquare1, pointSquare2, pointSquare3, pointSquare4, 0, 10);
@@ -209,6 +209,11 @@ void Engine::engineLoop() {
         _window.draw(cursor);
 		//mouse test end
 
+
         _window.display();
     }
+
+
+
+
 }

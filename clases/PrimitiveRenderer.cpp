@@ -251,3 +251,13 @@ void Engine::PrimitiveRenderer::translateSquare(Point& pointA, Point& pointB, Po
 
 
 
+void Engine::PrimitiveRenderer::fillSquare(const std::vector<Point>& vertices, sf::Color fillColor, Point& testPoint) {
+    sf::ConvexShape filledSquare;
+    filledSquare.setPointCount(vertices.size());
+    for(int i = 0; i < vertices.size(); i++) {
+        filledSquare.setPoint(i, sf::Vector2f(vertices[i].getCoordinates().first, vertices[i].getCoordinates().second));
+    }
+    filledSquare.setFillColor(sf::Color::Transparent);
+    filledSquare.setFillColor(fillColor);
+    _window.draw(filledSquare);
+}
