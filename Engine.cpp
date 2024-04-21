@@ -42,7 +42,7 @@ void Engine::start() {
 
     // Wczytaj plik bitmapowy
     sf::Texture bitmapTexture;
-    if (!bitmapTexture.loadFromFile("bitmap.bmp")) {
+    if (!bitmapTexture.loadFromFile("/Users/andsol/CLionProjects/silnik2D/bitmap.bmp")) {
         // Obsługa błędu, jeśli wczytanie obrazu nie powiedzie się
         std::cerr << "Failed to load bitmap image!" << std::endl;
         return;
@@ -134,7 +134,7 @@ void Engine::engineLoop() {
                             prevMousePos = mousePos;
                         }
                     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L) &&
-                             bitmapSprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))) {
+                            bitmapSprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))) {
 
 
                             sf::Vector2f mousePosition = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));

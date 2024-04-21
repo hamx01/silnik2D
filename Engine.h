@@ -77,7 +77,7 @@ public:
 
         static void drawCircle(Point& punkt, float R, sf::Color color);
 
-        static void drawCircleSymetric(Point& punkt, int R, sf::Color color);
+        static void drawCircleSymetric(Point& punkt, float R, sf::Color color);
 
         static bool isPointInsideTriangle(const Engine::Point& A, const Engine::Point& B, const Engine::Point& C, const Engine::Point& P);
 

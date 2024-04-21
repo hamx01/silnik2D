@@ -90,15 +90,15 @@ void Engine::PrimitiveRenderer::drawCircle(Engine::Point& punkt, float R, sf::Co
     _window.draw(points);
 }
 
-void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Point& punkt, int R, sf::Color color) {
+void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Point& punkt, float R, sf::Color color) {
     int xc = punkt.getCoordinates().first;
     int yc = punkt.getCoordinates().second;
     sf::VertexArray points(sf::Points);
 
     float step = 1.0f / R;
     for (float a = 0; a <= M_PI / 4; a += step) {
-        int x = static_cast<int>(xc + R * std::cos(a) + 0.5f); // Zaokrąglone X
-        int y = static_cast<int>(yc + R * std::sin(a) + 0.5f); // Zaokrąglone Y
+        int x = static_cast<int>(xc + R * std::cos(a) + 0.5f);
+        int y = static_cast<int>(yc + R * std::sin(a) + 0.5f);
 
         points.append(sf::Vertex(sf::Vector2f(x, y), color));
 
@@ -164,10 +164,8 @@ void Engine::PrimitiveRenderer::fillCircle(const Point& center, float radius, sf
     int xc = center.getCoordinates().first;
     int yc = center.getCoordinates().second;
 
-    // Iterujemy przez każdy punkt wewnątrz koła i rysujemy go
     for (int x = xc - radius; x <= xc + radius; ++x) {
         for (int y = yc - radius; y <= yc + radius; ++y) {
-            // Sprawdzamy czy punkt (x, y) znajduje się wewnątrz koła
             if (std::pow(x - xc, 2) + std::pow(y - yc, 2) <= std::pow(radius, 2)) {
                 drawPoint(Point(x, y), fillColor);
             }
@@ -175,25 +173,7 @@ void Engine::PrimitiveRenderer::fillCircle(const Point& center, float radius, sf
     }
 }
 
-
-//void Engine::PrimitiveRenderer::translateSquare(Point& pointA, Point& pointB, Point& pointC, Point& pointD, float deltaX, float deltaY) {
-//    float ax = pointA.getCoordinates().first;
-//    float ay = pointA.getCoordinates().second;
-//    float bx = pointB.getCoordinates().first;
-//    float by = pointB.getCoordinates().second;
-//    float cx = pointC.getCoordinates().first;
-//    float cy = pointC.getCoordinates().second;
-//    float dx = pointD.getCoordinates().first;
-//    float dy = pointD.getCoordinates().second;
-//
-//    pointA.setCoordinates(ax+deltaX, ay+deltaY);
-//    pointB.setCoordinates(bx+deltaX, by+deltaY);
-//    pointC.setCoordinates(cx+deltaX, cy+deltaY);
-//    pointD.setCoordinates(dx+deltaX, dy+deltaY);
-//}
-
 void Engine::PrimitiveRenderer::translateSquare(Point& pointA, Point& pointB, Point& pointC, Point& pointD, float deltaX, float deltaY) {
-    // Pobierz aktualne współrzędne punktów kwadratu
     float ax = pointA.getCoordinates().first;
     float ay = pointA.getCoordinates().second;
     float bx = pointB.getCoordinates().first;
@@ -203,7 +183,6 @@ void Engine::PrimitiveRenderer::translateSquare(Point& pointA, Point& pointB, Po
     float dx = pointD.getCoordinates().first;
     float dy = pointD.getCoordinates().second;
 
-    // Oblicz nowe współrzędne po przesunięciu
     float newAx = ax + deltaX;
     float newAy = ay + deltaY;
     float newBx = bx + deltaX;
@@ -213,7 +192,6 @@ void Engine::PrimitiveRenderer::translateSquare(Point& pointA, Point& pointB, Po
     float newDx = dx + deltaX;
     float newDy = dy + deltaY;
 
-    // Sprawdź czy nowe współrzędne wypadają poza granice okna
     bool withinBounds = true;
     if (newAx < 0 || newAx > 800 || newBx < 0 || newBx > 800 ||
         newCx < 0 || newCx > 800 || newDx < 0 || newDx > 800 ||
@@ -222,25 +200,14 @@ void Engine::PrimitiveRenderer::translateSquare(Point& pointA, Point& pointB, Po
         withinBounds = false;
     }
 
-    // Jeśli przesunięcie nie wykracza poza granice, zaktualizuj współrzędne punktów
     if (withinBounds) {
         pointA.setCoordinates(newAx, newAy);
         pointB.setCoordinates(newBx, newBy);
         pointC.setCoordinates(newCx, newCy);
         pointD.setCoordinates(newDx, newDy);
     }
-        // Jeśli wykracza poza granice, możesz tutaj obsłużyć tę sytuację (np. zignorować przesunięcie)
     else {
-        // Tutaj możesz umieścić odpowiedni kod obsługujący przekroczenie granic
-        // np. możesz zignorować to przesunięcie lub zmniejszyć przesunięcie tak,
-        // aby punkty były na granicy okna.
-        // Na przykład:
-//         float maxDeltaX = std::min(deltaX, 800 - std::max(ax, std::max(bx, std::max(cx, dx))));
-//         float maxDeltaY = std::min(deltaY, 600 - std::max(ay, std::max(by, std::max(cy, dy))));
-//         pointA.setCoordinates(ax + maxDeltaX, ay + maxDeltaY);
-//         pointB.setCoordinates(bx + maxDeltaX, by + maxDeltaY);
-//         pointC.setCoordinates(cx + maxDeltaX, cy + maxDeltaY);
-//         pointD.setCoordinates(dx + maxDeltaX, dy + maxDeltaY);
+        // tu może być obsługa przekraczania granicy okna
     }
 
     std::cout << "Punkt A - x: " << pointA.getCoordinates().first << "|| y: " << pointA.getCoordinates().second << std::endl;
