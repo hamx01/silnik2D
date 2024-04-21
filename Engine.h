@@ -109,6 +109,7 @@ private:
     static sf::Clock _clock;
     static sf::Sprite bitmapSprite;
     static std::vector<sf::Sprite> sprites; // Deklaracja kontenera sprite'ów
+    static sf::Vector2f prevMousePos; // Deklaracja zmiennej przechowującej poprzednie położenie myszy
 
 
 };

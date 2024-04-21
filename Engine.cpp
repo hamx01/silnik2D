@@ -10,6 +10,7 @@ sf::RenderWindow Engine::_window;
 //sf::Clock Engine::_clock;
 sf::Sprite Engine::bitmapSprite;
 std::vector<sf::Sprite> Engine::sprites; //
+sf::Vector2f Engine::prevMousePos;
 
 
 
@@ -70,9 +71,6 @@ void Engine::engineLoop() {
                                 // Sprawdź, czy kliknięcie nastąpiło na bitmapie
                                 if (bitmapSprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
 
-                                    // Oblicz przesunięcie myszy względem pozycji bitmapy
-                                    float offsetX = event.mouseButton.x - sprite.getPosition().x;
-                                    float offsetY = event.mouseButton.y - sprite.getPosition().y;
                                 }
                             }
                         }
@@ -98,7 +96,7 @@ void Engine::engineLoop() {
                     }
                 }
             }
-            else if (event.type == sf::Event::MouseMoved) {
+            /*else if (event.type == sf::Event::MouseMoved) {
                 // Przeciąganie sprite'a
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
                     bitmapSprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))) {
@@ -106,7 +104,44 @@ void Engine::engineLoop() {
                     sf::Vector2f mousePosition = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
                     bitmapSprite.setPosition(mousePosition - sf::Vector2f(bitmapSprite.getGlobalBounds().width / 2, bitmapSprite.getGlobalBounds().height / 2));
                 }
+            }*/
+            else if (event.type == sf::Event::MouseMoved) {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
+
+                            // Pobierz globalne granice bitmapy
+                            sf::FloatRect bounds = bitmapSprite.getGlobalBounds();
+
+                            // Oblicz przesunięcie myszy względem poprzedniego położenia myszy
+                            sf::Vector2f mousePos = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
+                            sf::Vector2f delta = mousePos - prevMousePos;
+
+                            // Zmień rozmiar bitmapy w zależności od kierunku ruchu myszy
+                            if (delta.x < 0) {
+                                bitmapSprite.setScale(bitmapSprite.getScale().x * 0.99f, bitmapSprite.getScale().y);
+                            } else if (delta.x > 0) {
+                                bitmapSprite.setScale(bitmapSprite.getScale().x * 1.01f, bitmapSprite.getScale().y);
+                            }
+                            if (delta.y < 0) {
+                                bitmapSprite.setScale(bitmapSprite.getScale().x, bitmapSprite.getScale().y * 0.99f);
+                            } else if (delta.y > 0) {
+                                bitmapSprite.setScale(bitmapSprite.getScale().x, bitmapSprite.getScale().y * 1.01f);
+                            }
+
+                            // Zapisz aktualne położenie myszy jako poprzednie położenie
+                            prevMousePos = mousePos;
+                        }
+                    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L) &&
+                             bitmapSprite.getGlobalBounds().contains(sf::Vector2f(event.mouseMove.x, event.mouseMove.y))) {
+
+
+                            sf::Vector2f mousePosition = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
+                            bitmapSprite.setPosition(mousePosition - sf::Vector2f(bitmapSprite.getGlobalBounds().width / 2, bitmapSprite.getGlobalBounds().height / 2));
+                    }
+                    }
             }
+
+
         }
 
         // Test klasy Primitives
