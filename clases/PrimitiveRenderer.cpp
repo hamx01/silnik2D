@@ -247,8 +247,8 @@ void Engine::PrimitiveRenderer::scaleSquare(std::vector<Point>& vertices, float 
         centerX += point.getCoordinates().first;
         centerY += point.getCoordinates().second;
     }
-    centerX /= vertices.size();
-    centerY /= vertices.size();
+    centerX /= float(vertices.size());
+    centerY /= float(vertices.size());
 
     for (auto& point : vertices) {
         float x = point.getCoordinates().first;
@@ -264,10 +264,13 @@ void Engine::PrimitiveRenderer::scaleSquare(std::vector<Point>& vertices, float 
     }
 }
 
-void Engine::PrimitiveRenderer::rotateSquare(std::vector<Point>& vertices, float angle) {
-    if (vertices.size() != 4) return; // Upewnij się, że mamy do czynienia z kwadratem
+void Engine::PrimitiveRenderer::rotatePolygon(std::vector<Point>& vertices, float angle, float deltaTime) {
+    if (vertices.empty()) return;
 
-    // Oblicz środek kwadratu
+    // Normalizacja kąta obrotu w zależności od liczby wierzchołków
+    float normalizedAngle = angle / float(vertices.size());
+
+    // Oblicz środek ciężkości wielokąta
     float centerX = 0.0f;
     float centerY = 0.0f;
     for (const Point& vertex : vertices) {
@@ -275,8 +278,8 @@ void Engine::PrimitiveRenderer::rotateSquare(std::vector<Point>& vertices, float
         centerX += x;
         centerY += y;
     }
-    centerX /= vertices.size();
-    centerY /= vertices.size();
+    centerX /= float(vertices.size());
+    centerY /= float(vertices.size());
 
     // Przekształć każdy wierzchołek
     for (Point& vertex : vertices) {
@@ -286,9 +289,9 @@ void Engine::PrimitiveRenderer::rotateSquare(std::vector<Point>& vertices, float
         x -= centerX;
         y -= centerY;
 
-        // Obróć wierzchołek
-        float rotatedX = x * cos(angle) - y * sin(angle);
-        float rotatedY = x * sin(angle) + y * cos(angle);
+        // Obróć wierzchołek z uwzględnieniem normalizacji i deltaTime
+        float rotatedX = x * cos(normalizedAngle * deltaTime) - y * sin(normalizedAngle * deltaTime);
+        float rotatedY = x * sin(normalizedAngle * deltaTime) + y * cos(normalizedAngle * deltaTime);
 
         // Przesuń wierzchołek z powrotem
         rotatedX += centerX;
@@ -298,5 +301,7 @@ void Engine::PrimitiveRenderer::rotateSquare(std::vector<Point>& vertices, float
         vertex.setCoordinates(rotatedX, rotatedY);
     }
 }
+
+
 
 

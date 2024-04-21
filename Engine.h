@@ -91,7 +91,7 @@ public:
 
         static void scaleSquare(std::vector<Point>& vertices, float scaleFactor);
 
-        static void rotateSquare(std::vector<Point>& vertices, float angle);
+        static void rotatePolygon(std::vector<Point>& vertices, float angle, float deltaTime);
 
 
         static MousePosition getMousePosition(sf::Event event) {
