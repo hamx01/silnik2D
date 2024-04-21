@@ -51,6 +51,8 @@ void Engine::start() {
     // Przypisz teksturę do sprite'a
     bitmapSprite.setTexture(bitmapTexture);
 
+    bitmapSprite.setPosition(0, _window.getSize().y - bitmapSprite.getGlobalBounds().height);
+
     engineLoop();
 }
 
