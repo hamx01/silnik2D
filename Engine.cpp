@@ -45,7 +45,7 @@ void Engine::start() {
 
     // Wczytaj plik bitmapowy
     sf::Texture bitmapTexture;
-    if (!bitmapTexture.loadFromFile("C:\\projekt3\\bitmap.bmp")) {
+    if (!bitmapTexture.loadFromFile("/Users/andsol/CLionProjects/silnik2D/bitmap.bmp")) {
         // Obsługa błędu, jeśli wczytanie obrazu nie powiedzie się
         std::cerr << "Failed to load bitmap image!" << std::endl;
         return;
@@ -134,13 +134,10 @@ void Engine::engineLoop() {
 //        Engine::PrimitiveRenderer::drawPoint(pointTriangle2);
         Engine::PrimitiveRenderer::drawLine(pointTriangle1,pointTriangle2, sf::Color::Red);
         Engine::PrimitiveRenderer::drawLine(point5,point6, sf::Color::Blue);
-        Engine::PrimitiveRenderer::drawTriangle(pointTriangle1,pointTriangle2,pointTriangle3, sf::Color::Red);
+        Engine::PrimitiveRenderer::drawTriangle(triangle, sf::Color::Red);
         Engine::PrimitiveRenderer::drawSquare(square,sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
         Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
-
-        Engine::PrimitiveRenderer::translatePolygon(triangle, -10, 10);
-
 
         if(!isFilled) {
             Engine::PrimitiveRenderer::fillSquare(square, sf::Color::Red, testPoint);

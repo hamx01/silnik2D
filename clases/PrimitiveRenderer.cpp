@@ -63,10 +63,16 @@ void Engine::PrimitiveRenderer::drawLine(const Point& pointA, const Point& point
     }
 }
 
-void Engine::PrimitiveRenderer::drawTriangle(const Point& pointA, const Point& pointB, const Point& pointC, sf::Color color) {
-    drawLine(pointA, pointB, color);
-    drawLine(pointB, pointC, color);
-    drawLine(pointC, pointA, color);
+void Engine::PrimitiveRenderer::drawTriangle(std::vector<Point>& vertices, sf::Color color) {
+    int n = int(vertices.size());
+
+    for(int i = 0; i<n; i++) {
+        if(i < 2) {
+            drawLine(vertices[i], vertices[i+1], color);
+        } else if(i == 2) {
+            drawLine(vertices[i], vertices[0], color);
+        }
+    }
 }
 void Engine::PrimitiveRenderer::drawSquare(std::vector<Point>& vertices, sf::Color color) {
     int n = int(vertices.size());
@@ -211,6 +217,12 @@ void Engine::PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, f
         }
     } else {
         std::cerr << "Przekroczenie granicy okna!" << std::endl;
+    }
+
+    std::cout << "Zaktualizowane współrzędne:" << std::endl;
+    for (const auto& point : vertices) {
+        std::cout << "Punkt - x: " << point.getCoordinates().first
+                  << " || y: " << point.getCoordinates().second << std::endl;
     }
 }
 

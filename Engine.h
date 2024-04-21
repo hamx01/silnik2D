@@ -73,7 +73,7 @@ public:
 
         static void drawSquare(std::vector<Point>& vertices, sf::Color color);
 
-        static void drawTriangle(const Point &pointA, const Point &pointB, const Point &pointC, sf::Color color);
+        static void drawTriangle(std::vector<Point>& vertices, sf::Color color);
 
         static void drawCircle(Point& punkt, float R, sf::Color color);
 
