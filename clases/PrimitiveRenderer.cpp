@@ -18,12 +18,13 @@ void Engine::PrimitiveRenderer::drawPoint(const Point &coordinates, sf::Color co
 //! @param pointB - punkt końcowy linii
 //! @param color - kolor linii
 void Engine::PrimitiveRenderer::drawLine(const Point& pointA, const Point& pointB, sf::Color color) {
-    int dx, dy, kx, ky, e, i;
+    float dx, dy, kx, ky, e;
+    int i;
 
-    int x1 = pointA.getCoordinates().first;
-    int x2 = pointB.getCoordinates().first;
-    int y1 = pointA.getCoordinates().second;
-    int y2 = pointB.getCoordinates().second;
+    float x1 = pointA.getCoordinates().first;
+    float x2 = pointB.getCoordinates().first;
+    float y1 = pointA.getCoordinates().second;
+    float y2 = pointB.getCoordinates().second;
 
     if (x1 <= x2) kx = 1; else kx = -1;
     if (y1 <= y2) ky = 1; else ky = -1;
@@ -37,7 +38,7 @@ void Engine::PrimitiveRenderer::drawLine(const Point& pointA, const Point& point
 
     if (dx >= dy) {
         e = dx / 2;
-        for(i = 0; i < dx; i++) {
+        for(i = 0; float(i) < dx; i++) {
             x1 += kx;
             e -= dy;
             if(e < 0) {
@@ -50,7 +51,7 @@ void Engine::PrimitiveRenderer::drawLine(const Point& pointA, const Point& point
     else
     {
         e = dy / 2;
-        for(i = 0; i < dy; i++) {
+        for(i = 0; float(i) < dy; i++) {
             y1 += ky;
             e -= dx;
             if(e < 0) {
@@ -77,12 +78,12 @@ void Engine::PrimitiveRenderer::drawSquare(const Point& pointA, const Point& poi
 void Engine::PrimitiveRenderer::drawCircle(Engine::Point& punkt, float R, sf::Color color) {
     float step = 1.0f / R;
     sf::VertexArray points(sf::Points);
-    int xc = punkt.getCoordinates().first;
-    int yc = punkt.getCoordinates().second;
+    float xc = punkt.getCoordinates().first;
+    float yc = punkt.getCoordinates().second;
 
     for (float a = 0; a < 2 * M_PI; a += step) {
-        int x = static_cast<int>(xc + R * std::cos(a) + 0.5f);
-        int y = static_cast<int>(yc + R * std::sin(a) + 0.5f);
+        float x = xc + R * std::cos(a) + 0.5f;
+        float y = yc + R * std::sin(a) + 0.5f;
 
         points.append(sf::Vertex(sf::Vector2f(x, y), color));
     }
@@ -90,15 +91,15 @@ void Engine::PrimitiveRenderer::drawCircle(Engine::Point& punkt, float R, sf::Co
     _window.draw(points);
 }
 
-void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Point& punkt, int R, sf::Color color) {
-    int xc = punkt.getCoordinates().first;
-    int yc = punkt.getCoordinates().second;
+void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Point& punkt, float R, sf::Color color) {
+    float xc = punkt.getCoordinates().first;
+    float yc = punkt.getCoordinates().second;
     sf::VertexArray points(sf::Points);
 
     float step = 1.0f / R;
     for (float a = 0; a <= M_PI / 4; a += step) {
-        int x = static_cast<int>(xc + R * std::cos(a) + 0.5f); // Zaokrąglone X
-        int y = static_cast<int>(yc + R * std::sin(a) + 0.5f); // Zaokrąglone Y
+        float x = xc + R * std::cos(a) + 0.5f;
+        float y = yc + R * std::sin(a) + 0.5f;
 
         points.append(sf::Vertex(sf::Vector2f(x, y), color));
 
@@ -113,7 +114,7 @@ void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Point& punkt, int R, 
         }
     }
 
-    int numPoints = points.getVertexCount();
+    int numPoints = int(points.getVertexCount());
     for (int i = 0; i < numPoints; ++i) {
         sf::Vertex vertex = points[i];
         if (vertex.position.x != xc) {
@@ -161,12 +162,12 @@ bool Engine::PrimitiveRenderer::isPointInsidePolygon(const std::vector<Point>& v
 
 
 void Engine::PrimitiveRenderer::fillCircle(const Point& center, float radius, sf::Color fillColor) {
-    int xc = center.getCoordinates().first;
-    int yc = center.getCoordinates().second;
+    float xc = center.getCoordinates().first;
+    float yc = center.getCoordinates().second;
 
     // Iterujemy przez każdy punkt wewnątrz koła i rysujemy go
-    for (int x = xc - radius; x <= xc + radius; ++x) {
-        for (int y = yc - radius; y <= yc + radius; ++y) {
+    for (int x = int(xc - radius); float(x) <= xc + radius; ++x) {
+        for (int y = int(yc - radius); float(y) <= yc + radius; ++y) {
             // Sprawdzamy czy punkt (x, y) znajduje się wewnątrz koła
             if (std::pow(x - xc, 2) + std::pow(y - yc, 2) <= std::pow(radius, 2)) {
                 drawPoint(Point(x, y), fillColor);
