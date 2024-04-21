@@ -181,9 +181,10 @@ void Engine::PrimitiveRenderer::fillCircle(const Point& center, float radius, sf
     }
 }
 
-void Engine::PrimitiveRenderer::translateSquare(std::vector<Point>& vertices, float deltaX, float deltaY) {
+void Engine::PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, float deltaX, float deltaY) {
     bool withinBounds = true;
 
+    // Sprawdzenie, czy po przesunięciu wszystkie wierzchołki będą w granicach okna
     for (auto& point : vertices) {
         float x = point.getCoordinates().first;
         float y = point.getCoordinates().second;
@@ -191,28 +192,28 @@ void Engine::PrimitiveRenderer::translateSquare(std::vector<Point>& vertices, fl
         float newX = x + deltaX;
         float newY = y + deltaY;
 
-        if (newX < 0 || newX > (800) || newY < 0 || newY > (600)) {
+        if (newX < 0 || newX > 800 || newY < 0 || newY > 600) {
             withinBounds = false;
             break;
         }
     }
 
+    // Przesunięcie wierzchołków, jeśli wszystkie są w granicach
     if (withinBounds) {
         for (auto& point : vertices) {
             float x = point.getCoordinates().first;
             float y = point.getCoordinates().second;
-            point.setCoordinates(x + deltaX, y + deltaY);
+
+            float newX = point.getCoordinates().first + deltaX;
+            float newY = point.getCoordinates().second + deltaY;
+
+            point.setCoordinates(newX, newY);
         }
     } else {
         std::cerr << "Przekroczenie granicy okna!" << std::endl;
     }
-
-//    std::cout << "Zaktualizowane współrzędne:" << std::endl;
-//    for (const auto& point : vertices) {
-//        std::cout << "Punkt - x: " << point.getCoordinates().first
-//                  << " || y: " << point.getCoordinates().second << std::endl;
-//    }
 }
+
 
 
 
