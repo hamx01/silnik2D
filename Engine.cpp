@@ -179,7 +179,7 @@ void Engine::engineLoop() {
             _window.close();
         }
 
-        // ruszanie kwadratem
+        // ruszanie trókątem
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             std::cout << "'Down'" << std::endl;
             Engine::PrimitiveRenderer::translateSquare(pointSquare1, pointSquare2, pointSquare3, pointSquare4, 0, 10);

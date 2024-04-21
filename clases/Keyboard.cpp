@@ -6,4 +6,5 @@
 
 bool Engine::Keyboard::isKeyPressed(sf::Keyboard::Key key) {
     return sf::Keyboard::isKeyPressed(key);
+
 }
