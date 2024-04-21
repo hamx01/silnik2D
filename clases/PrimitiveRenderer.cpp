@@ -184,21 +184,6 @@ void Engine::PrimitiveRenderer::fillCircle(const Point& center, float radius, sf
 void Engine::PrimitiveRenderer::translateSquare(std::vector<Point>& vertices, float deltaX, float deltaY) {
     bool withinBounds = true;
 
-    float minX = std::numeric_limits<float>::max();
-    float maxX = std::numeric_limits<float>::min();
-    float minY = std::numeric_limits<float>::max();
-    float maxY = std::numeric_limits<float>::min();
-
-    for (const auto& point : vertices) {
-        float x = point.getCoordinates().first;
-        float y = point.getCoordinates().second;
-
-        if (x < minX) minX = x;
-        if (x > maxX) maxX = x;
-        if (y < minY) minY = y;
-        if (y > maxY) maxY = y;
-    }
-
     for (auto& point : vertices) {
         float x = point.getCoordinates().first;
         float y = point.getCoordinates().second;
@@ -231,37 +216,6 @@ void Engine::PrimitiveRenderer::translateSquare(std::vector<Point>& vertices, fl
 
 
 
-
-
-
-//void Engine::PrimitiveRenderer::dragPolygon(std::vector<Point>& vertices, const Point& P, bool isDragging, MousePosition& lastMousePosition, sf::Event event) {
-//    MousePosition currentMousePosition = getMousePosition(event);
-//
-//    // Oblicz wektor przesunięcia
-//    double dx = currentMousePosition.x - lastMousePosition.x;
-//    double dy = currentMousePosition.y - lastMousePosition.y;
-//
-//    if (isPointInsidePolygon(vertices, P) && !isDragging) {
-//        // Rozpocznij przeciąganie
-//        isDragging = true;
-//    } else if (!isPointInsidePolygon(vertices, P) && isDragging) {
-//        // Zakończ przeciąganie
-//        isDragging = false;
-//    }
-//
-//    if (isDragging) {
-//        // Przesuń wszystkie wierzchołki o wektor przesunięcia
-//        for (auto& vertex : vertices) {
-//            double newX = vertex.getCoordinates().first + dx;
-//            double newY = vertex.getCoordinates().second + dy;
-//            vertex.setCoordinates(float(newX), float(newY));
-//        }
-//    }
-//
-//    // Zaktualizuj ostatnią pozycję myszy
-//    lastMousePosition = currentMousePosition;
-//}
-
 void Engine::PrimitiveRenderer::fillSquare(const std::vector<Point>& vertices, sf::Color fillColor, Point& testPoint) {
     sf::ConvexShape filledSquare;
     filledSquare.setPointCount(vertices.size());
@@ -272,3 +226,64 @@ void Engine::PrimitiveRenderer::fillSquare(const std::vector<Point>& vertices, s
     filledSquare.setFillColor(fillColor);
     _window.draw(filledSquare);
 }
+
+void Engine::PrimitiveRenderer::scaleSquare(std::vector<Point>& vertices, float scaleFactor) {
+    float centerX = 0.0f;
+    float centerY = 0.0f;
+    for (const auto& point : vertices) {
+        centerX += point.getCoordinates().first;
+        centerY += point.getCoordinates().second;
+    }
+    centerX /= vertices.size();
+    centerY /= vertices.size();
+
+    for (auto& point : vertices) {
+        float x = point.getCoordinates().first;
+        float y = point.getCoordinates().second;
+
+        float distX = x - centerX;
+        float distY = y - centerY;
+
+        float scaledDistX = distX * scaleFactor;
+        float scaledDistY = distY * scaleFactor;
+
+        point.setCoordinates(centerX + scaledDistX, centerY + scaledDistY);
+    }
+}
+
+void Engine::PrimitiveRenderer::rotateSquare(std::vector<Point>& vertices, float angle) {
+    if (vertices.size() != 4) return; // Upewnij się, że mamy do czynienia z kwadratem
+
+    // Oblicz środek kwadratu
+    float centerX = 0.0f;
+    float centerY = 0.0f;
+    for (const Point& vertex : vertices) {
+        auto [x, y] = vertex.getCoordinates();
+        centerX += x;
+        centerY += y;
+    }
+    centerX /= vertices.size();
+    centerY /= vertices.size();
+
+    // Przekształć każdy wierzchołek
+    for (Point& vertex : vertices) {
+        auto [x, y] = vertex.getCoordinates();
+
+        // Przesuń wierzchołek do początku układu współrzędnych
+        x -= centerX;
+        y -= centerY;
+
+        // Obróć wierzchołek
+        float rotatedX = x * cos(angle) - y * sin(angle);
+        float rotatedY = x * sin(angle) + y * cos(angle);
+
+        // Przesuń wierzchołek z powrotem
+        rotatedX += centerX;
+        rotatedY += centerY;
+
+        // Ustaw nowe współrzędne wierzchołka
+        vertex.setCoordinates(rotatedX, rotatedY);
+    }
+}
+
+

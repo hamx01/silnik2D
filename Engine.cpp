@@ -143,8 +143,16 @@ void Engine::engineLoop() {
                     }
                 }
             }
-
-
+            else if (event.type == sf::Event::MouseWheelScrolled) {
+                if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+                    if (event.mouseWheelScroll.delta > 0) {
+                        PrimitiveRenderer::scaleSquare(square, 1.1f); // Powiększenie kwadratu o 10%
+                    }
+                    else {
+                        PrimitiveRenderer::scaleSquare(square, 0.9f); // Pomniejszenie kwadratu o 10%
+                    }
+                }
+            }
         }
 
         // Test klasy Primitives
@@ -197,8 +205,13 @@ void Engine::engineLoop() {
             Engine::PrimitiveRenderer::translateSquare(square, 10.0f, 0);
         }
 
-        _window.draw(bitmapSprite);
+        if(Engine::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+            Engine::PrimitiveRenderer::rotateSquare(square, 30.0f);
+        } else if(Engine::Keyboard::isKeyPressed(sf::Keyboard::O)) {
+            Engine::PrimitiveRenderer::rotateSquare(square, -30.0f);
+        }
 
+        _window.draw(bitmapSprite);
 
         // mouse test begin
         sf::Vector2i mousePosition = Mouse::getPosition(_window);
@@ -208,6 +221,7 @@ void Engine::engineLoop() {
         cursor.setPosition(static_cast<sf::Vector2f>(mousePosition));
         _window.draw(cursor);
 		//mouse test end
+
 
 
         _window.display();
