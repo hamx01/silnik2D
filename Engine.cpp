@@ -31,6 +31,8 @@ Engine::Point pointSquare4(350, 200);
 Engine::Point pointCircle(600, 400);
 Engine::Point pointCircleSymetric(400, 400);
 
+bool isFilled = true;
+
 std::vector<Engine::Point> triangle = {pointTriangle1, pointTriangle2, pointTriangle3};
 std::vector<Engine::Point> square = {pointSquare1, pointSquare2, pointSquare3, pointSquare4};
 
@@ -66,28 +68,27 @@ void Engine::engineLoop() {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     testPoint.setCoordinates(float(event.mouseButton.x), float(event.mouseButton.y));
-                    if(Engine::PrimitiveRenderer::isPointInsidePolygon(square, testPoint)) {
-                        std::cout << "Point is inside figure" << std::endl;
-                        for (sf::Sprite &sprite: sprites) {
-                            if (sprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                                // Sprawdź, czy kliknięcie nastąpiło na bitmapie
-                                if (bitmapSprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
 
-                                }
-                            }
-                        }
-                    }
-                    else{
-                        std::cout << "Point is not inside figure" << std::endl;
-                    }
+//                        for (sf::Sprite &sprite: sprites) {
+//                            if (sprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+//                                // Sprawdź, czy kliknięcie nastąpiło na bitmapie
+//                                if (bitmapSprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+//
+//                                }
+//                            }
+//                        }
                 } else if(event.mouseButton.button == sf::Mouse::Right) {
+                    isFilled = false;
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+                        isFilled = true;
+                    }
 //                    Engine::PrimitiveRenderer::MousePosition lastPosition;
 //                    lastPosition.x = 150;
 //                    lastPosition.y = 50;
 //                    Engine::PrimitiveRenderer::dragPolygon(square, testPoint, true, lastPosition, event);
 
                     testPoint.setCoordinates(event.mouseButton.x, event.mouseButton.y);
-                    std::cout << "New coordinates of blue point: X-" << testPoint.getCoordinates().first << " Y-" << testPoint.getCoordinates().second << "\n";
+                    std::cout << "New coordinates of test point: X-" << testPoint.getCoordinates().first << " Y-" << testPoint.getCoordinates().second << "\n";
                 }
 
                 else if (event.type == sf::Event::MouseButtonReleased) {
@@ -159,10 +160,9 @@ void Engine::engineLoop() {
 //        Engine::PrimitiveRenderer::MousePosition position = Engine::PrimitiveRenderer::getMousePosition(event);
 //        std::cout << "x: " << position.x << "\n";
 //        std::cout << "y: " << position.y << "\n";
-
-
-
-
+        if(!isFilled) {
+            Engine::PrimitiveRenderer::fillSquare(square, sf::Color::Red, testPoint);
+        }
 
         // Testowanie klasy Keyboard
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
@@ -182,19 +182,19 @@ void Engine::engineLoop() {
         // ruszanie trókątem
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             std::cout << "'Down'" << std::endl;
-            Engine::PrimitiveRenderer::translateSquare(pointSquare1, pointSquare2, pointSquare3, pointSquare4, 0, 10);
+            Engine::PrimitiveRenderer::translateSquare(square, 0, 10.0f);
         }
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             std::cout << "'Up'" << std::endl;
-            Engine::PrimitiveRenderer::translateSquare(pointSquare1, pointSquare2, pointSquare3, pointSquare4, 0, -10);
+            Engine::PrimitiveRenderer::translateSquare(square, 0, -10.0f);
         }
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             std::cout << "'Left'" << std::endl;
-            Engine::PrimitiveRenderer::translateSquare(pointSquare1, pointSquare2, pointSquare3, pointSquare4, -10, 0);
+            Engine::PrimitiveRenderer::translateSquare(square, -10.0f, 0);
         }
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
             std::cout << "'Right'" << std::endl;
-            Engine::PrimitiveRenderer::translateSquare(pointSquare1, pointSquare2, pointSquare3, pointSquare4, 10, 0);
+            Engine::PrimitiveRenderer::translateSquare(square, 10.0f, 0);
         }
 
         _window.draw(bitmapSprite);
