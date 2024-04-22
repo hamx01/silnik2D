@@ -1,7 +1,3 @@
-//
-// Created by asoli on 22.04.2024.
-//
-
 #include "../headers/Square.h"
 
 void Square::draw() {

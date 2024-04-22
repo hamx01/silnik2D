@@ -1,7 +1,3 @@
-//
-// Created by asoli on 22.04.2024.
-//
-
 #ifndef SILNIK2D_SQUARE_H
 #define SILNIK2D_SQUARE_H
 

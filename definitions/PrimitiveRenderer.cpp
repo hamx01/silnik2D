@@ -214,7 +214,7 @@ void Engine::PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, f
         std::cerr << "Przekroczenie granicy okna!" << std::endl;
     }
 
-    std::cout << "Zaktualizowane współrzędne:" << std::endl;
+    std::cout << "Zaktualizowane wspolrzedne:" << std::endl;
     for (const auto& point : vertices) {
         std::cout << "Punkt - x: " << point.getCoordinates().first
                   << " || y: " << point.getCoordinates().second << std::endl;

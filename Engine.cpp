@@ -37,13 +37,6 @@ Engine::Point pointCircleSymetric(400, 400);
 Square square(Engine::Point(200.0, 200.0), Engine::Point(200.0, 50), Engine::Point(350.0, 50), Engine::Point(350, 200));
 Triangle triangle(Engine::Point(310.0, 319.0), Engine::Point(598.0, 316.0), Engine::Point(427.0, 177.0));
 
-
-
-bool isFilled = true;
-
-//std::vector<Engine::Point> triangle = {pointTriangle1, pointTriangle2, pointTriangle3};
-//std::vector<Engine::Point> square = {pointSquare1, pointSquare2, pointSquare3, pointSquare4};
-
 void Engine::start() {
     if (_window.isOpen()) return;
 
@@ -77,17 +70,6 @@ void Engine::engineLoop() {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     testPoint.setCoordinates(float(event.mouseButton.x), float(event.mouseButton.y));
-                } else if(event.mouseButton.button == sf::Mouse::Right) {
-                    testPoint.setCoordinates(float(event.mouseButton.x), float(event.mouseButton.y));
-                    std::cout << "New coordinates of test point: X-" << testPoint.getCoordinates().first << " Y-" << testPoint.getCoordinates().second << "\n";
-                }
-
-                else if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-//                        if (Engine::PrimitiveRenderer::isPointInsidePolygon(square, testPoint)) {
-//                            std::cout << "Point is inside figure" << std::endl;
-//                        }
-                    }
                 }
             }
             else if (event.type == sf::Event::MouseMoved) {
@@ -113,9 +95,7 @@ void Engine::engineLoop() {
                         prevMousePos = mousePos;
                     }
                     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L) &&
-                            bitmapSprite.getGlobalBounds().contains(sf::Vector2f(float(event.mouseMove.x), float(event.mouseMove.y)))) {
-
-
+                        bitmapSprite.getGlobalBounds().contains(sf::Vector2f(float(event.mouseMove.x), float(event.mouseMove.y)))) {
                         sf::Vector2f mousePosition = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
                         bitmapSprite.setPosition(mousePosition - sf::Vector2f(bitmapSprite.getGlobalBounds().width / 2, bitmapSprite.getGlobalBounds().height / 2));
                     }
@@ -133,8 +113,6 @@ void Engine::engineLoop() {
 //        Engine::PrimitiveRenderer::drawSquare(square,sf::Color::Red);
 //        Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
 //        Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
-        square.draw(sf::Color::Blue);
-        triangle.draw(sf::Color::Green);
 
 
         if(Engine::Keyboard::isKeyPressed(sf::Keyboard::F1)) {
@@ -143,8 +121,6 @@ void Engine::engineLoop() {
         if(Engine::Keyboard::isKeyPressed(sf::Keyboard::F2)) {
             wybor = sf::Keyboard::F2;
         }
-
-
 
         switch(wybor) {
             case sf::Keyboard::F1:
@@ -221,21 +197,10 @@ void Engine::engineLoop() {
                 break;
         }
 
-
-
-
+        square.draw(sf::Color::Blue);
+        triangle.draw(sf::Color::Green);
 
         _window.draw(bitmapSprite);
-
-        // mouse test begin
-        sf::Vector2i mousePosition = Mouse::getPosition(_window);
-        sf::CircleShape cursor(5.f);
-        cursor.setFillColor(sf::Color::Red);
-        cursor.setPosition(static_cast<sf::Vector2f>(mousePosition));
-        _window.draw(cursor);
-		//mouse test end
-
-
 
         _window.display();
     }
