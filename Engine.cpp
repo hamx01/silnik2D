@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include "Engine.h"
+#include "headers/Triangle.h"
 #include "headers/Square.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -34,12 +35,13 @@ Engine::Point pointCircle(600, 400);
 Engine::Point pointCircleSymetric(400, 400);
 
 Square square(Engine::Point(200.0, 200.0), Engine::Point(200.0, 50), Engine::Point(350.0, 50), Engine::Point(350, 200));
+Triangle triangle(Engine::Point(310.0, 319.0), Engine::Point(598.0, 316.0), Engine::Point(427.0, 177.0));
 
 
 
 bool isFilled = true;
 
-std::vector<Engine::Point> triangle = {pointTriangle1, pointTriangle2, pointTriangle3};
+//std::vector<Engine::Point> triangle = {pointTriangle1, pointTriangle2, pointTriangle3};
 //std::vector<Engine::Point> square = {pointSquare1, pointSquare2, pointSquare3, pointSquare4};
 
 void Engine::start() {
@@ -131,8 +133,8 @@ void Engine::engineLoop() {
 //        Engine::PrimitiveRenderer::drawSquare(square,sf::Color::Red);
 //        Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
 //        Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
-    square.draw(sf::Color::Blue);
-
+        square.draw(sf::Color::Blue);
+        triangle.draw(sf::Color::Green);
 
 
         if(Engine::Keyboard::isKeyPressed(sf::Keyboard::F1)) {
@@ -142,57 +144,86 @@ void Engine::engineLoop() {
             wybor = sf::Keyboard::F2;
         }
 
+
+
         switch(wybor) {
             case sf::Keyboard::F1:
-                if(Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    std::cout << "'Down'" << std::endl;
+                //ruszanie kwadratem
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                     square.moveDown();
+                }
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::U)) {
+                    square.moveUp();
+                }
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                    square.moveLeft();
+                }
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+                    square.moveRight();
+                }
+                if(Engine::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+                    square.rotateRight(deltaTime);
+                } else if(Engine::Keyboard::isKeyPressed(sf::Keyboard::O)) {
+                    square.rotateLeft(deltaTime);
+                }
+                if (event.type == sf::Event::MouseWheelScrolled) {
+                    if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+                        if (event.mouseWheelScroll.delta > 0) {
+                            square.increaseSize();
+                        }
+                        else {
+                            square.decreaseSize();
+                        }
+                    }
+                }
+                if(event.mouseButton.button == sf::Mouse::Right) {
+                    square.fill();
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+                    square.unfill();
+                    }
                 }
                 break;
             case sf::Keyboard::F2:
                 //ruszanie trójkątem
                 if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    std::cout << "'Down'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(triangle, 0, 10.0f);
+                    triangle.moveDown();
                 }
                 if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    std::cout << "'Up'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(triangle, 0, -10.0f);
+                    triangle.moveUp();
                 }
                 if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    std::cout << "'Left'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(triangle, -10.0f, 0);
+                    triangle.moveLeft();
                 }
                 if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    std::cout << "'Right'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(triangle, 10.0f, 0);
+                    triangle.moveRight();
                 }
                 if(Engine::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-                    Engine::PrimitiveRenderer::rotatePolygon(triangle, 30.0f, deltaTime);
+                    triangle.rotateRight(deltaTime);
                 } else if(Engine::Keyboard::isKeyPressed(sf::Keyboard::O)) {
-                    Engine::PrimitiveRenderer::rotatePolygon(triangle, -30.0f, deltaTime);
+                    triangle.rotateLeft(deltaTime);
                 }
                 if (event.type == sf::Event::MouseWheelScrolled) {
                     if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
                         if (event.mouseWheelScroll.delta > 0) {
-                            PrimitiveRenderer::scalePolygon(triangle, 1.1f); // Powiększenie kwadratu o 10%
+                            triangle.increaseSize();
                         }
                         else {
-                            PrimitiveRenderer::scalePolygon(triangle, 0.9f); // Pomniejszenie kwadratu o 10%
+                            triangle.decreaseSize();
                         }
                     }
                 }
                 if(event.mouseButton.button == sf::Mouse::Right) {
-                    isFilled = false;
+                    triangle.fill();
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
-                        isFilled = true;
+                        triangle.unfill();
                     }
-                }
-                if(!isFilled) {
-                    Engine::PrimitiveRenderer::fillSquare(triangle, sf::Color::Red, testPoint);
                 }
                 break;
         }
+
+
+
+
 
         _window.draw(bitmapSprite);
 

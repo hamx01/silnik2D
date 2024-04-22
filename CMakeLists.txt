@@ -15,6 +15,8 @@ add_executable(silnik2D main.cpp
         headers/Figure.h
         headers/Square.h
         definitions/Square.cpp
+        definitions/Triangle.cpp
+        definitions/Triangle.h
 )
 
 if(WIN32)

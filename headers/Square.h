@@ -9,19 +9,8 @@
 #include "../Engine.h"
 
 class Square : public Figure {
-private:
-    Engine::Point p1;
-    Engine::Point p2;
-    Engine::Point p3;
-    Engine::Point p4;
-    std::vector<Engine::Point> points;
 public:
-    Square(
-            Engine::Point p1,
-            Engine::Point p2,
-            Engine::Point p3,
-            Engine::Point p4) : p1(p1), p2(p2), p3(p3), p4(p4)
-    {
+    Square(Engine::Point p1, Engine::Point p2, Engine::Point p3, Engine::Point p4) {
         points = {p1, p2, p3, p4};
     }
     void draw() override;

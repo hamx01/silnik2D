@@ -76,7 +76,7 @@ public:
 
         static void translatePolygon(std::vector<Point>& vertices, float deltaX, float deltaY);
 
-        static void fillSquare(const std::vector<Point>& vertices, sf::Color fillColor, Point& testPoint);
+        static void fillSquare(const std::vector<Point>& vertices, sf::Color fillColor);
 
         static void scalePolygon(std::vector<Point>& vertices, float scaleFactor);
 

@@ -2,17 +2,17 @@
 // Created by asoli on 22.04.2024.
 //
 
-#include "../headers/Square.h"
+#include "../headers/Triangle.h"
 
-void Square::draw() {
-    Engine::PrimitiveRenderer::drawSquare(points, sf::Color::White);
+void Triangle::draw() {
+    Engine::PrimitiveRenderer::drawTriangle(points, sf::Color::White);
     if(isFilled) {
         Engine::PrimitiveRenderer::fillSquare(points, sf::Color::White);
     }
 }
 
-void Square::draw(sf::Color color) {
-    Engine::PrimitiveRenderer::drawSquare(points, color);
+void Triangle::draw(sf::Color color) {
+    Engine::PrimitiveRenderer::drawTriangle(points, color);
     if(isFilled) {
         Engine::PrimitiveRenderer::fillSquare(points, color);
     }

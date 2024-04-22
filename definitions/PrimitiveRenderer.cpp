@@ -227,7 +227,7 @@ void Engine::PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, f
 
 
 
-void Engine::PrimitiveRenderer::fillSquare(const std::vector<Point>& vertices, sf::Color fillColor, Point& testPoint) {
+void Engine::PrimitiveRenderer::fillSquare(const std::vector<Point>& vertices, sf::Color fillColor) {
     sf::ConvexShape filledSquare;
     filledSquare.setPointCount(vertices.size());
     for(int i = 0; i < vertices.size(); i++) {

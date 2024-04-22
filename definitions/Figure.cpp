@@ -33,6 +33,10 @@ void Figure::decreaseSize() {
     Engine::PrimitiveRenderer::scalePolygon(points, 0.9f);
 }
 
-void Figure::fill(Engine::Point &testPoint) {
-    Engine::PrimitiveRenderer::fillSquare(points, sf::Color::Red, testPoint);
+void Figure::fill() {
+    isFilled = true;
+}
+
+void Figure::unfill() {
+    isFilled = false;
 }

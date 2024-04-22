@@ -23,8 +23,8 @@ public:
     virtual void rotateRight(float deltaTime);
     virtual void increaseSize();
     virtual void decreaseSize();
-    void fill(Engine::Point &testPoint);
-//    virtual void unfill() = 0;
+    virtual void fill();
+    virtual void unfill();
 };
 
 
