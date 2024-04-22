@@ -58,6 +58,67 @@ public:
         void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
     };
+    class AnimatedCharacter {
+    public:
+        AnimatedCharacter(std::vector<std::string> walkFrames, std::vector<std::string> idleFrames, float posX, float posY)
+                : walkFrames_(std::move(walkFrames)), idleFrames_(std::move(idleFrames)) {
+            currentFrameIndex_ = 0;
+            frameDuration_ = sf::seconds(0.1f);
+            animationClock_.restart();
+
+            characterSprite_.setPosition(posX, posY);
+            // Wczytaj pierwszą klatkę animacji (idle)
+            if (!idleFrames_.empty()) {
+                characterTexture_.loadFromFile(idleFrames_[0]);
+                characterSprite_.setTexture(characterTexture_);
+            }
+        }
+
+        void update() {
+            // Sprawdź, czy czas upłynął, aby przejść do kolejnej klatki animacji
+            if (animationClock_.getElapsedTime() >= frameDuration_) {
+                // Wybierz odpowiedni zestaw klatek animacji
+                const std::vector<std::string>& frames = isWalking_ ? walkFrames_ : idleFrames_;
+                // Przełącz na kolejną klatkę animacji
+                currentFrameIndex_ = (currentFrameIndex_ + 1) % frames.size();
+                characterTexture_.loadFromFile(frames[currentFrameIndex_]);
+                characterSprite_.setTexture(characterTexture_);
+                // Zresetuj zegar animacji
+                animationClock_.restart();
+            }
+        }
+
+        void setWalking(bool isWalking) {
+            isWalking_ = isWalking;
+        }
+
+        sf::Sprite& getSprite() {
+            return characterSprite_;
+        }
+
+    private:
+        std::vector<std::string> walkFrames_;
+        std::vector<std::string> idleFrames_;
+        sf::Sprite characterSprite_;
+        sf::Texture characterTexture_;
+        sf::Clock animationClock_;
+        sf::Time frameDuration_;
+        int currentFrameIndex_;
+        bool isWalking_;
+    };
+
+    class CharacterController {
+    private:
+        sf::Sprite& characterSprite;
+
+    public:
+        CharacterController(sf::Sprite& characterSprite) : characterSprite(characterSprite) {}
+
+        void move(float deltaX, float deltaY) {
+            characterSprite.move(deltaX, deltaY);
+        }
+    };
+
     class PrimitiveRenderer {
     public:
 
@@ -71,7 +132,7 @@ public:
 
         static void drawLine(const Point &pointA, const Point &pointB, sf::Color color);
 
-        static void drawSquare(const Point &pointA, const Point &pointB, const Point &pointC, const Point &pointD, sf::Color color);
+        static void drawSquare(std::vector<Point>& vertices, sf::Color color);
 
         static void drawTriangle(const Point &pointA, const Point &pointB, const Point &pointC, sf::Color color);
 
@@ -87,7 +148,9 @@ public:
 
         static bool isPointInsidePolygon(const std::vector<Point>& vertices, const Point& P);
 
-        static void translateSquare(Point& pointA, Point& pointB, Point& pointC, Point& pointD, float deltaX, float deltaY);
+        static void translateSquare(std::vector<Point>& vertices, float deltaX, float deltaY);
+
+        static void fillSquare(const std::vector<Point>& vertices, sf::Color fillColor, Point& testPoint);
 
         static void dragPolygonDown(std::vector<Point>& vertices) {
             for (Point &vertex: vertices) {
@@ -110,7 +173,10 @@ private:
     static sf::Sprite bitmapSprite;
     static std::vector<sf::Sprite> sprites; // Deklaracja kontenera sprite'ów
     static sf::Vector2f prevMousePos; // Deklaracja zmiennej przechowującej poprzednie położenie myszy
-
+    static std::vector<std::string> walkFrames; // Declare walkFrames as a static member
+    static std::vector<std::string> idleFrames; // Declare idleFrames as a static member
+    static AnimatedCharacter character; // Declare AnimatedCharacter object
+    static CharacterController characterController; // Declare CharacterController object
 
 };
 

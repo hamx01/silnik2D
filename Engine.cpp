@@ -14,6 +14,7 @@ sf::Vector2f Engine::prevMousePos;
 std::vector<std::string> Engine::walkFrames;
 std::vector<std::string> Engine::idleFrames;
 Engine::AnimatedCharacter Engine::character(walkFrames, idleFrames, 100.0f, 100.0f); // Provide the required arguments
+Engine::CharacterController Engine::characterController{character.getSprite()};
 
 
 Engine::Point pointTriangle1(310.0, 319.0);
@@ -59,7 +60,7 @@ void Engine::start() {
 
 
     std::vector<std::string> walkFrames;
-    for (int i = 0; i < 8; ++i) {
+    for (int i = 0; i < 10; ++i) {
         walkFrames.push_back("Sprites\\HeroKnight\\Run\\HeroKnight_Run_" + std::to_string(i) + ".png");
     }
 
@@ -161,6 +162,40 @@ void Engine::engineLoop() {
                 }
             }
 
+                // W głównej pętli gry, zmodyfikujmy obsługę poruszania postacią, aby używała klawiszy H, J, K, L
+            else if (Engine::Keyboard::isKeyPressed(sf::Keyboard::H) ||
+                     Engine::Keyboard::isKeyPressed(sf::Keyboard::U) ||
+                     Engine::Keyboard::isKeyPressed(sf::Keyboard::J) ||
+                     Engine::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+                character.setWalking(true);
+                float deltaX = 0.0f;
+                float deltaY = 0.0f;
+
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::J)) {
+                    std::cout << "'J' - Move Down" << std::endl;
+                    deltaY += 3.0f;
+                }
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::U)) {
+                    std::cout << "'U' - Move Up" << std::endl;
+                    deltaY -= 3.0f;
+                }
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::H)) {
+                    std::cout << "'H' - Move Left" << std::endl;
+                    deltaX -= 3.0f;
+
+                }
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+                    std::cout << "'K' - Move Right" << std::endl;
+                    deltaX += 3.0f;
+                }
+
+                // Przesuwamy postać używając CharacterController
+                characterController.move(deltaX, deltaY);
+
+            }
+            else {
+                character.setWalking(false); // Ustawia postać na stan spoczynku
+            }
 
         }
 
