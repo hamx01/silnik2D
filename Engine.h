@@ -93,7 +93,6 @@ public:
 
         static void rotatePolygon(std::vector<Point>& vertices, float angle, float deltaTime);
 
-
         static MousePosition getMousePosition(sf::Event event) {
             MousePosition position{};
             position.x = event.mouseMove.x;

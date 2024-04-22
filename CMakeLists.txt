@@ -11,6 +11,8 @@ add_executable(silnik2D main.cpp
         clases/Mouse.cpp
         clases/Point.cpp
         clases/PrimitiveRenderer.cpp
+        clases/Figure.cpp
+        headers/Figure.h
 )
 
 if(WIN32)
