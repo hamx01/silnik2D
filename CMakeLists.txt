@@ -12,11 +12,11 @@ add_executable(silnik2D main.cpp
         definitions/Point.cpp
         definitions/PrimitiveRenderer.cpp
         definitions/Figure.cpp
-        headers/Figure.h
-        headers/Square.h
         definitions/Square.cpp
         definitions/Triangle.cpp
-        definitions/Triangle.h
+        headers/Figure.h
+        headers/Square.h
+        headers/Triangle.h
 )
 
 if(WIN32)
