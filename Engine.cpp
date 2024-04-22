@@ -152,7 +152,7 @@ void Engine::engineLoop() {
                 if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                     square.moveDown();
                 }
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::U)) {
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
                     square.moveUp();
                 }
                 if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Left)) {

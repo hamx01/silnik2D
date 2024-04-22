@@ -205,9 +205,6 @@ void Engine::PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, f
     // Przesunięcie wierzchołków, jeśli wszystkie są w granicach
     if (withinBounds) {
         for (auto& point : vertices) {
-            float x = point.getCoordinates().first;
-            float y = point.getCoordinates().second;
-
             float newX = point.getCoordinates().first + deltaX;
             float newY = point.getCoordinates().second + deltaY;
 
