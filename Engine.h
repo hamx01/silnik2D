@@ -34,20 +34,9 @@ public:
         float y;
         sf::CircleShape shape;
     public:
-        Point(float x, float y) {
-            shape.setPosition(x, y);
-            this->x = x;
-            this->y = y;
-            this->shape = sf::CircleShape(5.0f);
-        }
+        Point(float x, float y);
 
-        Point(float x, float y, sf::Color color) {
-            shape.setPosition(x, y);
-            shape.setRadius(5.0f);
-            shape.setFillColor(color);
-            this->x = x;
-            this->y = y;
-        }
+        Point(float x, float y, sf::Color color);
 
         std::pair<float, float> getCoordinates() const;
 
@@ -89,7 +78,7 @@ public:
 
         static void fillSquare(const std::vector<Point>& vertices, sf::Color fillColor, Point& testPoint);
 
-        static void scaleSquare(std::vector<Point>& vertices, float scaleFactor);
+        static void scalePolygon(std::vector<Point>& vertices, float scaleFactor);
 
         static void rotatePolygon(std::vector<Point>& vertices, float angle, float deltaTime);
 

@@ -238,7 +238,7 @@ void Engine::PrimitiveRenderer::fillSquare(const std::vector<Point>& vertices, s
     _window.draw(filledSquare);
 }
 
-void Engine::PrimitiveRenderer::scaleSquare(std::vector<Point>& vertices, float scaleFactor) {
+void Engine::PrimitiveRenderer::scalePolygon(std::vector<Point>& vertices, float scaleFactor) {
     float centerX = 0.0f;
     float centerY = 0.0f;
     for (const auto& point : vertices) {

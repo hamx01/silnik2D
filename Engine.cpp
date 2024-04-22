@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include "Engine.h"
+#include "headers/Square.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 
@@ -32,10 +33,14 @@ Engine::Point pointSquare4(350, 200);
 Engine::Point pointCircle(600, 400);
 Engine::Point pointCircleSymetric(400, 400);
 
+Square square(Engine::Point(200.0, 200.0), Engine::Point(200.0, 50), Engine::Point(350.0, 50), Engine::Point(350, 200));
+
+
+
 bool isFilled = true;
 
 std::vector<Engine::Point> triangle = {pointTriangle1, pointTriangle2, pointTriangle3};
-std::vector<Engine::Point> square = {pointSquare1, pointSquare2, pointSquare3, pointSquare4};
+//std::vector<Engine::Point> square = {pointSquare1, pointSquare2, pointSquare3, pointSquare4};
 
 void Engine::start() {
     if (_window.isOpen()) return;
@@ -77,9 +82,9 @@ void Engine::engineLoop() {
 
                 else if (event.type == sf::Event::MouseButtonReleased) {
                     if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (Engine::PrimitiveRenderer::isPointInsidePolygon(square, testPoint)) {
-                            std::cout << "Point is inside figure" << std::endl;
-                        }
+//                        if (Engine::PrimitiveRenderer::isPointInsidePolygon(square, testPoint)) {
+//                            std::cout << "Point is inside figure" << std::endl;
+//                        }
                     }
                 }
             }
@@ -119,12 +124,14 @@ void Engine::engineLoop() {
         // Test klasy Primitives
 //        Engine::PrimitiveRenderer::drawPoint(pointTriangle1);
 //        Engine::PrimitiveRenderer::drawPoint(pointTriangle2);
-        Engine::PrimitiveRenderer::drawLine(pointTriangle1,pointTriangle2, sf::Color::Red);
-        Engine::PrimitiveRenderer::drawLine(point5,point6, sf::Color::Blue);
-        Engine::PrimitiveRenderer::drawTriangle(triangle, sf::Color::Red);
-        Engine::PrimitiveRenderer::drawSquare(square,sf::Color::Red);
-        Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
-        Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
+
+//        Engine::PrimitiveRenderer::drawLine(pointTriangle1,pointTriangle2, sf::Color::Red);
+//        Engine::PrimitiveRenderer::drawLine(point5,point6, sf::Color::Blue);
+//        Engine::PrimitiveRenderer::drawTriangle(triangle, sf::Color::Red);
+//        Engine::PrimitiveRenderer::drawSquare(square,sf::Color::Red);
+//        Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
+//        Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
+    square.draw(sf::Color::Blue);
 
 
 
@@ -137,46 +144,9 @@ void Engine::engineLoop() {
 
         switch(wybor) {
             case sf::Keyboard::F1:
-                // ruszanie kwadratem
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                if(Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                     std::cout << "'Down'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(square, 0, 10.0f);
-                }
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    std::cout << "'Up'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(square, 0, -10.0f);
-                }
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    std::cout << "'Left'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(square, -10.0f, 0);
-                }
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    std::cout << "'Right'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(square, 10.0f, 0);
-                }
-                if(Engine::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-                    Engine::PrimitiveRenderer::rotatePolygon(square, 30.0f, deltaTime);
-                } else if(Engine::Keyboard::isKeyPressed(sf::Keyboard::O)) {
-                    Engine::PrimitiveRenderer::rotatePolygon(square, -30.0f, deltaTime);
-                }
-                if (event.type == sf::Event::MouseWheelScrolled) {
-                    if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
-                        if (event.mouseWheelScroll.delta > 0) {
-                            PrimitiveRenderer::scaleSquare(square, 1.1f); // Powiększenie kwadratu o 10%
-                        }
-                        else {
-                            PrimitiveRenderer::scaleSquare(square, 0.9f); // Pomniejszenie kwadratu o 10%
-                        }
-                    }
-                }
-                if(event.mouseButton.button == sf::Mouse::Right) {
-                    isFilled = false;
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
-                        isFilled = true;
-                    }
-                }
-                if(!isFilled) {
-                    Engine::PrimitiveRenderer::fillSquare(square, sf::Color::Red, testPoint);
+                    square.moveDown();
                 }
                 break;
             case sf::Keyboard::F2:
@@ -205,10 +175,10 @@ void Engine::engineLoop() {
                 if (event.type == sf::Event::MouseWheelScrolled) {
                     if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
                         if (event.mouseWheelScroll.delta > 0) {
-                            PrimitiveRenderer::scaleSquare(triangle, 1.1f); // Powiększenie kwadratu o 10%
+                            PrimitiveRenderer::scalePolygon(triangle, 1.1f); // Powiększenie kwadratu o 10%
                         }
                         else {
-                            PrimitiveRenderer::scaleSquare(triangle, 0.9f); // Pomniejszenie kwadratu o 10%
+                            PrimitiveRenderer::scalePolygon(triangle, 0.9f); // Pomniejszenie kwadratu o 10%
                         }
                     }
                 }

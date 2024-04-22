@@ -22,3 +22,18 @@ void Engine::Point::draw(sf::RenderTarget &target, sf::RenderStates states) cons
     states.transform *= getTransform();
     target.draw(shape, states);
 }
+
+Engine::Point::Point(float x, float y) {
+    shape.setPosition(x, y);
+    this->x = x;
+    this->y = y;
+    this->shape = sf::CircleShape(5.0f);
+}
+
+Engine::Point::Point(float x, float y, sf::Color color) {
+    shape.setPosition(x, y);
+    shape.setRadius(5.0f);
+    shape.setFillColor(color);
+    this->x = x;
+    this->y = y;
+}
