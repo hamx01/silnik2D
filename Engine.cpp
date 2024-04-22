@@ -47,7 +47,7 @@ void Engine::start() {
 
     // Wczytaj plik bitmapowy
     sf::Texture bitmapTexture;
-    if (!bitmapTexture.loadFromFile("bitmap.bmp")) {
+    if (!bitmapTexture.loadFromFile("../bitmap.bmp")) {
         // Obsługa błędu, jeśli wczytanie obrazu nie powiedzie się
         std::cerr << "Failed to load bitmap image!" << std::endl;
         return;
@@ -61,13 +61,13 @@ void Engine::start() {
 
     std::vector<std::string> walkFrames;
     for (int i = 0; i < 10; ++i) {
-        walkFrames.push_back("Sprites\\HeroKnight\\Run\\HeroKnight_Run_" + std::to_string(i) + ".png");
+        walkFrames.push_back("../Sprites/HeroKnight/Run/HeroKnight_Run_" + std::to_string(i) + ".png");
     }
 
 // Wczytaj tekstury klatek animacji stanu spoczynku (idle)
     std::vector<std::string> idleFrames;
     for (int i = 0; i < 8; ++i) {
-        idleFrames.push_back("Sprites\\HeroKnight\\Idle\\HeroKnight_Idle_" + std::to_string(i) + ".png");
+        idleFrames.push_back("../Sprites/HeroKnight/Idle/HeroKnight_Idle_" + std::to_string(i) + ".png");
     }
     // Create the AnimatedCharacter object
     character = AnimatedCharacter(walkFrames, idleFrames, 100, 100);
@@ -212,9 +212,9 @@ void Engine::engineLoop() {
 //        Engine::PrimitiveRenderer::MousePosition position = Engine::PrimitiveRenderer::getMousePosition(event);
 //        std::cout << "x: " << position.x << "\n";
 //        std::cout << "y: " << position.y << "\n";
-        if(!isFilled) {
-            Engine::PrimitiveRenderer::fillSquare(square, sf::Color::Red, testPoint);
-        }
+//        if(!isFilled) {
+//            Engine::PrimitiveRenderer::fillSquare(square, sf::Color::Red, testPoint);
+//        }
 
         // Testowanie klasy Keyboard
         if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Q)) {

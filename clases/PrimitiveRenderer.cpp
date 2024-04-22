@@ -68,11 +68,16 @@ void Engine::PrimitiveRenderer::drawTriangle(const Point& pointA, const Point& p
     drawLine(pointB, pointC, color);
     drawLine(pointC, pointA, color);
 }
-void Engine::PrimitiveRenderer::drawSquare(const Point& pointA, const Point& pointB, const Point& pointC, const Point& pointD, sf::Color color) {
-    drawLine(pointA, pointB, color);
-    drawLine(pointB, pointC, color);
-    drawLine(pointC, pointD, color);
-    drawLine(pointD, pointA, color);
+void Engine::PrimitiveRenderer::drawSquare(std::vector<Point>& vertices, sf::Color color) {
+    int n = int(vertices.size());
+
+    for(int i = 0; i<n; i++) {
+        if(i < 3) {
+            drawLine(vertices[i], vertices[i+1], color);
+        } else if(i == 3) {
+            drawLine(vertices[i], vertices[0], color);
+        }
+    }
 }
 
 void Engine::PrimitiveRenderer::drawCircle(Engine::Point& punkt, float R, sf::Color color) {
@@ -176,47 +181,43 @@ void Engine::PrimitiveRenderer::fillCircle(const Point& center, float radius, sf
     }
 }
 
-void Engine::PrimitiveRenderer::translateSquare(Point& pointA, Point& pointB, Point& pointC, Point& pointD, float deltaX, float deltaY) {
-    float ax = pointA.getCoordinates().first;
-    float ay = pointA.getCoordinates().second;
-    float bx = pointB.getCoordinates().first;
-    float by = pointB.getCoordinates().second;
-    float cx = pointC.getCoordinates().first;
-    float cy = pointC.getCoordinates().second;
-    float dx = pointD.getCoordinates().first;
-    float dy = pointD.getCoordinates().second;
-
-    float newAx = ax + deltaX;
-    float newAy = ay + deltaY;
-    float newBx = bx + deltaX;
-    float newBy = by + deltaY;
-    float newCx = cx + deltaX;
-    float newCy = cy + deltaY;
-    float newDx = dx + deltaX;
-    float newDy = dy + deltaY;
-
+void Engine::PrimitiveRenderer::translateSquare(std::vector<Point>& vertices, float deltaX, float deltaY) {
     bool withinBounds = true;
-    if (newAx < 0 || newAx > 800 || newBx < 0 || newBx > 800 ||
-        newCx < 0 || newCx > 800 || newDx < 0 || newDx > 800 ||
-        newAy < 0 || newAy > 600 || newBy < 0 || newBy > 600 ||
-        newCy < 0 || newCy > 600 || newDy < 0 || newDy > 600) {
-        withinBounds = false;
+
+    // Sprawdzenie, czy po przesunięciu wszystkie wierzchołki będą w granicach okna
+    for (auto& point : vertices) {
+        float x = point.getCoordinates().first;
+        float y = point.getCoordinates().second;
+
+        float newX = x + deltaX;
+        float newY = y + deltaY;
+
+        if (newX < 0 || newX > 800 || newY < 0 || newY > 600) {
+            withinBounds = false;
+            break;
+        }
     }
 
+    // Przesunięcie wierzchołków, jeśli wszystkie są w granicach
     if (withinBounds) {
-        pointA.setCoordinates(newAx, newAy);
-        pointB.setCoordinates(newBx, newBy);
-        pointC.setCoordinates(newCx, newCy);
-        pointD.setCoordinates(newDx, newDy);
-    }
-    else {
-        // tu może być obsługa przekraczania granicy okna
+        for (auto& point : vertices) {
+            float x = point.getCoordinates().first;
+            float y = point.getCoordinates().second;
+
+            float newX = point.getCoordinates().first + deltaX;
+            float newY = point.getCoordinates().second + deltaY;
+
+            point.setCoordinates(newX, newY);
+        }
+    } else {
+        std::cerr << "Przekroczenie granicy okna!" << std::endl;
     }
 
-    std::cout << "Punkt A - x: " << pointA.getCoordinates().first << "|| y: " << pointA.getCoordinates().second << std::endl;
-    std::cout << "Punkt B - x: " << pointB.getCoordinates().first << "|| y: " << pointB.getCoordinates().second << std::endl;
-    std::cout << "Punkt C - x: " << pointC.getCoordinates().first << "|| y: " << pointC.getCoordinates().second << std::endl;
-    std::cout << "Punkt D - x: " << pointD.getCoordinates().first << "|| y: " << pointD.getCoordinates().second << std::endl;
+    std::cout << "Zaktualizowane współrzędne:" << std::endl;
+    for (const auto& point : vertices) {
+        std::cout << "Punkt - x: " << point.getCoordinates().first
+                  << " || y: " << point.getCoordinates().second << std::endl;
+    }
 }
 
 
