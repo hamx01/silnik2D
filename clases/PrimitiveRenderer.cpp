@@ -176,10 +176,8 @@ void Engine::PrimitiveRenderer::fillCircle(const Point& center, float radius, sf
     float xc = center.getCoordinates().first;
     float yc = center.getCoordinates().second;
 
-    // Iterujemy przez każdy punkt wewnątrz koła i rysujemy go
     for (int x = int(xc - radius); float(x) <= xc + radius; ++x) {
         for (int y = int(yc - radius); float(y) <= yc + radius; ++y) {
-            // Sprawdzamy czy punkt (x, y) znajduje się wewnątrz koła
             if (std::pow(x - xc, 2) + std::pow(y - yc, 2) <= std::pow(radius, 2)) {
                 drawPoint(Point(x, y), fillColor);
             }
@@ -267,10 +265,8 @@ void Engine::PrimitiveRenderer::scaleSquare(std::vector<Point>& vertices, float 
 void Engine::PrimitiveRenderer::rotatePolygon(std::vector<Point>& vertices, float angle, float deltaTime) {
     if (vertices.empty()) return;
 
-    // Normalizacja kąta obrotu w zależności od liczby wierzchołków
     float normalizedAngle = angle / float(vertices.size());
 
-    // Oblicz środek ciężkości wielokąta
     float centerX = 0.0f;
     float centerY = 0.0f;
     for (const Point& vertex : vertices) {
@@ -281,23 +277,18 @@ void Engine::PrimitiveRenderer::rotatePolygon(std::vector<Point>& vertices, floa
     centerX /= float(vertices.size());
     centerY /= float(vertices.size());
 
-    // Przekształć każdy wierzchołek
     for (Point& vertex : vertices) {
         auto [x, y] = vertex.getCoordinates();
 
-        // Przesuń wierzchołek do początku układu współrzędnych
         x -= centerX;
         y -= centerY;
 
-        // Obróć wierzchołek z uwzględnieniem normalizacji i deltaTime
         float rotatedX = x * cos(normalizedAngle * deltaTime) - y * sin(normalizedAngle * deltaTime);
         float rotatedY = x * sin(normalizedAngle * deltaTime) + y * cos(normalizedAngle * deltaTime);
 
-        // Przesuń wierzchołek z powrotem
         rotatedX += centerX;
         rotatedY += centerY;
 
-        // Ustaw nowe współrzędne wierzchołka
         vertex.setCoordinates(rotatedX, rotatedY);
     }
 }
