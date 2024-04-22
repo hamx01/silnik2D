@@ -45,7 +45,7 @@ void Engine::start() {
 
     // Wczytaj plik bitmapowy
     sf::Texture bitmapTexture;
-    if (!bitmapTexture.loadFromFile("C:\\Users\\asoli\\CLionProjects\\silnik2D\\bitmap.bmp")) {
+    if (!bitmapTexture.loadFromFile("../img/bitmap.bmp")) {
         // Obsługa błędu, jeśli wczytanie obrazu nie powiedzie się
         std::cerr << "Failed to load bitmap image!" << std::endl;
         return;
