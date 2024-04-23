@@ -23,6 +23,8 @@ add_executable(silnik2D main.cpp
         headers/Point.h
         headers/Keyboard.h
         headers/Mouse.h
+        headers/AnimatedCharacter.h
+        headers/CharacterController.h
 )
 
 if(WIN32)
