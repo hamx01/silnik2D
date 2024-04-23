@@ -16,10 +16,10 @@ sf::RenderWindow Engine::_window;
 sf::Clock Engine::_clock;
 sf::Sprite Engine::bitmapSprite;
 sf::Vector2f Engine::prevMousePos;
-sf::Keyboard::Key wybor;
-
-Point point5(100.0, 200.0);
-Point point6(200.0, 200.0);
+std::vector<std::string> Engine::walkFrames;
+std::vector<std::string> Engine::idleFrames;
+Engine::AnimatedCharacter Engine::character(walkFrames, idleFrames, 100.0f, 100.0f); // Provide the required arguments
+Engine::CharacterController Engine::characterController{character.getSprite()};
 
 Point testPoint(150.0, 50);
 
@@ -49,6 +49,21 @@ void Engine::start() {
 
     bitmapSprite.setPosition(0, float(_window.getSize().y) - bitmapSprite.getGlobalBounds().height);
 
+
+    std::vector<std::string> walkFrames;
+    for (int i = 0; i < 10; ++i) {
+        walkFrames.push_back("../Sprites/HeroKnight/Run/HeroKnight_Run_" + std::to_string(i) + ".png");
+    }
+
+// Wczytaj tekstury klatek animacji stanu spoczynku (idle)
+    std::vector<std::string> idleFrames;
+    for (int i = 0; i < 8; ++i) {
+        idleFrames.push_back("../Sprites/HeroKnight/Idle/HeroKnight_Idle_" + std::to_string(i) + ".png");
+    }
+    // Create the AnimatedCharacter object
+    character = AnimatedCharacter(walkFrames, idleFrames, 100, 100);
+
+
     engineLoop();
 }
 
@@ -68,6 +83,13 @@ void Engine::engineLoop() {
             else if (event.type == sf::Event::MouseMoved) {
                 if (Mouse::isButtonPressed(sf::Mouse::Left)){
                     if (Keyboard::isKeyPressed(sf::Keyboard::M)) {
+                        // Oblicz przesunięcie myszy względem poprzedniego położenia myszy
+                        sf::Vector2f mousePos = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
+                        sf::Vector2f delta = mousePos - prevMousePos;
+
+                        // Pobierz globalne granice bitmapy
+                        sf::FloatRect bounds = bitmapSprite.getGlobalBounds();
+
                         // Oblicz przesunięcie myszy względem poprzedniego położenia myszy
                         sf::Vector2f mousePos = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
                         sf::Vector2f delta = mousePos - prevMousePos;
@@ -94,10 +116,47 @@ void Engine::engineLoop() {
                     }
                 }
             }
+
+                // W głównej pętli gry, zmodyfikujmy obsługę poruszania postacią, aby używała klawiszy H, J, K, L
+            else if (Engine::Keyboard::isKeyPressed(sf::Keyboard::H) ||
+                     Engine::Keyboard::isKeyPressed(sf::Keyboard::U) ||
+                     Engine::Keyboard::isKeyPressed(sf::Keyboard::J) ||
+                     Engine::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+                character.setWalking(true);
+                float deltaX = 0.0f;
+                float deltaY = 0.0f;
+
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::J)) {
+                    std::cout << "'J' - Move Down" << std::endl;
+                    deltaY += 3.0f;
+                }
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::U)) {
+                    std::cout << "'U' - Move Up" << std::endl;
+                    deltaY -= 3.0f;
+                }
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::H)) {
+                    std::cout << "'H' - Move Left" << std::endl;
+                    deltaX -= 3.0f;
+
+                }
+                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+                    std::cout << "'K' - Move Right" << std::endl;
+                    deltaX += 3.0f;
+                }
+
+                // Przesuwamy postać używając CharacterController
+                characterController.move(deltaX, deltaY);
+
+            }
+            else {
+                character.setWalking(false); // Ustawia postać na stan spoczynku
+            }
+
         }
 
-        if(Keyboard::isKeyPressed(sf::Keyboard::F1)) {
-            wybor = sf::Keyboard::F1;
+        // Testowanie klasy Keyboard
+        if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            std::cout << "'Q'" << std::endl;
         }
         if(Keyboard::isKeyPressed(sf::Keyboard::F2)) {
             wybor = sf::Keyboard::F2;
@@ -220,6 +279,10 @@ void Engine::engineLoop() {
 
         _window.display();
     }
+
+
+
+
 }
 
 std::pair<float, float> Engine::getWindowSize() {

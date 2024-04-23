@@ -24,7 +24,10 @@ private:
     static sf::Sprite bitmapSprite;
     static std::vector<sf::Sprite> sprites; // Deklaracja kontenera sprite'ów
     static sf::Vector2f prevMousePos; // Deklaracja zmiennej przechowującej poprzednie położenie myszy
-
+    static std::vector<std::string> walkFrames; // Declare walkFrames as a static member
+    static std::vector<std::string> idleFrames; // Declare idleFrames as a static member
+    static AnimatedCharacter character; // Declare AnimatedCharacter object
+    static CharacterController characterController; // Declare CharacterController object
 
 };
 
