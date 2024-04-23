@@ -3,8 +3,14 @@
 //
 #include <iostream>
 #include "Engine.h"
+#include "headers/Triangle.h"
+#include "headers/Square.h"
+#include "headers/Circle.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include "headers/Point.h"
+#include "headers/Keyboard.h"
+#include "headers/Mouse.h"
 
 sf::RenderWindow Engine::_window;
 sf::Clock Engine::_clock;
@@ -12,30 +18,17 @@ sf::Sprite Engine::bitmapSprite;
 sf::Vector2f Engine::prevMousePos;
 sf::Keyboard::Key wybor;
 
+Point point5(100.0, 200.0);
+Point point6(200.0, 200.0);
 
+Point testPoint(150.0, 50);
 
+Point pointCircle(600, 400);
+Point pointCircleSymetric(400, 400);
 
-Engine::Point pointTriangle1(310.0, 319.0);
-Engine::Point pointTriangle2(598.0, 316.0);
-Engine::Point pointTriangle3(427.0, 177.0);
-
-Engine::Point point5(100.0, 200.0);
-Engine::Point point6(200.0, 200.0);
-
-Engine::Point testPoint(150.0, 50);
-
-Engine::Point pointSquare1(200.0, 200.0);
-Engine::Point pointSquare2(200.0, 50);
-Engine::Point pointSquare3(350.0, 50);
-Engine::Point pointSquare4(350, 200);
-
-Engine::Point pointCircle(600, 400);
-Engine::Point pointCircleSymetric(400, 400);
-
-bool isFilled = true;
-
-std::vector<Engine::Point> triangle = {pointTriangle1, pointTriangle2, pointTriangle3};
-std::vector<Engine::Point> square = {pointSquare1, pointSquare2, pointSquare3, pointSquare4};
+Square square(Point(200.0, 200.0), Point(200.0, 50), Point(350.0, 50), Point(350, 200));
+Triangle triangle(Point(310.0, 319.0), Point(598.0, 316.0), Point(427.0, 177.0));
+Circle circle(Point(200, 250), 60);
 
 void Engine::start() {
     if (_window.isOpen()) return;
@@ -70,22 +63,11 @@ void Engine::engineLoop() {
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     testPoint.setCoordinates(float(event.mouseButton.x), float(event.mouseButton.y));
-                } else if(event.mouseButton.button == sf::Mouse::Right) {
-                    testPoint.setCoordinates(float(event.mouseButton.x), float(event.mouseButton.y));
-                    std::cout << "New coordinates of test point: X-" << testPoint.getCoordinates().first << " Y-" << testPoint.getCoordinates().second << "\n";
-                }
-
-                else if (event.type == sf::Event::MouseButtonReleased) {
-                    if (event.mouseButton.button == sf::Mouse::Left) {
-                        if (Engine::PrimitiveRenderer::isPointInsidePolygon(square, testPoint)) {
-                            std::cout << "Point is inside figure" << std::endl;
-                        }
-                    }
                 }
             }
             else if (event.type == sf::Event::MouseMoved) {
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
+                if (Mouse::isButtonPressed(sf::Mouse::Left)){
+                    if (Keyboard::isKeyPressed(sf::Keyboard::M)) {
                         // Oblicz przesunięcie myszy względem poprzedniego położenia myszy
                         sf::Vector2f mousePos = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
                         sf::Vector2f delta = mousePos - prevMousePos;
@@ -105,10 +87,8 @@ void Engine::engineLoop() {
                         // Zapisz aktualne położenie myszy jako poprzednie położenie
                         prevMousePos = mousePos;
                     }
-                    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L) &&
-                            bitmapSprite.getGlobalBounds().contains(sf::Vector2f(float(event.mouseMove.x), float(event.mouseMove.y)))) {
-
-
+                    else if (Keyboard::isKeyPressed(sf::Keyboard::L) &&
+                        bitmapSprite.getGlobalBounds().contains(sf::Vector2f(float(event.mouseMove.x), float(event.mouseMove.y)))) {
                         sf::Vector2f mousePosition = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
                         bitmapSprite.setPosition(mousePosition - sf::Vector2f(bitmapSprite.getGlobalBounds().width / 2, bitmapSprite.getGlobalBounds().height / 2));
                     }
@@ -116,130 +96,139 @@ void Engine::engineLoop() {
             }
         }
 
-        // Test klasy Primitives
-//        Engine::PrimitiveRenderer::drawPoint(pointTriangle1);
-//        Engine::PrimitiveRenderer::drawPoint(pointTriangle2);
-        Engine::PrimitiveRenderer::drawLine(pointTriangle1,pointTriangle2, sf::Color::Red);
-        Engine::PrimitiveRenderer::drawLine(point5,point6, sf::Color::Blue);
-        Engine::PrimitiveRenderer::drawTriangle(triangle, sf::Color::Red);
-        Engine::PrimitiveRenderer::drawSquare(square,sf::Color::Red);
-        Engine::PrimitiveRenderer::drawCircle(pointCircle, 50, sf::Color::Red);
-        Engine::PrimitiveRenderer::drawCircleSymetric(pointCircleSymetric, 50, sf::Color::Red);
-
-
-
-        if(Engine::Keyboard::isKeyPressed(sf::Keyboard::F1)) {
+        if(Keyboard::isKeyPressed(sf::Keyboard::F1)) {
             wybor = sf::Keyboard::F1;
         }
-        if(Engine::Keyboard::isKeyPressed(sf::Keyboard::F2)) {
+        if(Keyboard::isKeyPressed(sf::Keyboard::F2)) {
             wybor = sf::Keyboard::F2;
+        }
+        if(Keyboard::isKeyPressed(sf::Keyboard::F3)) {
+            wybor = sf::Keyboard::F3;
         }
 
         switch(wybor) {
             case sf::Keyboard::F1:
-                // ruszanie kwadratem
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    std::cout << "'Down'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(square, 0, 10.0f);
+                //ruszanie kwadratem
+                if (Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                    square.moveDown();
                 }
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    std::cout << "'Up'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(square, 0, -10.0f);
+                if (Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                    square.moveUp();
                 }
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    std::cout << "'Left'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(square, -10.0f, 0);
+                if (Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                    square.moveLeft();
                 }
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    std::cout << "'Right'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(square, 10.0f, 0);
+                if (Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+                    square.moveRight();
                 }
-                if(Engine::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-                    Engine::PrimitiveRenderer::rotatePolygon(square, 30.0f, deltaTime);
-                } else if(Engine::Keyboard::isKeyPressed(sf::Keyboard::O)) {
-                    Engine::PrimitiveRenderer::rotatePolygon(square, -30.0f, deltaTime);
+                if(Keyboard::isKeyPressed(sf::Keyboard::P)) {
+                    square.rotateRight(deltaTime);
+                } else if(Keyboard::isKeyPressed(sf::Keyboard::O)) {
+                    square.rotateLeft(deltaTime);
                 }
                 if (event.type == sf::Event::MouseWheelScrolled) {
                     if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
                         if (event.mouseWheelScroll.delta > 0) {
-                            PrimitiveRenderer::scaleSquare(square, 1.1f); // Powiększenie kwadratu o 10%
+                            square.increaseSize();
                         }
                         else {
-                            PrimitiveRenderer::scaleSquare(square, 0.9f); // Pomniejszenie kwadratu o 10%
+                            square.decreaseSize();
                         }
                     }
                 }
                 if(event.mouseButton.button == sf::Mouse::Right) {
-                    isFilled = false;
+                    square.fill();
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
-                        isFilled = true;
+                    square.unfill();
                     }
-                }
-                if(!isFilled) {
-                    Engine::PrimitiveRenderer::fillSquare(square, sf::Color::Red, testPoint);
                 }
                 break;
             case sf::Keyboard::F2:
                 //ruszanie trójkątem
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    std::cout << "'Down'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(triangle, 0, 10.0f);
+                if (Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                    triangle.moveDown();
                 }
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    std::cout << "'Up'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(triangle, 0, -10.0f);
+                if (Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                    triangle.moveUp();
                 }
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    std::cout << "'Left'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(triangle, -10.0f, 0);
+                if (Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                    triangle.moveLeft();
                 }
-                if (Engine::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    std::cout << "'Right'" << std::endl;
-                    Engine::PrimitiveRenderer::translatePolygon(triangle, 10.0f, 0);
+                if (Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+                    triangle.moveRight();
                 }
-                if(Engine::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-                    Engine::PrimitiveRenderer::rotatePolygon(triangle, 30.0f, deltaTime);
-                } else if(Engine::Keyboard::isKeyPressed(sf::Keyboard::O)) {
-                    Engine::PrimitiveRenderer::rotatePolygon(triangle, -30.0f, deltaTime);
+                if(Keyboard::isKeyPressed(sf::Keyboard::P)) {
+                    triangle.rotateRight(deltaTime);
+                } else if(Keyboard::isKeyPressed(sf::Keyboard::O)) {
+                    triangle.rotateLeft(deltaTime);
                 }
                 if (event.type == sf::Event::MouseWheelScrolled) {
                     if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
                         if (event.mouseWheelScroll.delta > 0) {
-                            PrimitiveRenderer::scaleSquare(triangle, 1.1f); // Powiększenie kwadratu o 10%
+                            triangle.increaseSize();
                         }
                         else {
-                            PrimitiveRenderer::scaleSquare(triangle, 0.9f); // Pomniejszenie kwadratu o 10%
+                            triangle.decreaseSize();
                         }
                     }
                 }
                 if(event.mouseButton.button == sf::Mouse::Right) {
-                    isFilled = false;
+                    triangle.fill();
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
-                        isFilled = true;
+                        triangle.unfill();
                     }
                 }
-                if(!isFilled) {
-                    Engine::PrimitiveRenderer::fillSquare(triangle, sf::Color::Red, testPoint);
+                break;
+            case sf::Keyboard::F3:
+                //ruszanie kołem
+                if (Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                    circle.moveDown();
+                }
+                if (Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                    circle.moveUp();
+                }
+                if (Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                    circle.moveLeft();
+                }
+                if (Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+                    circle.moveRight();
+                }
+                if (event.type == sf::Event::MouseWheelScrolled) {
+                    if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+                        if (event.mouseWheelScroll.delta > 0) {
+                            circle.increaseSize();
+                        }
+                        else {
+                            circle.decreaseSize();
+                        }
+                    }
+                }
+                if(event.mouseButton.button == sf::Mouse::Right) {
+                    circle.fill();
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+                        circle.unfill();
+                    }
                 }
                 break;
         }
 
+        square.draw(sf::Color::Blue);
+        triangle.draw(sf::Color::Green);
+        circle.draw(sf::Color::Red);
+
         _window.draw(bitmapSprite);
-
-        // mouse test begin
-        sf::Vector2i mousePosition = Mouse::getPosition(_window);
-        sf::CircleShape cursor(5.f);
-        cursor.setFillColor(sf::Color::Red);
-        cursor.setPosition(static_cast<sf::Vector2f>(mousePosition));
-        _window.draw(cursor);
-		//mouse test end
-
-
 
         _window.display();
     }
+}
 
+std::pair<float, float> Engine::getWindowSize() {
+    std::pair<float, float> windowSize;
+    windowSize.first = float(_window.getSize().x);
+    windowSize.second = float(_window.getSize().y);
+    return windowSize;
+}
 
-
-
+sf::RenderWindow& Engine::getWindow() {
+    return _window;
 }

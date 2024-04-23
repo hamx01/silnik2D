@@ -7,10 +7,22 @@ add_executable(silnik2D main.cpp
         Engine.cpp
         Engine.h
         Engine.h
-        clases/Keyboard.cpp
-        clases/Mouse.cpp
-        clases/Point.cpp
-        clases/PrimitiveRenderer.cpp
+        definitions/Keyboard.cpp
+        definitions/Mouse.cpp
+        definitions/Point.cpp
+        definitions/PrimitiveRenderer.cpp
+        definitions/Figure.cpp
+        definitions/Square.cpp
+        definitions/Triangle.cpp
+        headers/Figure.h
+        headers/Square.h
+        headers/Triangle.h
+        definitions/Circle.cpp
+        headers/Circle.h
+        headers/PrimitiveRenderer.h
+        headers/Point.h
+        headers/Keyboard.h
+        headers/Mouse.h
 )
 
 if(WIN32)

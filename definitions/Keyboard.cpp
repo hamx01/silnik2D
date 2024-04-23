@@ -2,9 +2,9 @@
 // Created by Michał Wojtachnio, Artur Szymkiewicz, Łukasz Tomczyk, Andrii Solianyk
 //
 
-#include "../Engine.h"
+#include "../headers/Keyboard.h"
 
-bool Engine::Keyboard::isKeyPressed(sf::Keyboard::Key key) {
+bool Keyboard::isKeyPressed(sf::Keyboard::Key key) {
     return sf::Keyboard::isKeyPressed(key);
 
 }
