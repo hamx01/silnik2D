@@ -17,6 +17,12 @@ add_executable(silnik2D main.cpp
         headers/Figure.h
         headers/Square.h
         headers/Triangle.h
+        definitions/Circle.cpp
+        headers/Circle.h
+        headers/PrimitiveRenderer.h
+        headers/Point.h
+        headers/Keyboard.h
+        headers/Mouse.h
 )
 
 if(WIN32)

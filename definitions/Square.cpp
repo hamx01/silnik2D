@@ -1,15 +1,16 @@
 #include "../headers/Square.h"
+#include "../headers/PrimitiveRenderer.h"
 
 void Square::draw() {
-    Engine::PrimitiveRenderer::drawSquare(points, sf::Color::White);
+    PrimitiveRenderer::drawSquare(points, sf::Color::White);
     if(isFilled) {
-        Engine::PrimitiveRenderer::fillSquare(points, sf::Color::White);
+        PrimitiveRenderer::fillPolygon(points, sf::Color::White);
     }
 }
 
 void Square::draw(sf::Color color) {
-    Engine::PrimitiveRenderer::drawSquare(points, color);
+    PrimitiveRenderer::drawSquare(points, color);
     if(isFilled) {
-        Engine::PrimitiveRenderer::fillSquare(points, color);
+        PrimitiveRenderer::fillPolygon(points, color);
     }
 }

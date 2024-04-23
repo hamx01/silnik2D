@@ -2,22 +2,23 @@
 // Created by Michał Wojtachnio, Artur Szymkiewicz, Łukasz Tomczyk, Andrii Solianyk
 //
 
+#include "../headers/PrimitiveRenderer.h"
 #include "../Engine.h"
 #include <cmath>
 
 //! Metoda rysująca punkt na ekranie
-void Engine::PrimitiveRenderer::drawPoint(const Point &coordinates, sf::Color color) {
+void PrimitiveRenderer::drawPoint(const Point &coordinates, sf::Color color) {
     float x = coordinates.getCoordinates().first;
     float y = coordinates.getCoordinates().second;
     sf::Vertex point(sf::Vector2f(x, y), color);
-    Engine::_window.draw(&point, 2, sf::Points);
+    Engine::getWindow().draw(&point, 2, sf::Points);
 }
 
 //!
 //! @param pointA - punkt początkowy linii
 //! @param pointB - punkt końcowy linii
 //! @param color - kolor linii
-void Engine::PrimitiveRenderer::drawLine(const Point& pointA, const Point& pointB, sf::Color color) {
+void PrimitiveRenderer::drawLine(const Point& pointA, const Point& pointB, sf::Color color) {
     float dx, dy, kx, ky, e;
     int i;
 
@@ -63,7 +64,7 @@ void Engine::PrimitiveRenderer::drawLine(const Point& pointA, const Point& point
     }
 }
 
-void Engine::PrimitiveRenderer::drawTriangle(std::vector<Point>& vertices, sf::Color color) {
+void PrimitiveRenderer::drawTriangle(std::vector<Point>& vertices, sf::Color color) {
     int n = int(vertices.size());
 
     for(int i = 0; i<n; i++) {
@@ -74,7 +75,7 @@ void Engine::PrimitiveRenderer::drawTriangle(std::vector<Point>& vertices, sf::C
         }
     }
 }
-void Engine::PrimitiveRenderer::drawSquare(std::vector<Point>& vertices, sf::Color color) {
+void PrimitiveRenderer::drawSquare(std::vector<Point>& vertices, sf::Color color) {
     int n = int(vertices.size());
 
     for(int i = 0; i<n; i++) {
@@ -86,7 +87,7 @@ void Engine::PrimitiveRenderer::drawSquare(std::vector<Point>& vertices, sf::Col
     }
 }
 
-void Engine::PrimitiveRenderer::drawCircle(Engine::Point& punkt, float R, sf::Color color) {
+void PrimitiveRenderer::drawCircle(Point& punkt, float R, sf::Color color) {
     float step = 1.0f / R;
     sf::VertexArray points(sf::Points);
     float xc = punkt.getCoordinates().first;
@@ -99,10 +100,10 @@ void Engine::PrimitiveRenderer::drawCircle(Engine::Point& punkt, float R, sf::Co
         points.append(sf::Vertex(sf::Vector2f(x, y), color));
     }
 
-    _window.draw(points);
+    Engine::getWindow().draw(points);
 }
 
-void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Point& punkt, float R, sf::Color color) {
+void PrimitiveRenderer::drawCircleSymetric(Point& punkt, float R, sf::Color color) {
     float xc = punkt.getCoordinates().first;
     float yc = punkt.getCoordinates().second;
     sf::VertexArray points(sf::Points);
@@ -141,9 +142,10 @@ void Engine::PrimitiveRenderer::drawCircleSymetric(Engine::Point& punkt, float R
             points.append(sf::Vertex(mirroredPosition, color));
         }
     }
+    Engine::getWindow().draw(points);
 }
 
-bool Engine::PrimitiveRenderer::isPointInsideTriangle(const Engine::Point& A, const Engine::Point& B, const Engine::Point& C, const Engine::Point& P) {
+bool PrimitiveRenderer::isPointInsideTriangle(const Point& A, const Point& B, const Point& C, const Point& P) {
     double areaABC = 0.5 * ((B.getCoordinates().first - A.getCoordinates().first) * (C.getCoordinates().second - A.getCoordinates().second) -
                             (C.getCoordinates().first - A.getCoordinates().first) * (B.getCoordinates().second - A.getCoordinates().second));
     double alpha = 0.5 * ((B.getCoordinates().first - P.getCoordinates().first) * (C.getCoordinates().second - P.getCoordinates().second) -
@@ -155,7 +157,7 @@ bool Engine::PrimitiveRenderer::isPointInsideTriangle(const Engine::Point& A, co
     return alpha >= 0.0 && beta >= 0.0 && gamma >= 0.0;
 }
 
-bool Engine::PrimitiveRenderer::isPointInsidePolygon(const std::vector<Point>& vertices, const Point& P) {
+bool PrimitiveRenderer::isPointInsidePolygon(const std::vector<Point>& vertices, const Point& P) {
     int n = int(vertices.size());
     bool inside = false;
 
@@ -171,24 +173,57 @@ bool Engine::PrimitiveRenderer::isPointInsidePolygon(const std::vector<Point>& v
     return inside;
 }
 
+void PrimitiveRenderer::fillCircleBresenham(const Point& center, float radius, sf::Color fillColor) {
+    float x = 0;
+    float y = radius;
+    float d = 3 - 2 * radius;
 
-void Engine::PrimitiveRenderer::fillCircle(const Point& center, float radius, sf::Color fillColor) {
-    float xc = center.getCoordinates().first;
-    float yc = center.getCoordinates().second;
+    auto drawLine = [&](int sx, int ex, int ny) {
+        for (int i = sx; i <= ex; i++) {
+            drawPoint(Point(float(i), float(ny)), fillColor);
+        }
+    };
 
-    for (int x = int(xc - radius); float(x) <= xc + radius; ++x) {
-        for (int y = int(yc - radius); float(y) <= yc + radius; ++y) {
-            if (std::pow(x - xc, 2) + std::pow(y - yc, 2) <= std::pow(radius, 2)) {
-                drawPoint(Point(x, y), fillColor);
-            }
+    while (y >= x) {
+        // рисуем линии от начала до конца окружности в каждом из восьми направлений
+        drawLine(center.getCoordinates().first - x, center.getCoordinates().first + x, center.getCoordinates().second + y);
+        drawLine(center.getCoordinates().first - y, center.getCoordinates().first + y, center.getCoordinates().second + x);
+        drawLine(center.getCoordinates().first - y, center.getCoordinates().first + y, center.getCoordinates().second - x);
+        drawLine(center.getCoordinates().first - x, center.getCoordinates().first + x, center.getCoordinates().second - y);
+
+        x++;
+
+        if (d > 0) {
+            y--;
+            d = d + 4 * (x - y) + 10;
+        } else {
+            d = d + 4 * x + 6;
         }
     }
 }
 
-void Engine::PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, float deltaX, float deltaY) {
+void PrimitiveRenderer::fillCircle(const Point& center, float radius, sf::Color fillColor) {
+    sf::CircleShape circle(radius);
+    circle.setFillColor(fillColor);
+    circle.setPosition(center.getCoordinates().first - radius, center.getCoordinates().second - radius);
+    Engine::getWindow().draw(circle);
+}
+
+void PrimitiveRenderer::translateCircle(Point& center, float R, float deltaX, float deltaY) {
+    float new_x = center.getCoordinates().first + deltaX;
+    float new_y = center.getCoordinates().second + deltaY;
+
+    if (new_x - R < 0 || new_x + R > 800 ||
+        new_y - R < 0 || new_y + R > 600) {
+        return;
+    }
+
+    center.setCoordinates(new_x, new_y);
+}
+
+void PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, float deltaX, float deltaY) {
     bool withinBounds = true;
 
-    // Sprawdzenie, czy po przesunięciu wszystkie wierzchołki będą w granicach okna
     for (auto& point : vertices) {
         float x = point.getCoordinates().first;
         float y = point.getCoordinates().second;
@@ -202,7 +237,6 @@ void Engine::PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, f
         }
     }
 
-    // Przesunięcie wierzchołków, jeśli wszystkie są w granicach
     if (withinBounds) {
         for (auto& point : vertices) {
             float newX = point.getCoordinates().first + deltaX;
@@ -224,7 +258,7 @@ void Engine::PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, f
 
 
 
-void Engine::PrimitiveRenderer::fillSquare(const std::vector<Point>& vertices, sf::Color fillColor) {
+void PrimitiveRenderer::fillPolygon(const std::vector<Point>& vertices, sf::Color fillColor) {
     sf::ConvexShape filledSquare;
     filledSquare.setPointCount(vertices.size());
     for(int i = 0; i < vertices.size(); i++) {
@@ -232,18 +266,42 @@ void Engine::PrimitiveRenderer::fillSquare(const std::vector<Point>& vertices, s
     }
     filledSquare.setFillColor(sf::Color::Transparent);
     filledSquare.setFillColor(fillColor);
-    _window.draw(filledSquare);
+    Engine::getWindow().draw(filledSquare);
 }
 
-void Engine::PrimitiveRenderer::scalePolygon(std::vector<Point>& vertices, float scaleFactor) {
+void PrimitiveRenderer::scalePolygon(std::vector<Point>& vertices, float scaleFactor) {
     float centerX = 0.0f;
     float centerY = 0.0f;
+    float minX = std::numeric_limits<float>::max();
+    float minY = std::numeric_limits<float>::max();
+    float maxX = std::numeric_limits<float>::min();
+    float maxY = std::numeric_limits<float>::min();
+
     for (const auto& point : vertices) {
-        centerX += point.getCoordinates().first;
-        centerY += point.getCoordinates().second;
+        float x = point.getCoordinates().first;
+        float y = point.getCoordinates().second;
+        centerX += x;
+        centerY += y;
+        minX = std::min(minX, x);
+        minY = std::min(minY, y);
+        maxX = std::max(maxX, x);
+        maxY = std::max(maxY, y);
     }
     centerX /= float(vertices.size());
     centerY /= float(vertices.size());
+
+    float newMinX = centerX + (minX - centerX) * scaleFactor;
+    float newMinY = centerY + (minY - centerY) * scaleFactor;
+    float newMaxX = centerX + (maxX - centerX) * scaleFactor;
+    float newMaxY = centerY + (maxY - centerY) * scaleFactor;
+
+    float windowWidth = Engine::getWindowSize().first;
+    float windowHeight = Engine::getWindowSize().second;
+
+    if (newMinX < 0 || newMaxX > windowWidth || newMinY < 0 || newMaxY > windowHeight) {
+        std::cerr << "Scaling would cause the polygon to exceed the window boundaries." << std::endl;
+        return;
+    }
 
     for (auto& point : vertices) {
         float x = point.getCoordinates().first;
@@ -259,7 +317,7 @@ void Engine::PrimitiveRenderer::scalePolygon(std::vector<Point>& vertices, float
     }
 }
 
-void Engine::PrimitiveRenderer::rotatePolygon(std::vector<Point>& vertices, float angle, float deltaTime) {
+void PrimitiveRenderer::rotatePolygon(std::vector<Point>& vertices, float angle, float deltaTime) {
     if (vertices.empty()) return;
 
     float normalizedAngle = angle / float(vertices.size());
@@ -274,7 +332,9 @@ void Engine::PrimitiveRenderer::rotatePolygon(std::vector<Point>& vertices, floa
     centerX /= float(vertices.size());
     centerY /= float(vertices.size());
 
-    for (Point& vertex : vertices) {
+    std::vector<Point> rotatedVertices = vertices; // Create a copy of vertices
+
+    for (Point& vertex : rotatedVertices) {
         auto [x, y] = vertex.getCoordinates();
 
         x -= centerX;
@@ -288,6 +348,16 @@ void Engine::PrimitiveRenderer::rotatePolygon(std::vector<Point>& vertices, floa
 
         vertex.setCoordinates(rotatedX, rotatedY);
     }
+
+    for (const Point& vertex : rotatedVertices) {
+        auto [x, y] = vertex.getCoordinates();
+        if (x < 0 || x > Engine::getWindowSize().first || y < 0 || y > Engine::getWindowSize().second) {
+            std::cerr << "Rotation would cause the polygon to exceed the window boundaries." << std::endl;
+            return; // If any point is out of the screen, do not apply the rotation
+        }
+    }
+
+    vertices = rotatedVertices; // Apply the rotation
 }
 
 

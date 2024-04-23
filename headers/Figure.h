@@ -3,17 +3,19 @@
 
 #include <vector>
 #include "../Engine.h"
+#include "Point.h"
 
 class Figure {
 protected:
     bool isFilled{};
     bool withinBounds{};
-    std::vector<Engine::Point> points;
+    std::vector<Point> points;
 public:
     Figure() {
         isFilled = false;
         withinBounds = true;
     }
+
     virtual void draw() = 0;
     virtual void moveLeft();
     virtual void moveRight();
