@@ -57,7 +57,7 @@ private:
     sf::Clock animationClock_;
     sf::Time frameDuration_;
     int currentFrameIndex_;
-    bool isWalking_;
+    bool isWalking_{};
 };
 
 #endif //SILNIK2D_ANIMATEDCHARACTER_H

@@ -252,15 +252,23 @@ void Engine::engineLoop() {
                     }
                 }
                 break;
+            default:
+                break;
         }
 
         square.draw(sf::Color::Blue);
         triangle.draw(sf::Color::Green);
         circle.draw(sf::Color::Red);
 
-        _window.draw(bitmapSprite);
+        // Ludzik
+        sf::Sprite& characterSprite = character.getSprite();
+        sf::FloatRect characterBounds = characterSprite.getLocalBounds();
+        characterSprite.setOrigin(characterBounds.width / 2.f, characterBounds.height / 2.f);
         character.update();
         _window.draw(character.getSprite());
+        //Koniec ludzika
+
+        _window.draw(bitmapSprite);
 
         _window.display();
     }
