@@ -19,8 +19,8 @@ sf::Sprite Engine::bitmapSprite;
 sf::Vector2f Engine::prevMousePos;
 std::vector<std::string> walkFrames;
 std::vector<std::string> idleFrames;
-AnimatedCharacter Engine::character(walkFrames, idleFrames, 100.0f, 100.0f);
-CharacterController Engine::characterController{character.getSprite()};
+AnimatedCharacter character(walkFrames, idleFrames, 100.0f, 100.0f);
+CharacterController characterController{character.getSprite(), character};
 
 sf::Keyboard::Key wybor;
 
@@ -102,42 +102,10 @@ void Engine::engineLoop() {
                     }
                 }
             }
-
-                // W głównej pętli gry, zmodyfikujmy obsługę poruszania postacią, aby używała klawiszy H, J, K, L
-            else if (Keyboard::isKeyPressed(sf::Keyboard::H) ||
-                     Keyboard::isKeyPressed(sf::Keyboard::U) ||
-                     Keyboard::isKeyPressed(sf::Keyboard::J) ||
-                     Keyboard::isKeyPressed(sf::Keyboard::K)) {
-                character.setWalking(true);
-                float deltaX = 0.0f;
-                float deltaY = 0.0f;
-
-                if (Keyboard::isKeyPressed(sf::Keyboard::J)) {
-                    deltaY += 3.0f;
-                }
-                if (Keyboard::isKeyPressed(sf::Keyboard::U)) {
-                    deltaY -= 3.0f;
-                }
-                if (Keyboard::isKeyPressed(sf::Keyboard::H)) {
-                    deltaX -= 3.0f;
-                    character.getSprite().setScale(-1.f, 1.f); // Lustrzane odbicie postaci
-                }
-                if (Keyboard::isKeyPressed(sf::Keyboard::K)) {
-                    deltaX += 3.0f;
-                    character.getSprite().setScale(1.f, 1.f); // Normalne wyświetlanie postaci
-                }
-
-                // Przesuwamy postać używając CharacterController
-                characterController.move(deltaX, deltaY);
-
-            }
-            else {
-                character.setWalking(false); // Ustawia postać na stan spoczynku
-            }
-
         }
 
-        // Testowanie klasy Keyboard
+
+
         if (Keyboard::isKeyPressed(sf::Keyboard::F1)) {
             wybor = sf::Keyboard::F1;
         }
@@ -260,10 +228,23 @@ void Engine::engineLoop() {
         triangle.draw(sf::Color::Green);
         circle.draw(sf::Color::Red);
 
+
         // Ludzik
-        sf::Sprite& characterSprite = character.getSprite();
-        sf::FloatRect characterBounds = characterSprite.getLocalBounds();
-        characterSprite.setOrigin(characterBounds.width / 2.f, characterBounds.height / 2.f);
+        character.setWalking(false);
+        if (Keyboard::isKeyPressed(sf::Keyboard::J)) {
+            characterController.moveDown();
+        }
+        if (Keyboard::isKeyPressed(sf::Keyboard::U)) {
+            characterController.moveUp();
+        }
+        if (Keyboard::isKeyPressed(sf::Keyboard::H)) {
+            characterController.moveLeft();
+        }
+        if (Keyboard::isKeyPressed(sf::Keyboard::K)) {
+            characterController.moveRight();
+        }
+
+        character.getSprite().setOrigin(character.getSprite().getLocalBounds().width / 2.f, character.getSprite().getLocalBounds().height / 2.f);
         character.update();
         _window.draw(character.getSprite());
         //Koniec ludzika

@@ -25,11 +25,8 @@ private:
     static sf::Clock _clock;
 
     static sf::Sprite bitmapSprite;
-    static std::vector<sf::Sprite> sprites; // Deklaracja kontenera sprite'ów
-    static sf::Vector2f prevMousePos; // Deklaracja zmiennej przechowującej poprzednie położenie myszy
-    static AnimatedCharacter character; // Declare AnimatedCharacter object
-    static CharacterController characterController; // Declare CharacterController object
-
+    static std::vector<sf::Sprite> sprites;
+    static sf::Vector2f prevMousePos;
 };
 
 #endif //SILNIK2D_ENGINE_H
