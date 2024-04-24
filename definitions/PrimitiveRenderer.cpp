@@ -11,7 +11,7 @@ void PrimitiveRenderer::drawPoint(const Point &coordinates, sf::Color color) {
     float x = coordinates.getCoordinates().first;
     float y = coordinates.getCoordinates().second;
     sf::Vertex point(sf::Vector2f(x, y), color);
-    Engine::getWindow().draw(&point, 2, sf::Points);
+    Engine::getActiveWindow().draw(&point, 2, sf::Points);
 }
 
 //!
@@ -100,7 +100,7 @@ void PrimitiveRenderer::drawCircle(Point& punkt, float R, sf::Color color) {
         points.append(sf::Vertex(sf::Vector2f(x, y), color));
     }
 
-    Engine::getWindow().draw(points);
+    Engine::getActiveWindow().draw(points);
 }
 
 void PrimitiveRenderer::drawCircleSymetric(Point& punkt, float R, sf::Color color) {
@@ -259,7 +259,7 @@ void PrimitiveRenderer::fillPolygon(const std::vector<Point>& vertices, sf::Colo
     }
     filledSquare.setFillColor(sf::Color::Transparent);
     filledSquare.setFillColor(fillColor);
-    Engine::getWindow().draw(filledSquare);
+    Engine::getActiveWindow().draw(filledSquare);
 }
 
 void PrimitiveRenderer::scalePolygon(std::vector<Point>& vertices, float scaleFactor) {

@@ -13,6 +13,7 @@ public:
     }
     void draw() override;
     void draw(sf::Color color);
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 };
 
 

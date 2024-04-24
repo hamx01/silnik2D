@@ -29,6 +29,9 @@ add_executable(silnik2D main.cpp
         headers/CharacterController.h
         headers/Bitmap.h
         definitions/Bitmap.cpp
+        definitions/Game.cpp
+        headers/Game.h
+        "headers/PongGame.h"
 )
 
 if(WIN32)

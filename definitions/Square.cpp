@@ -14,3 +14,14 @@ void Square::draw(sf::Color color) {
         PrimitiveRenderer::fillPolygon(points, color);
     }
 }
+
+void Square::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+
+}
+
+//void Square::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+//    PrimitiveRenderer::drawSquare(points, sf::Color::White);
+//    if(isFilled) {
+//        PrimitiveRenderer::fillPolygon(points, sf::Color::White);
+//    }
+//}

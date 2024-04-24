@@ -20,39 +20,51 @@ void Circle::draw(sf::Color color) {
 }
 
 void Circle::moveLeft() {
-    PrimitiveRenderer::translateCircle(point, R, -10, 0);
+    float speed = -10;
+    PrimitiveRenderer::translateCircle(point, R, speed, 0);
+    point.setCoordinates(point.getCoordinates().first + speed, point.getCoordinates().second);
 }
 
 void Circle::moveLeft(float speed) {
     if(speed > 0) speed *= -1;
     PrimitiveRenderer::translateCircle(point, R, speed, 0);
+    point.setCoordinates(point.getCoordinates().first + speed, point.getCoordinates().second);
 }
 
 void Circle::moveRight() {
-    PrimitiveRenderer::translateCircle(point, R, 10, 0);
+    float speed = 10;
+    PrimitiveRenderer::translateCircle(point, R, speed, 0);
+    point.setCoordinates(point.getCoordinates().first + speed, point.getCoordinates().second);
 }
 
 void Circle::moveRight(float speed) {
     if(speed < 0) speed *= -1;
     PrimitiveRenderer::translateCircle(point, R, speed, 0);
+    point.setCoordinates(point.getCoordinates().first + speed, point.getCoordinates().second);
 }
 
 void Circle::moveUp() {
-    PrimitiveRenderer::translateCircle(point, R, 0, -10);
+    float speed = -10;
+    PrimitiveRenderer::translateCircle(point, R, 0, speed);
+    point.setCoordinates(point.getCoordinates().first, point.getCoordinates().second + speed);
 }
 
 void Circle::moveUp(float speed) {
     if(speed > 0) speed *= -1;
     PrimitiveRenderer::translateCircle(point, R, 0, speed);
+    point.setCoordinates(point.getCoordinates().first, point.getCoordinates().second + speed);
 }
 
 void Circle::moveDown() {
-    PrimitiveRenderer::translateCircle(point, R, 0, 10);
+    float speed = 10;
+    PrimitiveRenderer::translateCircle(point, R, 0, speed);
+    point.setCoordinates(point.getCoordinates().first, point.getCoordinates().second + speed);
 }
 
 void Circle::moveDown(float speed) {
     if(speed < 0) speed *= -1;
     PrimitiveRenderer::translateCircle(point, R, 0, speed);
+    point.setCoordinates(point.getCoordinates().first, point.getCoordinates().second + speed);
 }
 
 void Circle::increaseSize() {
@@ -90,6 +102,27 @@ void Circle::scaleSize(float scaleFactor) {
     } else {
 
     }
+}
+
+const Point &Circle::getPoint() const {
+    return point;
+}
+
+float Circle::getR() const {
+    return R;
+}
+
+void Circle::setCoordinates(float x, float y) {
+    point.setCoordinates(x, y);
+}
+
+void Circle::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+
+}
+
+void Circle::move(float x, float y) {
+    PrimitiveRenderer::translateCircle(point, R, x, y);
+    std::cout << "Circle moved by x: " << x << " y: " << y << std::endl;
 }
 
 

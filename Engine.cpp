@@ -13,14 +13,18 @@
 #include "headers/Mouse.h"
 #include "headers/AnimatedCharacter.h"
 #include "headers/Bitmap.h"
+#include "headers/PongGame.h"
 
 sf::RenderWindow Engine::_window;
+sf::RenderWindow Engine::_game;
 sf::Clock Engine::_clock;
 sf::Vector2f prevMousePos;
 AnimatedCharacter character(100.0f, 100.0f);
 CharacterController characterController{character.getSprite(), character};
 
 Bitmap myBitmap("../img/bitmap.bmp", 150, 150);
+
+PongGame pongGame(Engine::getGameWindow());
 
 sf::Keyboard::Key wybor;
 
@@ -33,10 +37,14 @@ Circle circle(Point(200, 250), 60);
 void Engine::start() {
     if (_window.isOpen()) return;
 
+    isWindow1Active = true;
+
     _window.create(sf::VideoMode(800, 600, 32), "Test Game Engine");
     _window.setFramerateLimit(60);
 
     sf::Texture bitmapTexture;
+
+//    pongGame.run();
 
     character.loadWalkFrames("../Sprites/HeroKnight/Run/HeroKnight_Run_");
     character.loadIdleFrames("../Sprites/HeroKnight/Run/HeroKnight_Run_");
@@ -100,6 +108,9 @@ void Engine::engineLoop() {
         }
         if(Keyboard::isKeyPressed(sf::Keyboard::F4)) {
             wybor = sf::Keyboard::F4;
+        }
+        if(Keyboard::isKeyPressed(sf::Keyboard::F8)) {
+            wybor = sf::Keyboard::F8;
         }
 
         switch(wybor) {
@@ -222,7 +233,9 @@ void Engine::engineLoop() {
                     characterController.moveRight();
                 }
                 break;
-            default:
+            case sf::Keyboard::F8:
+                Engine::switchActiveWindow();
+                pongGame.run();
                 break;
         }
 
@@ -231,6 +244,8 @@ void Engine::engineLoop() {
         circle.draw(sf::Color::Red);
 
         character.update();
+
+        _window.draw(square);
 
         _window.draw(character.getSprite());
 //        _window.draw(mySprite.getSprite());
@@ -250,3 +265,5 @@ std::pair<float, float> Engine::getWindowSize() {
 sf::RenderWindow& Engine::getWindow() {
     return _window;
 }
+
+bool Engine::isWindow1Active = true;

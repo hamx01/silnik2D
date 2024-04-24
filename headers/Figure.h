@@ -5,11 +5,14 @@
 #include "../Engine.h"
 #include "Point.h"
 
-class Figure {
+class Figure : public sf::Drawable, public sf::Transformable {
 protected:
     bool isFilled{};
     bool withinBounds{};
     std::vector<Point> points;
+public:
+    const vector<Point> &getPoints() const;
+
 public:
     Figure() {
         isFilled = false;

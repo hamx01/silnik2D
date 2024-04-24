@@ -90,3 +90,7 @@ void Figure::fill() {
 void Figure::unfill() {
     isFilled = false;
 }
+
+const vector<Point> &Figure::getPoints() const {
+    return points;
+}

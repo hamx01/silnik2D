@@ -14,3 +14,7 @@ void Triangle::draw(sf::Color color) {
         PrimitiveRenderer::fillPolygon(points, color);
     }
 }
+
+void Triangle::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+
+}

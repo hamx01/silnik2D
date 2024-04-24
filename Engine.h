@@ -11,6 +11,11 @@
 #include "headers/CharacterController.h"
 
 class Engine {
+private:
+    static sf::RenderWindow _window;
+    static sf::RenderWindow _game;
+    static sf::Clock _clock;
+    static bool isWindow1Active;
 public:
     static void start();
 
@@ -20,9 +25,21 @@ public:
 
     static sf::RenderWindow& getWindow();
 
-private:
-    static sf::RenderWindow _window;
-    static sf::Clock _clock;
+    static sf::RenderWindow& getGameWindow() {
+        return _game;
+    }
+
+    static sf::RenderWindow& getActiveWindow() {
+        if (isWindow1Active) {
+            return _window;
+        } else {
+            return _game;
+        }
+    }
+
+    static void switchActiveWindow() {
+        isWindow1Active = !isWindow1Active;
+    }
 };
 
 #endif //SILNIK2D_ENGINE_H
