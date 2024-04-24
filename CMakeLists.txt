@@ -27,6 +27,8 @@ add_executable(silnik2D main.cpp
         headers/Mouse.h
         headers/AnimatedCharacter.h
         headers/CharacterController.h
+        headers/Bitmap.h
+        definitions/Bitmap.cpp
 )
 
 if(WIN32)
