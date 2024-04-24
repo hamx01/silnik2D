@@ -12,17 +12,19 @@
 #include "headers/Keyboard.h"
 #include "headers/Mouse.h"
 #include "headers/AnimatedCharacter.h"
-#include "headers/Bitmap.h"
+#include "headers/Game.h"
 
 sf::RenderWindow Engine::_window;
 sf::Clock Engine::_clock;
-sf::Vector2f prevMousePos;
-AnimatedCharacter character(100.0f, 100.0f);
+sf::Sprite Engine::bitmapSprite;
+sf::Vector2f Engine::prevMousePos;
+std::vector<std::string> walkFrames;
+std::vector<std::string> idleFrames;
+AnimatedCharacter character(walkFrames, idleFrames, 100.0f, 100.0f);
 CharacterController characterController{character.getSprite(), character};
-
-Bitmap myBitmap("../img/bitmap.bmp", 150, 150);
-
+Game pong;
 sf::Keyboard::Key wybor;
+
 
 Point testPoint(150.0, 50);
 
@@ -36,10 +38,26 @@ void Engine::start() {
     _window.create(sf::VideoMode(800, 600, 32), "Test Game Engine");
     _window.setFramerateLimit(60);
 
+    // Wczytaj plik bitmapowy
     sf::Texture bitmapTexture;
+    if (!bitmapTexture.loadFromFile("../img/bitmap.bmp")) {
+        // Obsługa błędu, jeśli wczytanie obrazu nie powiedzie się
+        std::cerr << "Failed to load bitmap image!" << std::endl;
+        return;
+    }
 
-    character.loadWalkFrames("../Sprites/HeroKnight/Run/HeroKnight_Run_");
-    character.loadIdleFrames("../Sprites/HeroKnight/Run/HeroKnight_Run_");
+    // Przypisz teksturę do sprite'a
+    bitmapSprite.setTexture(bitmapTexture);
+
+    bitmapSprite.setPosition(0, float(_window.getSize().y) - bitmapSprite.getGlobalBounds().height);
+    // Obs
+    for (int i = 0; i < 10; ++i) {
+        walkFrames.push_back("../Sprites/HeroKnight/Run/HeroKnight_Run_" + std::to_string(i) + ".png");
+    }
+    for (int i = 0; i < 8; ++i) {
+        idleFrames.push_back("../Sprites/HeroKnight/Idle/HeroKnight_Idle_" + std::to_string(i) + ".png");
+    }
+    character = AnimatedCharacter(walkFrames, idleFrames, 100, 100);
 
     engineLoop();
 }
@@ -51,6 +69,7 @@ void Engine::engineLoop() {
         // Handle input
         sf::Event event{};
         while (_window.pollEvent(event)) {
+            bool runningPong = false; // Flaga informująca, czy gra Pong jest uruchomiona
             if (event.type == sf::Event::Closed) { _window.close(); }
             if (event.type == sf::Event::MouseButtonPressed) {
                 if (event.mouseButton.button == sf::Mouse::Left) {
@@ -59,35 +78,36 @@ void Engine::engineLoop() {
             }
             else if (event.type == sf::Event::MouseMoved) {
                 if (Mouse::isButtonPressed(sf::Mouse::Left)){
-                    if (Keyboard::isKeyPressed(sf::Keyboard::R)) {
+                    if (Keyboard::isKeyPressed(sf::Keyboard::M)) {
+                        // Oblicz przesunięcie myszy względem poprzedniego położenia myszy
                         sf::Vector2f mousePos = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
                         sf::Vector2f delta = mousePos - prevMousePos;
 
+                        // Zmień rozmiar bitmapy w zależności od kierunku ruchu myszy
+                        if (delta.x < 0) {
+                            bitmapSprite.setScale(bitmapSprite.getScale().x * 0.99f, bitmapSprite.getScale().y);
+                        } else if (delta.x > 0) {
+                            bitmapSprite.setScale(bitmapSprite.getScale().x * 1.01f, bitmapSprite.getScale().y);
+                        }
+                        if (delta.y < 0) {
+                            bitmapSprite.setScale(bitmapSprite.getScale().x, bitmapSprite.getScale().y * 0.99f);
+                        } else if (delta.y > 0) {
+                            bitmapSprite.setScale(bitmapSprite.getScale().x, bitmapSprite.getScale().y * 1.01f);
+                        }
+
+                        // Zapisz aktualne położenie myszy jako poprzednie położenie
                         prevMousePos = mousePos;
-
-                        if (delta.x > 0) {
-                            myBitmap.moveRight(10);
-                        } else if (delta.x < 0) {
-                            myBitmap.moveLeft(10);
-                        }
-
-                        if (delta.y > 0) {
-                            myBitmap.moveDown(10);
-                        } else if (delta.y < 0) {
-                            myBitmap.moveUp(10);
-                        }
                     }
-                    else if (Keyboard::isKeyPressed(sf::Keyboard::L)) {
+                    else if (Keyboard::isKeyPressed(sf::Keyboard::L) &&
+                        bitmapSprite.getGlobalBounds().contains(sf::Vector2f(float(event.mouseMove.x), float(event.mouseMove.y)))) {
                         sf::Vector2f mousePosition = _window.mapPixelToCoords(sf::Mouse::getPosition(_window));
-                        sf::FloatRect bitmapBounds = myBitmap.getSprite().getGlobalBounds();
-
-                        if (bitmapBounds.contains(mousePosition)) {
-                            myBitmap.setPosition(mousePosition.x - bitmapBounds.width / 2, mousePosition.y - bitmapBounds.height / 2);
-                        }
+                        bitmapSprite.setPosition(mousePosition - sf::Vector2f(bitmapSprite.getGlobalBounds().width / 2, bitmapSprite.getGlobalBounds().height / 2));
                     }
                 }
             }
         }
+
+
 
         if (Keyboard::isKeyPressed(sf::Keyboard::F1)) {
             wybor = sf::Keyboard::F1;
@@ -222,22 +242,35 @@ void Engine::engineLoop() {
                     characterController.moveRight();
                 }
                 break;
+
+            case sf::Keyboard::F8:
+                runningPong = true;
+                pong.run(_window);
+
+            case sf::Keyboard::F9:
+                runningPong = false;
+                // Clear the window
+                _window.clear();
             default:
                 break;
         }
 
+        _window.draw(bitmapSprite);
         square.draw(sf::Color::Blue);
         triangle.draw(sf::Color::Green);
         circle.draw(sf::Color::Red);
 
         character.update();
-
         _window.draw(character.getSprite());
-//        _window.draw(mySprite.getSprite());
-        _window.draw(myBitmap.getSprite());
+
+
 
         _window.display();
     }
+
+
+
+
 }
 
 std::pair<float, float> Engine::getWindowSize() {

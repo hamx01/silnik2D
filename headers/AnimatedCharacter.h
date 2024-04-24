@@ -9,17 +9,13 @@ using namespace std;
 
 class AnimatedCharacter {
 public:
-    AnimatedCharacter(float posX, float posY);
+    AnimatedCharacter(vector<std::string> walkFrames, vector<std::string> idleFrames, float posX, float posY);
 
     void update();
 
     void setWalking(bool isWalking);
 
     sf::Sprite& getSprite();
-
-    void loadWalkFrames(const string &path);
-
-    void loadIdleFrames(const string &);
 private:
     static AnimatedCharacter character;
     std::vector<std::string> walkFrames_;

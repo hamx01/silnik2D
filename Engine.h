@@ -23,6 +23,9 @@ public:
 private:
     static sf::RenderWindow _window;
     static sf::Clock _clock;
+    static sf::Sprite bitmapSprite;
+    static std::vector<sf::Sprite> sprites;
+    static sf::Vector2f prevMousePos;
 };
 
 #endif //SILNIK2D_ENGINE_H
