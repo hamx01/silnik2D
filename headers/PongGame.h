@@ -24,7 +24,7 @@ private:
 public:
     explicit PongGame(sf::RenderWindow& window) : window(window) {
         window.create(sf::VideoMode(800, 600, 32), "Pong");
-
+        srand(time(NULL));
         if (!font.loadFromFile("../arial.ttf")) {
             std::cerr << "Failed to load font" << std::endl;
         }
@@ -82,45 +82,43 @@ private:
     void update() {
         ball.move(ballSpeedX, ballSpeedY);
 
-        if (ball.getPoint().getCoordinates().first <= leftPaddle.getBounds().left + leftPaddle.getBounds().width &&
+        if (ball.getPoint().getCoordinates().first - ball.getR() * 1.5 <= leftPaddle.getBounds().left + leftPaddle.getBounds().width &&
             ball.getPoint().getCoordinates().first >= leftPaddle.getBounds().left &&
-            ball.getPoint().getCoordinates().second <= leftPaddle.getBounds().top + leftPaddle.getBounds().height &&
-            ball.getPoint().getCoordinates().second >= leftPaddle.getBounds().top) {
+            ball.getPoint().getCoordinates().second + ball.getR() * 1.5 >= leftPaddle.getBounds().top &&
+            ball.getPoint().getCoordinates().second <= leftPaddle.getBounds().top + leftPaddle.getBounds().height) {
             ballSpeedX *= -1;
         }
 
-        if (ball.getPoint().getCoordinates().first + ball.getR() * 2 >= rightPaddle.getBounds().left &&
+        if (ball.getPoint().getCoordinates().first + ball.getR() * 1.5 >= rightPaddle.getBounds().left &&
             ball.getPoint().getCoordinates().first <= rightPaddle.getBounds().left + rightPaddle.getBounds().width &&
-            ball.getPoint().getCoordinates().second + ball.getR() * 2 >= rightPaddle.getBounds().top &&
+            ball.getPoint().getCoordinates().second + ball.getR() * 1.5 >= rightPaddle.getBounds().top &&
             ball.getPoint().getCoordinates().second <= rightPaddle.getBounds().top + rightPaddle.getBounds().height) {
             ballSpeedX *= -1;
         }
 
-
-        if (ball.getPoint().getCoordinates().second - ball.getR() <= 0 || ball.getPoint().getCoordinates().second + ball.getR() >= 600) {
+        if (ball.getPoint().getCoordinates().second - 1.5*ball.getR() <= 0) {
+            ballSpeedY *= -1;
+        }
+        if(ball.getPoint().getCoordinates().second + 1.5*ball.getR() >= 600) {
             ballSpeedY *= -1;
         }
 
-        if (ball.getPoint().getCoordinates().first - ball.getR() <= 0) {
-            // Right player scores
+        if (ball.getPoint().getCoordinates().first - 1.5*ball.getR() <= 0) {
             ++rightScore;
             std::cout << "Right player scores. Ball coordinates: (" << ball.getPoint().getCoordinates().first << ", " << ball.getPoint().getCoordinates().second << ")" << std::endl;
             resetBall();
         }
-        if (ball.getPoint().getCoordinates().first + ball.getR() >= 800) {
-            // Left player scores
+        if (ball.getPoint().getCoordinates().first + 1.5*ball.getR() >= 800) {
             ++leftScore;
             std::cout << "Left player scores. Ball coordinates: (" << ball.getPoint().getCoordinates().first << ", " << ball.getPoint().getCoordinates().second << ")" << std::endl;
             resetBall();
         }
 
-        // Update score text
         scoreText.setString("Left: " + std::to_string(leftScore) + "  Right: " + std::to_string(rightScore));
     }
     void render() {
         window.clear(sf::Color::Black);
 
-        // Draw paddles, ball, and score
         leftPaddle.draw(sf::Color::White);
         rightPaddle.draw(sf::Color::White);
         ball.draw(sf::Color::White);
@@ -137,6 +135,8 @@ private:
 
     void resetBall() {
         ball.setCoordinates(400, 300);
+        ballSpeedX = float((std::rand() % 4 + 2) * (std::rand() % 2 == 0 ? 1 : -1) * 100) / 100.0f; // Random speed between 2 and 5, random direction
+        ballSpeedY = float((std::rand() % 4 + 2) * (std::rand() % 2 == 0 ? 1 : -1) * 100) / 100.0f; // Random speed between 2 and 5, random direction
     }
 };
 #endif //SILNIK2D_PONGGAME_H
