@@ -243,6 +243,7 @@ void Engine::engineLoop() {
                 break;
         }
 
+        _window.draw(bitmapSprite);
         square.draw(sf::Color::Blue);
         triangle.draw(sf::Color::Green);
         circle.draw(sf::Color::Red);
@@ -250,7 +251,7 @@ void Engine::engineLoop() {
         character.update();
         _window.draw(character.getSprite());
 
-        _window.draw(bitmapSprite);
+
 
         _window.display();
     }

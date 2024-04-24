@@ -45,7 +45,7 @@ void CharacterController::moveLeft(float speed) {
 }
 
 void CharacterController::moveRight() {
-    move(10.0f, 0.0f);
+    move(3.0f, 0.0f);
     flipRight();
 }
 
