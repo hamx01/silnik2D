@@ -62,22 +62,14 @@ endif()
 
 # define the list of search paths for headers and  libraries
 set(FIND_SFML_PATHS
-        ${SFML_ROOT}
-        $ENV{SFML_ROOT}
-        ~/Library/Frameworks
-        /Library/Frameworks
-        /usr/local
-        /usr
-        /sw
-        /opt/local
-        /opt/csw
-        /opt
-        /SFML)
+        ${SFML_ROOT} # Only search in the project directory
+)
 
 # find the SFML include directory
-find_path(SFML_INCLUDE_DIR SFML/Config.hpp
+find_path(SFML_INCLUDE_DIR ./SFML/Config.hpp
         PATH_SUFFIXES include
-        PATHS ${FIND_SFML_PATHS})
+        PATHS ${FIND_SFML_PATHS}
+        NO_DEFAULT_PATH) # Add this line
 
 # check the version number
 set(SFML_VERSION_OK TRUE)
@@ -131,37 +123,43 @@ foreach(FIND_SFML_COMPONENT ${SFML_FIND_COMPONENTS})
         find_library(SFML_${FIND_SFML_COMPONENT_UPPER}_LIBRARY_RELEASE
                 NAMES ${FIND_SFML_COMPONENT_NAME}
                 PATH_SUFFIXES lib64 lib
-                PATHS ${FIND_SFML_PATHS})
+                PATHS ${FIND_SFML_PATHS}
+                NO_DEFAULT_PATH) # Add this line
 
         # debug library
         find_library(SFML_${FIND_SFML_COMPONENT_UPPER}_LIBRARY_DEBUG
                 NAMES ${FIND_SFML_COMPONENT_NAME}-d
                 PATH_SUFFIXES lib64 lib
-                PATHS ${FIND_SFML_PATHS})
+                PATHS ${FIND_SFML_PATHS}
+                NO_DEFAULT_PATH)
     else()
         # static release library
         find_library(SFML_${FIND_SFML_COMPONENT_UPPER}_LIBRARY_STATIC_RELEASE
                 NAMES ${FIND_SFML_COMPONENT_NAME}-s
                 PATH_SUFFIXES lib64 lib
-                PATHS ${FIND_SFML_PATHS})
+                PATHS ${FIND_SFML_PATHS}
+                NO_DEFAULT_PATH)
 
         # static debug library
         find_library(SFML_${FIND_SFML_COMPONENT_UPPER}_LIBRARY_STATIC_DEBUG
                 NAMES ${FIND_SFML_COMPONENT_NAME}-s-d
                 PATH_SUFFIXES lib64 lib
-                PATHS ${FIND_SFML_PATHS})
+                PATHS ${FIND_SFML_PATHS}
+                NO_DEFAULT_PATH)
 
         # dynamic release library
         find_library(SFML_${FIND_SFML_COMPONENT_UPPER}_LIBRARY_DYNAMIC_RELEASE
                 NAMES ${FIND_SFML_COMPONENT_NAME}
                 PATH_SUFFIXES lib64 lib
-                PATHS ${FIND_SFML_PATHS})
+                PATHS ${FIND_SFML_PATHS}
+                NO_DEFAULT_PATH)
 
         # dynamic debug library
         find_library(SFML_${FIND_SFML_COMPONENT_UPPER}_LIBRARY_DYNAMIC_DEBUG
                 NAMES ${FIND_SFML_COMPONENT_NAME}-d
                 PATH_SUFFIXES lib64 lib
-                PATHS ${FIND_SFML_PATHS})
+                PATHS ${FIND_SFML_PATHS}
+                NO_DEFAULT_PATH)
 
         # choose the entries that fit the requested link type
         if(SFML_STATIC_LIBRARIES)
@@ -366,4 +364,10 @@ endif()
 # handle success
 if(SFML_FOUND AND NOT SFML_FIND_QUIETLY)
     message(STATUS "Found SFML ${SFML_VERSION_MAJOR}.${SFML_VERSION_MINOR}.${SFML_VERSION_PATCH} in ${SFML_INCLUDE_DIR}")
-endif()
+#    message(STATUS "SFML_LIBRARIES: ${SFML_LIBRARIES}")
+#    message(STATUS "SFML ROOT: " ${SFML_ROOT})
+#    message(STATUS "SFML include dir: " ${SFML_INCLUDE_DIR})
+#    message(STATUS "CMake source dir: " ${CMAKE_SOURCE_DIR})
+#    message(STATUS ${SFML_${FIND_SFML_COMPONENT_UPPER}_LIBRARY})
+#    message(STATUS ${FIND_SFML_PATHS})
+    endif()

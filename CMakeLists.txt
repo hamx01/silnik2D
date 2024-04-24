@@ -14,10 +14,12 @@ add_executable(silnik2D main.cpp
         definitions/Figure.cpp
         definitions/Square.cpp
         definitions/Triangle.cpp
+        definitions/Circle.cpp
+        definitions/AnimatedCharacter.cpp
+        definitions/CharacterController.cpp
         headers/Figure.h
         headers/Square.h
         headers/Triangle.h
-        definitions/Circle.cpp
         headers/Circle.h
         headers/PrimitiveRenderer.h
         headers/Point.h
@@ -25,14 +27,14 @@ add_executable(silnik2D main.cpp
         headers/Mouse.h
         headers/AnimatedCharacter.h
         headers/CharacterController.h
-        definitions/AnimatedCharacter.cpp
-        definitions/CharacterController.cpp
 )
 
 if(WIN32)
+    set(SFML_ROOT "${CMAKE_SOURCE_DIR}/SFML")
+#    set(SFML_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/SFML/include")
     file(GLOB BINARY_DEP_DLLS "${SFML_INCLUDE_DIR}/../bin/*.dll")
     file(COPY ${BINARY_DEP_DLLS} DESTINATION ${CMAKE_BINARY_DIR})
-    include_directories(C:/SFML/bin C:/SFML/include C:/SFML/lib/cmake/SFML) # dodane
+    include_directories("${CMAKE_SOURCE_DIR}/SFML/bin" "${CMAKE_SOURCE_DIR}/SFML/include" "${CMAKE_SOURCE_DIR}/SFML/lib/cmake/SFML") # dodane
     set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules") # dodane
     find_package(SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
     if(SFML_FOUND)
