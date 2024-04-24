@@ -185,7 +185,6 @@ void PrimitiveRenderer::fillCircleBresenham(const Point& center, float radius, s
     };
 
     while (y >= x) {
-        // рисуем линии от начала до конца окружности в каждом из восьми направлений
         drawLine(center.getCoordinates().first - x, center.getCoordinates().first + x, center.getCoordinates().second + y);
         drawLine(center.getCoordinates().first - y, center.getCoordinates().first + y, center.getCoordinates().second + x);
         drawLine(center.getCoordinates().first - y, center.getCoordinates().first + y, center.getCoordinates().second - x);
@@ -245,13 +244,7 @@ void PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, float del
             point.setCoordinates(newX, newY);
         }
     } else {
-        std::cerr << "Przekroczenie granicy okna!" << std::endl;
-    }
 
-    std::cout << "Zaktualizowane wspolrzedne:" << std::endl;
-    for (const auto& point : vertices) {
-        std::cout << "Punkt - x: " << point.getCoordinates().first
-                  << " || y: " << point.getCoordinates().second << std::endl;
     }
 }
 
@@ -299,7 +292,6 @@ void PrimitiveRenderer::scalePolygon(std::vector<Point>& vertices, float scaleFa
     float windowHeight = Engine::getWindowSize().second;
 
     if (newMinX < 0 || newMaxX > windowWidth || newMinY < 0 || newMaxY > windowHeight) {
-        std::cerr << "Scaling would cause the polygon to exceed the window boundaries." << std::endl;
         return;
     }
 
@@ -332,7 +324,7 @@ void PrimitiveRenderer::rotatePolygon(std::vector<Point>& vertices, float angle,
     centerX /= float(vertices.size());
     centerY /= float(vertices.size());
 
-    std::vector<Point> rotatedVertices = vertices; // Create a copy of vertices
+    std::vector<Point> rotatedVertices = vertices;
 
     for (Point& vertex : rotatedVertices) {
         auto [x, y] = vertex.getCoordinates();
@@ -352,8 +344,7 @@ void PrimitiveRenderer::rotatePolygon(std::vector<Point>& vertices, float angle,
     for (const Point& vertex : rotatedVertices) {
         auto [x, y] = vertex.getCoordinates();
         if (x < 0 || x > Engine::getWindowSize().first || y < 0 || y > Engine::getWindowSize().second) {
-            std::cerr << "Rotation would cause the polygon to exceed the window boundaries." << std::endl;
-            return; // If any point is out of the screen, do not apply the rotation
+            return; // jeżeli chociaż jeden punktjest poza oknem, przestań
         }
     }
 

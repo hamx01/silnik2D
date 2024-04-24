@@ -1,7 +1,3 @@
-//
-// Created by asoli on 23.04.2024.
-//
-
 #ifndef SILNIK2D_ANIMATEDCHARACTER_H
 #define SILNIK2D_ANIMATEDCHARACTER_H
 

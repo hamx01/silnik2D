@@ -1,7 +1,3 @@
-//
-// Created by asoli on 23.04.2024.
-//
-
 #include <utility>
 
 #include "../headers/Circle.h"
@@ -27,24 +23,57 @@ void Circle::moveLeft() {
     PrimitiveRenderer::translateCircle(point, R, -10, 0);
 }
 
+void Circle::moveLeft(float speed) {
+    if(speed > 0) speed *= -1;
+    PrimitiveRenderer::translateCircle(point, R, speed, 0);
+}
+
 void Circle::moveRight() {
     PrimitiveRenderer::translateCircle(point, R, 10, 0);
+}
+
+void Circle::moveRight(float speed) {
+    if(speed < 0) speed *= -1;
+    PrimitiveRenderer::translateCircle(point, R, speed, 0);
 }
 
 void Circle::moveUp() {
     PrimitiveRenderer::translateCircle(point, R, 0, -10);
 }
 
+void Circle::moveUp(float speed) {
+    if(speed > 0) speed *= -1;
+    PrimitiveRenderer::translateCircle(point, R, 0, speed);
+}
+
 void Circle::moveDown() {
     PrimitiveRenderer::translateCircle(point, R, 0, 10);
+}
+
+void Circle::moveDown(float speed) {
+    if(speed < 0) speed *= -1;
+    PrimitiveRenderer::translateCircle(point, R, 0, speed);
 }
 
 void Circle::increaseSize() {
     scaleSize(1.1f);
 }
 
+void Circle::increaseSize(float speed) {
+    if(speed < 0) speed = 0;
+    if(speed > 100) speed = 100;
+    scaleSize(1.1f + speed / 100.0f);
+}
+
 void Circle::decreaseSize() {
     scaleSize(0.9f);
+}
+
+void Circle::decreaseSize(float speed) {
+    if(speed < 0) speed = 0;
+    if(speed > 100) speed = 100;
+    speed /= 100.0f;
+    scaleSize(0.9f - speed / 100.0f);
 }
 
 void Circle::scaleSize(float scaleFactor) {
@@ -59,7 +88,7 @@ void Circle::scaleSize(float scaleFactor) {
         point.getCoordinates().second - newRadius > 0) {
         R = newRadius;
     } else {
-        std::cerr << "Scaling would cause the circle to exceed the window boundaries." << std::endl;
+
     }
 }
 

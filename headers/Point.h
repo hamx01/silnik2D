@@ -17,6 +17,8 @@ public:
 
     Point(float x, float y, sf::Color color);
 
+    Point(float x, float y, sf::Color color, float size);
+
     std::pair<float, float> getCoordinates() const;
 
     void setCoordinates(float new_x, float new_y);

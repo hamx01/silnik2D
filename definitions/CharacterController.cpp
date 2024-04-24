@@ -13,8 +13,22 @@ void CharacterController::moveUp() {
     move(0.0f, -3.0f);
 }
 
+void CharacterController::moveUp(float speed) {
+    if(speed < 0) speed = 0;
+    if(speed > 100) speed = 100;
+    float scaledSpeed = (speed / 100.0f) * 10.0f;
+    move(0.0f, -scaledSpeed);
+}
+
 void CharacterController::moveDown() {
     move(0.0f, 3.0f);
+}
+
+void CharacterController::moveDown(float speed) {
+    if(speed < 0) speed = 0;
+    if(speed > 100) speed = 100;
+    float scaledSpeed = (speed / 100.0f) * 10.0f;
+    move(0.0f, scaledSpeed);
 }
 
 void CharacterController::moveLeft() {
@@ -22,8 +36,24 @@ void CharacterController::moveLeft() {
     flipLeft();
 }
 
+void CharacterController::moveLeft(float speed) {
+    if(speed < 0) speed = 0;
+    if(speed > 100) speed = 100;
+    float scaledSpeed = (speed / 100.0f) * 10.0f;
+    move(-scaledSpeed, 0.0f);
+    flipLeft();
+}
+
 void CharacterController::moveRight() {
-    move(3.0f, 0.0f);
+    move(10.0f, 0.0f);
+    flipRight();
+}
+
+void CharacterController::moveRight(float speed) {
+    if(speed < 0) speed = 0;
+    if(speed > 100) speed = 100;
+    float scaledSpeed = (speed / 100.0f) * 10.0f;
+    move(scaledSpeed, 0.0f);
     flipRight();
 }
 

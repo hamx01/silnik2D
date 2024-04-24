@@ -1,7 +1,3 @@
-//
-// Created by asoli on 23.04.2024.
-//
-
 #ifndef SILNIK2D_CHARACTERCONTROLLER_H
 #define SILNIK2D_CHARACTERCONTROLLER_H
 
@@ -18,16 +14,24 @@ public:
     void move(float deltaX, float deltaY);
 
     void moveUp();
+    void moveUp(float speed);
 
     void moveDown();
+    void moveDown(float speed);
 
     void moveLeft();
+    void moveLeft(float speed);
 
     void moveRight();
+    void moveRight(float speed);
 
     void flipLeft();
 
     void flipRight();
+
+
+
+
 };
 
 #endif //SILNIK2D_CHARACTERCONTROLLER_H

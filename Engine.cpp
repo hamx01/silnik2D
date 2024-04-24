@@ -135,17 +135,17 @@ void Engine::engineLoop() {
                     square.moveRight();
                 }
                 if(Keyboard::isKeyPressed(sf::Keyboard::P)) {
-                    square.rotateRight(deltaTime);
+                    square.rotateRight(deltaTime, 5);
                 } else if(Keyboard::isKeyPressed(sf::Keyboard::O)) {
-                    square.rotateLeft(deltaTime);
+                    square.rotateLeft(deltaTime, 15);
                 }
                 if (event.type == sf::Event::MouseWheelScrolled) {
                     if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
                         if (event.mouseWheelScroll.delta > 0) {
-                            square.increaseSize();
+                            square.increaseSize(70);
                         }
                         else {
-                            square.decreaseSize();
+                            square.decreaseSize(20);
                         }
                     }
                 }
@@ -195,21 +195,21 @@ void Engine::engineLoop() {
             case sf::Keyboard::F3:
                 //ruszanie kołem
                 if (Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    circle.moveDown();
+                    circle.moveDown(40);
                 }
                 if (Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    circle.moveUp();
+                    circle.moveUp(40);
                 }
                 if (Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    circle.moveLeft();
+                    circle.moveLeft(40);
                 }
                 if (Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    circle.moveRight();
+                    circle.moveRight(40);
                 }
                 if (event.type == sf::Event::MouseWheelScrolled) {
                     if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
                         if (event.mouseWheelScroll.delta > 0) {
-                            circle.increaseSize();
+                            circle.increaseSize(50);
                         }
                         else {
                             circle.decreaseSize();
@@ -249,7 +249,6 @@ void Engine::engineLoop() {
 
         character.update();
         _window.draw(character.getSprite());
-        //Koniec ludzika
 
         _window.draw(bitmapSprite);
 
