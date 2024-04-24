@@ -115,6 +115,9 @@ void Engine::engineLoop() {
         if(Keyboard::isKeyPressed(sf::Keyboard::F3)) {
             wybor = sf::Keyboard::F3;
         }
+        if(Keyboard::isKeyPressed(sf::Keyboard::F4)) {
+            wybor = sf::Keyboard::F4;
+        }
 
         switch(wybor) {
             case sf::Keyboard::F1:
@@ -220,6 +223,22 @@ void Engine::engineLoop() {
                     }
                 }
                 break;
+            case sf::Keyboard::F4:
+                //ruszanie ludzikiem
+                character.setWalking(false);
+                if (Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                    characterController.moveDown();
+                }
+                if (Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                    characterController.moveUp();
+                }
+                if (Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                    characterController.moveLeft();
+                }
+                if (Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+                    characterController.moveRight();
+                }
+                break;
             default:
                 break;
         }
@@ -228,23 +247,6 @@ void Engine::engineLoop() {
         triangle.draw(sf::Color::Green);
         circle.draw(sf::Color::Red);
 
-
-        // Ludzik
-        character.setWalking(false);
-        if (Keyboard::isKeyPressed(sf::Keyboard::J)) {
-            characterController.moveDown();
-        }
-        if (Keyboard::isKeyPressed(sf::Keyboard::U)) {
-            characterController.moveUp();
-        }
-        if (Keyboard::isKeyPressed(sf::Keyboard::H)) {
-            characterController.moveLeft();
-        }
-        if (Keyboard::isKeyPressed(sf::Keyboard::K)) {
-            characterController.moveRight();
-        }
-
-        character.getSprite().setOrigin(character.getSprite().getLocalBounds().width / 2.f, character.getSprite().getLocalBounds().height / 2.f);
         character.update();
         _window.draw(character.getSprite());
         //Koniec ludzika

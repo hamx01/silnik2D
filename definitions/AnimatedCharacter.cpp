@@ -21,6 +21,8 @@ void AnimatedCharacter::update() {
         characterSprite_.setTexture(characterTexture_);
         animationClock_.restart();
     }
+
+    characterSprite_.setOrigin(characterSprite_.getLocalBounds().width / 2.f, characterSprite_.getLocalBounds().height / 2.f);
 }
 
 void AnimatedCharacter::setWalking(bool isWalking) {
