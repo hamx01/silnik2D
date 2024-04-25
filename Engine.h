@@ -40,6 +40,13 @@ public:
     static void switchActiveWindow() {
         isWindow1Active = !isWindow1Active;
     }
+
+    static void closeActiveWindow() {
+        if (!isWindow1Active) {
+            _game.close();
+            isWindow1Active = true;
+        }
+    }
 };
 
 #endif //SILNIK2D_ENGINE_H

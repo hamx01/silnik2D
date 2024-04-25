@@ -23,7 +23,6 @@ private:
     float ballSpeedY = 1;
 public:
     explicit PongGame(sf::RenderWindow& window) : window(window) {
-        window.create(sf::VideoMode(800, 600, 32), "Pong");
         srand(time(NULL));
         if (!font.loadFromFile("../arial.ttf")) {
             std::cerr << "Failed to load font" << std::endl;
@@ -76,6 +75,9 @@ private:
         }
         if (Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             rightPaddle.moveDown();
+        }
+        if (Keyboard::isKeyPressed(sf::Keyboard::F9)) {
+            Engine::closeActiveWindow();
         }
     }
 

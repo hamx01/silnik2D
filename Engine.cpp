@@ -112,6 +112,9 @@ void Engine::engineLoop() {
         if(Keyboard::isKeyPressed(sf::Keyboard::F8)) {
             wybor = sf::Keyboard::F8;
         }
+        if(Keyboard::isKeyPressed(sf::Keyboard::F9)) {
+            wybor = sf::Keyboard::F9;
+        }
 
         switch(wybor) {
             case sf::Keyboard::F1:
@@ -234,8 +237,16 @@ void Engine::engineLoop() {
                 }
                 break;
             case sf::Keyboard::F8:
-                Engine::switchActiveWindow();
-                pongGame.run();
+                if (!_game.isOpen()) {
+                    _game.create(sf::VideoMode(800, 600, 32), "Pong");
+                    Engine::switchActiveWindow();
+                    pongGame.run();
+                }
+                break;
+            case sf::Keyboard::F9:
+                if (_game.isOpen()) {
+                    Engine::closeActiveWindow();
+                }
                 break;
         }
 
@@ -244,8 +255,6 @@ void Engine::engineLoop() {
         circle.draw(sf::Color::Red);
 
         character.update();
-
-        _window.draw(square);
 
         _window.draw(character.getSprite());
 //        _window.draw(mySprite.getSprite());
