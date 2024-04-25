@@ -33,7 +33,8 @@ Point testPoint(150.0, 50);
 Square square(Point(200.0, 200.0), Point(200.0, 50), Point(350.0, 50), Point(350, 200));
 Triangle triangle(Point(310.0, 319.0), Point(598.0, 316.0), Point(427.0, 177.0));
 Circle circle(Point(200, 250), 60);
-
+//! @brief - Rozpoczyna działanie silnika gry.
+//! Inicjalizuje okno gry, ustawia limit FPS i inicjalizuje inne komponenty gry.
 void Engine::start() {
     if (_window.isOpen()) return;
 
@@ -51,7 +52,8 @@ void Engine::start() {
 
     engineLoop();
 }
-
+//! @brief - Główna pętla silnika gry.
+//! Obsługuje wszystkie zdarzenia wejściowe, aktualizacje stanu gry oraz rendering.
 void Engine::engineLoop() {
     while (_window.isOpen()) {
         float deltaTime = Engine::_clock.restart().asSeconds();
@@ -263,16 +265,18 @@ void Engine::engineLoop() {
         _window.display();
     }
 }
-
+//! @brief - Pobiera rozmiar głównego okna.
+//! @return Para float reprezentująca szerokość i wysokość okna.
 std::pair<float, float> Engine::getWindowSize() {
     std::pair<float, float> windowSize;
     windowSize.first = float(_window.getSize().x);
     windowSize.second = float(_window.getSize().y);
     return windowSize;
 }
-
+//! @brief - Zwraca referencję do głównego okna renderowania.
+//! @return Referencja do głównego okna sf::RenderWindow.
 sf::RenderWindow& Engine::getWindow() {
     return _window;
 }
-
+//! @brief - Zmienna statyczna wskazująca, czy główne okno gry jest aktywne.
 bool Engine::isWindow1Active = true;
