@@ -48,7 +48,7 @@ void Engine::engineLoop() {
     while (_window.isOpen()) {
         float deltaTime = Engine::_clock.restart().asSeconds();
         _window.clear();
-        // Handle input
+
         sf::Event event{};
         while (_window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) { _window.close(); }
@@ -104,7 +104,7 @@ void Engine::engineLoop() {
 
         switch(wybor) {
             case sf::Keyboard::F1:
-                //ruszanie kwadratem
+
                 if (Keyboard::isKeyPressed(sf::Keyboard::Down)) {
                     square.moveDown();
                 }
