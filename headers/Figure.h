@@ -11,7 +11,7 @@ protected:
     bool withinBounds{};
     std::vector<Point> points;
 public:
-    const vector<Point> &getPoints() const;
+    const std::vector<Point> &getPoints() const;
 
 public:
     Figure() {

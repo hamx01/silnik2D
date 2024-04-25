@@ -91,6 +91,6 @@ void Figure::unfill() {
     isFilled = false;
 }
 
-const vector<Point> &Figure::getPoints() const {
+const std::vector<Point> &Figure::getPoints() const {
     return points;
 }
