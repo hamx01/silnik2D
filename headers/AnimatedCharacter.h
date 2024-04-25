@@ -28,8 +28,29 @@ public:
 //! @brief - Ładuje klatki animacji spoczynku postaci.
 //! @param path - Ścieżka do katalogu z klatkami animacji.
     void loadIdleFrames(const string &);
+
+    void move(float deltaX, float deltaY);
+
+    void moveUp();
+
+    void moveUp(float speed);
+
+    void moveDown();
+
+    void moveDown(float speed);
+
+    void moveLeft();
+
+    void moveLeft(float speed);
+
+    void moveRight();
+
+    void moveRight(float speed);
+
+    void flipLeft();
+
+    void flipRight();
 private:
-    static AnimatedCharacter character;//!< - Statyczny egzemplarz postaci.
     std::vector<std::string> walkFrames_; //!< - Wektor ścieżek do klatek animacji chodzenia.
     std::vector<std::string> idleFrames_;//!< - Wektor ścieżek do klatek animacji spoczynku.
     sf::Sprite characterSprite_;  //!< - Sprite postaci.

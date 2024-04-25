@@ -8,7 +8,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "headers/AnimatedCharacter.h"
-#include "headers/CharacterController.h"
 //! @class Engine
 //! @brief Główna klasa silnika, zarządzająca renderowaniem i logiką gry.
 class Engine {

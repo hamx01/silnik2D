@@ -16,7 +16,6 @@ add_executable(silnik2D main.cpp
         definitions/Triangle.cpp
         definitions/Circle.cpp
         definitions/AnimatedCharacter.cpp
-        definitions/CharacterController.cpp
         headers/Figure.h
         headers/Square.h
         headers/Triangle.h
@@ -26,7 +25,6 @@ add_executable(silnik2D main.cpp
         headers/Keyboard.h
         headers/Mouse.h
         headers/AnimatedCharacter.h
-        headers/CharacterController.h
         headers/Bitmap.h
         definitions/Bitmap.cpp
         "headers/PongGame.h"

@@ -19,8 +19,8 @@ sf::RenderWindow Engine::_window;
 sf::RenderWindow Engine::_game;
 sf::Clock Engine::_clock;
 sf::Vector2f prevMousePos;
+
 AnimatedCharacter character(100.0f, 100.0f);
-CharacterController characterController{character.getSprite(), character};
 
 Bitmap myBitmap("../img/bitmap.bmp", 150, 150);
 
@@ -43,12 +43,10 @@ void Engine::start() {
     _window.create(sf::VideoMode(800, 600, 32), "Test Game Engine");
     _window.setFramerateLimit(60);
 
-    sf::Texture bitmapTexture;
-
-//    pongGame.run();
-
     character.loadWalkFrames("../Sprites/HeroKnight/Run/HeroKnight_Run_");
-    character.loadIdleFrames("../Sprites/HeroKnight/Run/HeroKnight_Run_");
+    character.loadIdleFrames("../Sprites/HeroKnight/Idle/HeroKnight_Idle_");
+
+    sf::Texture bitmapTexture;
 
     engineLoop();
 }
@@ -226,16 +224,16 @@ void Engine::engineLoop() {
                 //ruszanie ludzikiem
                 character.setWalking(false);
                 if (Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    characterController.moveDown();
+                    character.moveDown();
                 }
                 if (Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    characterController.moveUp();
+                    character.moveUp();
                 }
                 if (Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    characterController.moveLeft();
+                    character.moveLeft();
                 }
                 if (Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    characterController.moveRight();
+                    character.moveRight();
                 }
                 break;
             case sf::Keyboard::F8:
