@@ -8,20 +8,23 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <random>
-
+//! @class PongGame
+//! @brief Klasa implementująca mechanikę gry Pong.
 class PongGame {
 private:
-    sf::RenderWindow& window;
-    Square leftPaddle;
-    Square rightPaddle;
-    Circle ball;
-    sf::Font font;
-    sf::Text scoreText;
-    int leftScore = 0;
-    int rightScore = 0;
-    float ballSpeedX = 2;
-    float ballSpeedY = 1;
+    sf::RenderWindow& window;//! - Referencja do okna gry.
+    Square leftPaddle;//! - Obiekt reprezentujący lewą paletkę.
+    Square rightPaddle;//! - Obiekt reprezentujący prawą paletkę.
+    Circle ball;//! - Obiekt reprezentujący piłkę.
+    sf::Font font;//! - Czcionka używana do wyświetlania wyniku.
+    sf::Text scoreText;//! - Tekst wyświetlający wynik.
+    int leftScore = 0;//! - Liczba punktów zdobytych przez lewego gracza.
+    int rightScore = 0;//! - Liczba punktów zdobytych przez prawego gracza.
+    float ballSpeedX = 2;//! - Prędkość piłki w osi X.
+    float ballSpeedY = 1;//! - Prędkość piłki w osi Y.
 public:
+//! @brief - Konstruktor klasy PongGame.
+//! @param window - Referencja do okna gry, w którym będzie wyświetlana gra.
     explicit PongGame(sf::RenderWindow& window) : window(window) {
         srand(time(NULL));
         if (!font.loadFromFile("../arial.ttf")) {
@@ -47,7 +50,7 @@ public:
 
         ball = Circle(Point(400, 300), 10);
     }
-
+//! @brief - Główna pętla gry, zarządzająca wejściem, aktualizacją stanu gry i renderowaniem.
     void run() {
         while (window.isOpen()) {
             handleInput();
@@ -57,6 +60,7 @@ public:
     }
 
 private:
+//! @brief - Obsługuje zdarzenia wejściowe, takie jak klawiatura i zamknięcie okna.
     void handleInput() {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -80,7 +84,7 @@ private:
             Engine::closeActiveWindow();
         }
     }
-
+//! @brief - Aktualizuje stan gry, w tym pozycje paletki i piłki oraz wyniki.
     void update() {
         ball.move(ballSpeedX, ballSpeedY);
 
@@ -118,6 +122,7 @@ private:
 
         scoreText.setString("Left: " + std::to_string(leftScore) + "  Right: " + std::to_string(rightScore));
     }
+//! @brief - Renderuje obiekty gry na ekranie.
     void render() {
         window.clear(sf::Color::Black);
 
@@ -134,7 +139,7 @@ private:
 
         window.display();
     }
-
+//! @brief - Resetuje pozycję i prędkość piłki po zdobyciu punktu.
     void resetBall() {
         ball.setCoordinates(400, 300);
         ballSpeedX = float((std::rand() % 4 + 2) * (std::rand() % 2 == 0 ? 1 : -1) * 100) / 100.0f; // Random speed between 2 and 5, random direction

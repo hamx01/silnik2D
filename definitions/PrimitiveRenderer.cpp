@@ -6,7 +6,9 @@
 #include "../Engine.h"
 #include <cmath>
 
-//! Metoda rysująca punkt na ekranie
+//! @brief - Rysuje pojedynczy punkt na aktywnym oknie.
+//! @param coordinates - Koordynaty punktu do narysowania.
+//! @param color - Kolor punktu.
 void PrimitiveRenderer::drawPoint(const Point &coordinates, sf::Color color) {
     float x = coordinates.getCoordinates().first;
     float y = coordinates.getCoordinates().second;
@@ -14,10 +16,10 @@ void PrimitiveRenderer::drawPoint(const Point &coordinates, sf::Color color) {
     Engine::getActiveWindow().draw(&point, 2, sf::Points);
 }
 
-//!
-//! @param pointA - punkt początkowy linii
-//! @param pointB - punkt końcowy linii
-//! @param color - kolor linii
+//! @brief - Rysuje linię między dwoma punktami.
+//! @param pointA - Początkowy punkt linii.
+//! @param pointB - Końcowy punkt linii.
+//! @param color - Kolor linii.
 void PrimitiveRenderer::drawLine(const Point& pointA, const Point& pointB, sf::Color color) {
     float dx, dy, kx, ky, e;
     int i;
@@ -63,7 +65,9 @@ void PrimitiveRenderer::drawLine(const Point& pointA, const Point& pointB, sf::C
         }
     }
 }
-
+//! @brief - Rysuje trójkąt zdefiniowany przez wektor wierzchołków.
+//! @param vertices - Wektor punktów będących wierzchołkami trójkąta.
+//! @param color - Kolor linii trójkąta.
 void PrimitiveRenderer::drawTriangle(std::vector<Point>& vertices, sf::Color color) {
     int n = int(vertices.size());
 
@@ -75,6 +79,9 @@ void PrimitiveRenderer::drawTriangle(std::vector<Point>& vertices, sf::Color col
         }
     }
 }
+//! @brief - Rysuje kwadrat zdefiniowany przez wektor wierzchołków.
+//! @param vertices - Wektor punktów będących wierzchołkami kwadratu.
+//! @param color - Kolor linii kwadratu.
 void PrimitiveRenderer::drawSquare(std::vector<Point>& vertices, sf::Color color) {
     int n = int(vertices.size());
 
@@ -86,7 +93,10 @@ void PrimitiveRenderer::drawSquare(std::vector<Point>& vertices, sf::Color color
         }
     }
 }
-
+//! @brief - Rysuje koło o zadanym środku i promieniu.
+//! @param punkt - Środek koła.
+//! @param R - Promień koła.
+//! @param color - Kolor linii koła.
 void PrimitiveRenderer::drawCircle(Point& punkt, float R, sf::Color color) {
     float step = 1.0f / R;
     sf::VertexArray points(sf::Points);
@@ -102,7 +112,10 @@ void PrimitiveRenderer::drawCircle(Point& punkt, float R, sf::Color color) {
 
     Engine::getActiveWindow().draw(points);
 }
-
+//! @brief - Rysuje koło z wykorzystaniem symetrii względem osi i punktu środkowego.
+//! @param punkt - Środek koła.
+//! @param R - Promień koła.
+//! @param color - Kolor linii koła.
 void PrimitiveRenderer::drawCircleSymetric(Point& punkt, float R, sf::Color color) {
     float xc = punkt.getCoordinates().first;
     float yc = punkt.getCoordinates().second;
@@ -144,7 +157,13 @@ void PrimitiveRenderer::drawCircleSymetric(Point& punkt, float R, sf::Color colo
     }
     Engine::getWindow().draw(points);
 }
-
+//! @brief - Sprawdza, czy punkt znajduje się wewnątrz trójkąta określonego przez trzy punkty.
+//! @param A - Pierwszy wierzchołek trójkąta.
+//! @param B - Drugi wierzchołek trójkąta.
+//! @param C - Trzeci wierzchołek trójkąta.
+//! @param P - Testowany punkt.
+//! @return true - Jeżeli punkt P znajduje się wewnątrz trójkąta.
+//! @return false - Jeżeli punkt P nie znajduje się wewnątrz trójkąta.
 bool PrimitiveRenderer::isPointInsideTriangle(const Point& A, const Point& B, const Point& C, const Point& P) {
     double areaABC = 0.5 * ((B.getCoordinates().first - A.getCoordinates().first) * (C.getCoordinates().second - A.getCoordinates().second) -
                             (C.getCoordinates().first - A.getCoordinates().first) * (B.getCoordinates().second - A.getCoordinates().second));
@@ -156,7 +175,11 @@ bool PrimitiveRenderer::isPointInsideTriangle(const Point& A, const Point& B, co
 
     return alpha >= 0.0 && beta >= 0.0 && gamma >= 0.0;
 }
-
+//! @brief - Sprawdza, czy punkt znajduje się wewnątrz wielokąta określonego przez wektor wierzchołków.
+//! @param vertices - Wektor punktów będących wierzchołkami wielokąta.
+//! @param P - Testowany punkt.
+//! @return true - Jeżeli punkt P znajduje się wewnątrz wielokąta.
+//! @return false - Jeżeli punkt P nie znajduje się wewnątrz wielokąta.
 bool PrimitiveRenderer::isPointInsidePolygon(const std::vector<Point>& vertices, const Point& P) {
     int n = int(vertices.size());
     bool inside = false;
@@ -172,7 +195,10 @@ bool PrimitiveRenderer::isPointInsidePolygon(const std::vector<Point>& vertices,
     }
     return inside;
 }
-
+//! @brief - Rysuje wypełnione koło z wykorzystaniem algorytmu Bresenhama.
+//! @param center - Środek koła.
+//! @param radius - Promień koła.
+//! @param fillColor - Kolor wypełnienia.
 void PrimitiveRenderer::fillCircleBresenham(const Point& center, float radius, sf::Color fillColor) {
     float x = 0;
     float y = radius;
@@ -200,14 +226,21 @@ void PrimitiveRenderer::fillCircleBresenham(const Point& center, float radius, s
         }
     }
 }
-
+//! @brief - Rysuje wypełnione koło.
+//! @param center - Środek koła.
+//! @param radius - Promień koła.
+//! @param fillColor - Kolor wypełnienia.
 void PrimitiveRenderer::fillCircle(const Point& center, float radius, sf::Color fillColor) {
     sf::CircleShape circle(radius);
     circle.setFillColor(fillColor);
     circle.setPosition(center.getCoordinates().first - radius, center.getCoordinates().second - radius);
     Engine::getWindow().draw(circle);
 }
-
+//! @brief - Przesuwa koło o zadane przesunięcie w poziomie i pionie.
+//! @param center - Środek koła.
+//! @param R - Promień koła.
+//! @param deltaX - Przesunięcie w poziomie.
+//! @param deltaY - Przesunięcie w pionie.
 void PrimitiveRenderer::translateCircle(Point& center, float R, float deltaX, float deltaY) {
     float new_x = center.getCoordinates().first + deltaX;
     float new_y = center.getCoordinates().second + deltaY;
@@ -219,7 +252,10 @@ void PrimitiveRenderer::translateCircle(Point& center, float R, float deltaX, fl
 
     center.setCoordinates(new_x, new_y);
 }
-
+//! @brief - Przesuwa wielokąt o zadane przesunięcie w poziomie i pionie.
+//! @param vertices - Wektor punktów będących wierzchołkami wielokąta.
+//! @param deltaX - Przesunięcie w poziomie.
+//! @param deltaY - Przesunięcie w pionie.
 void PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, float deltaX, float deltaY) {
     bool withinBounds = true;
 
@@ -250,7 +286,9 @@ void PrimitiveRenderer::translatePolygon(std::vector<Point>& vertices, float del
 
 
 
-
+//! @brief - Rysuje wypełniony wielokąt.
+//! @param vertices - Wektor punktów będących wierzchołkami wielokąta.
+//! @param fillColor - Kolor wypełnienia.
 void PrimitiveRenderer::fillPolygon(const std::vector<Point>& vertices, sf::Color fillColor) {
     sf::ConvexShape filledSquare;
     filledSquare.setPointCount(vertices.size());
@@ -261,7 +299,9 @@ void PrimitiveRenderer::fillPolygon(const std::vector<Point>& vertices, sf::Colo
     filledSquare.setFillColor(fillColor);
     Engine::getActiveWindow().draw(filledSquare);
 }
-
+//! @brief - Skaluje wielokąt względem jego środka o zadany współczynnik skalowania.
+//! @param vertices - Wektor punktów będących wierzchołkami wielokąta.
+//! @param scaleFactor - Współczynnik skalowania.
 void PrimitiveRenderer::scalePolygon(std::vector<Point>& vertices, float scaleFactor) {
     float centerX = 0.0f;
     float centerY = 0.0f;
@@ -308,7 +348,10 @@ void PrimitiveRenderer::scalePolygon(std::vector<Point>& vertices, float scaleFa
         point.setCoordinates(centerX + scaledDistX, centerY + scaledDistY);
     }
 }
-
+//! @brief - Obraca wielokąt o zadany kąt wokół jego środka geometrycznego.
+//! @param vertices - Wektor punktów będących wierzchołkami wielokąta.
+//! @param angle - Kąt obrotu.
+//! @param deltaTime - Czas, który wpływa na stopień obrotu.
 void PrimitiveRenderer::rotatePolygon(std::vector<Point>& vertices, float angle, float deltaTime) {
     if (vertices.empty()) return;
 
