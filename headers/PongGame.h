@@ -26,7 +26,7 @@ public:
 //! @brief - Konstruktor klasy PongGame.
 //! @param window - Referencja do okna gry, w którym będzie wyświetlana gra.
     explicit PongGame(sf::RenderWindow& window) : window(window) {
-        srand(time(NULL));
+        srand(time(nullptr));
         if (!font.loadFromFile("../arial.ttf")) {
             std::cerr << "Failed to load font" << std::endl;
         }
